@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-perf.html 
+keywords: performance, tests, scalability 
+summary: Abbiamo eseguito il test di archiviazione a livelli con tre o quattro nodi per carichi di lavoro di produzione e consumo con la configurazione NetApp StorageGRID . 
+---
+= Test delle prestazioni con scalabilità
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Abbiamo eseguito il test di archiviazione a livelli con tre o quattro nodi per i carichi di lavoro dei produttori e dei consumatori con la configurazione NetApp StorageGRID .  Secondo i nostri test, il tempo di completamento e i risultati delle prestazioni sono stati direttamente proporzionali al numero di nodi StorageGRID .  La configurazione StorageGRID richiedeva un minimo di tre nodi.
+
+* Il tempo necessario per completare le operazioni di produzione e consumo è diminuito linearmente all'aumentare del numero di nodi di stoccaggio.
+
+
+image:confluent-kafka-009.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]
+
+* Le prestazioni dell'operazione di recupero s3 sono aumentate in modo lineare in base al numero di nodi StorageGRID .  StorageGRID supporta fino a 200 nodi StorgeGRID.
+
+
+image:confluent-kafka-010.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]

@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/apache-spark-target-audience.html 
+keywords: audience, data scientist, engineer, devops, cloud administrator, architect 
+summary: Questa sezione descrive chi potrebbe essere interessato al contenuto di questa soluzione. 
+---
+= Pubblico di destinazione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Il mondo dell'analisi e della scienza dei dati tocca molteplici discipline dell'IT e del business:
+
+* Lo scienziato dei dati ha bisogno della flessibilità necessaria per utilizzare gli strumenti e le librerie che preferisce.
+* L'ingegnere dei dati deve sapere come fluiscono i dati e dove risiedono.
+* Un ingegnere DevOps ha bisogno degli strumenti per integrare nuove applicazioni di intelligenza artificiale e apprendimento automatico nelle proprie pipeline di CI e CD.
+* Gli amministratori e gli architetti cloud devono essere in grado di configurare e gestire le risorse cloud ibride.
+* Gli utenti aziendali desiderano avere accesso ad applicazioni di analisi, intelligenza artificiale, apprendimento automatico e apprendimento automatico.
+
+
+In questo report tecnico descriviamo come NetApp AFF, E-Series, StorageGRID, NFS direct access, Apache Spark, Horovod e Keras aiutano ciascuno di questi ruoli a portare valore al business.

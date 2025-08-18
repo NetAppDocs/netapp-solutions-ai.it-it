@@ -1,0 +1,76 @@
+---
+indexpage:
+  title: Soluzioni di intelligenza artificiale NetApp
+  summary: NetApp fornisce soluzioni di intelligenza artificiale complete che combinano
+    gestione dei dati di livello aziendale, architetture di riferimento convalidate
+    e partnership strategiche per accelerare le iniziative di intelligenza artificiale
+    e supportare risultati aziendali critici.  Dall'implementazione dell'infrastruttura
+    all'automazione MLOps, le nostre soluzioni si adattano perfettamente agli ambienti
+    edge, data center e cloud ibrido.
+  lead: NetApp fornisce soluzioni di intelligenza artificiale complete che combinano
+    gestione dei dati di livello aziendale, architetture di riferimento convalidate
+    e partnership strategiche per accelerare le iniziative di intelligenza artificiale
+    e supportare risultati aziendali critici.  Dall'implementazione dell'infrastruttura
+    all'automazione MLOps, le nostre soluzioni si adattano perfettamente agli ambienti
+    edge, data center e cloud ibrido.
+  tiles:
+  - title: Iniziare
+    links:
+    - title: Cosa c'è di nuovo
+      url: "/whats-new.html"
+    - title: Blog
+      url: "/blogs.html"
+    - title: Video e demo
+      url: "/videos/ai-ml-videos.html"
+  - title: Infrastruttura di intelligenza artificiale e sistemi convergenti
+    links:
+    - title: NetApp AIPod con sistemi NVIDIA DGX
+      url: "/infra/ai-aipod-nv-intro.html"
+    - title: NVIDIA DGX SuperPOD con serie EF
+      url: "/infra/ai-eseries-superpod.html"
+    - title: NetApp AIPod con Lenovo per NVIDIA OVX
+      url: "/infra/ai-aipod-lenovo-nva1172.html"
+    - title: File system parallelo BeeGFS con E-Series
+      url: "/infra/ai-eseries-beegfs.html"
+  - title: Casi d'uso e applicazioni dell'intelligenza artificiale
+    links:
+    - title: AIPod Mini per l'inferenza RAG
+      url: "/infra/ai-minipod.html"
+    - title: Inferenza AI al limite
+      url: "/infra/ai-lenovo-edge-intro.html"
+    - title: Soluzioni di database vettoriali
+      url: "/vector-db/ai-vdb-solution-with-netapp.html"
+    - title: Carichi di lavoro di guida autonoma
+      url: "/infra/ai-storagegrid-datalake-adas.html"
+    - title: Quantum StorNext con E-Series
+      url: "/infra/ai-eseries-nva1150-design.html"
+  - title: MLOps e gestione dei dati
+    links:
+    - title: MLOps open source con NetApp
+      url: "/software/ai-osmlops-intro.html"
+    - title: MLOps multicloud ibrido con Domino Data Lab
+      url: "/software/ai-hybrid-ddlnexus-intro.html"
+    - title: FSx ONTAP per MLOps
+      url: "/cloud/ai-mlops-fsxn-intro.html"
+    - title: Kit di strumenti NetApp DataOps
+      url: "/software/dataops-toolkit.html"
+  - title: Soluzioni di intelligenza artificiale per Big Data e cloud ibrido
+    links:
+    - title: Soluzioni di dati cloud ibride
+      url: "/data-analytics/hdcs-sh-solution-overview.html"
+    - title: Soluzioni Apache Spark
+      url: "/data-analytics/apache-spark-solution-overview.html"
+    - title: Confluent Kafka con storage NetApp ONTAP
+      url: "/data-analytics/kafka-ontap-overview.html"
+    - title: NetApp StorageGRID con Splunk SmartStore
+      url: "/data-analytics/stgr-splunkss-introduction.html"
+    - title: Casa sul lago Dremio con storage NetApp
+      url: "/data-analytics/dremio-lakehouse-introduction.html"
+  - title: Richieste di soluzioni e feedback
+    links:
+    - title: Richiedi automazione
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20%3Crequest_title%3E
+    - title: Proponi una nuova soluzione
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Solution]%0d%0a%0d%0aSolution%20Use%20Case:%20%0d%0aSolution%20Description:%20%0d%0aAdditional%20Comments:&title=Request%20Solution%20-%20%3Csolution%3E
+    - title: Fornire feedback sulla soluzione
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Solution%20Feedback]%0d%0a%0d%0aSolution%20Name:%20%0d%0aSolution%20Feedback:%20%0d%0aAdditional%20Comments:&title=Solution%20Feedback%20-%20%3Csolution%3E

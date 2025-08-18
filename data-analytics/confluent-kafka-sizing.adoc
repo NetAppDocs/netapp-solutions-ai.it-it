@@ -1,0 +1,137 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-sizing.html 
+keywords: solution, architecture, details, hardware, software 
+summary: 'Questa sezione riguarda l"hardware e il software utilizzati per la certificazione Confluent.  Queste informazioni sono applicabili alla distribuzione di Kafka con storage NetApp .' 
+---
+= Dimensionamento
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Il dimensionamento Kafka può essere eseguito con quattro modalità di configurazione: semplice, granulare, inversa e partizioni.
+
+
+
+== Semplice
+
+La modalità semplice è adatta ai nuovi utenti di Apache Kafka o ai casi d'uso iniziali.  Per questa modalità, è necessario specificare requisiti quali velocità effettiva in MBps, fanout di lettura, conservazione e percentuale di utilizzo delle risorse (il 60% è l'impostazione predefinita).  Si accede anche all'ambiente, ad esempio on-premise (bare-metal, VMware, Kubernetes o OpenStack) o cloud.  Sulla base di queste informazioni, il dimensionamento di un cluster Kafka fornisce il numero di server necessari per il broker, lo zookeeper, i worker di connessione Apache Kafka, il registro degli schemi, un proxy REST, ksqlDB e il centro di controllo Confluent.
+
+Per l'archiviazione a livelli, prendere in considerazione la modalità di configurazione granulare per il dimensionamento di un cluster Kafka.  La modalità granulare è adatta agli utenti esperti di Apache Kafka o a casi d'uso ben definiti.  Questa sezione descrive il dimensionamento per produttori, processori di flusso e consumatori.
+
+
+
+=== Produttori
+
+Per descrivere i produttori per Apache Kafka (ad esempio un client nativo, un proxy REST o un connettore Kafka), fornire le seguenti informazioni:
+
+* *Nome.*  Scintilla.
+* *Tipo di produttore.*  Applicazione o servizio, proxy (REST, MQTT, altro) e database esistente (RDBMS, NOSQL, altro).  Puoi anche selezionare "Non lo so".
+* *Capacità media.*  In eventi al secondo (ad esempio 1.000.000).
+* *Massima produttività.*  In eventi al secondo (ad esempio 4.000.000).
+* *Dimensione media del messaggio.*  In byte, non compresso (max 1 MB; ad esempio 1000).
+* *Formato del messaggio.*  Le opzioni includono Avro, JSON, buffer di protocollo, binario, testo, "Non lo so" e altro.
+* *Fattore di replicazione.*  Le opzioni sono 1, 2, 3 (raccomandazione Confluent), 4, 5 o 6.
+* *Tempo di conservazione.*  Un giorno (ad esempio).  Per quanto tempo desideri che i tuoi dati vengano archiviati in Apache Kafka?  Inserire -1 con qualsiasi unità per un tempo infinito.  La calcolatrice presuppone un tempo di conservazione di 10 anni per una conservazione infinita.
+* Selezionare la casella di controllo "Abilitare l'archiviazione a livelli per ridurre il conteggio dei broker e consentire l'archiviazione infinita?"
+* Quando è abilitato l'archiviazione a livelli, i campi di conservazione controllano il set di dati archiviati localmente sul broker.  I campi di conservazione degli archivi controllano per quanto tempo i dati vengono conservati nell'archivio degli oggetti.
+* *Conservazione in archivio.*  Un anno (ad esempio).  Per quanto tempo desideri che i tuoi dati rimangano archiviati?  Inserisci -1 con qualsiasi unità per una durata infinita.  Il calcolatore presuppone una conservazione di 10 anni per una conservazione infinita.
+* *Moltiplicatore di crescita.*  1 (ad esempio).  Se il valore di questo parametro si basa sulla produttività attuale, impostarlo su 1.  Per dimensionare in base alla crescita aggiuntiva, impostare questo parametro su un moltiplicatore di crescita.
+* *Numero di istanze del produttore.*  10 (ad esempio).  Quante istanze del produttore saranno in esecuzione?  Questo input è necessario per incorporare il carico della CPU nel calcolo delle dimensioni.  Un valore vuoto indica che il carico della CPU non viene incorporato nel calcolo.
+
+
+Sulla base di questo esempio di input, il dimensionamento ha il seguente effetto sui produttori:
+
+* Velocità media in byte non compressi: 1 GBps.  Velocità di trasmissione massima in byte non compressi: 4 GBps.  Velocità media in byte compressi: 400 MBps.  Velocità di trasmissione massima in byte compressi: 1,6 GBps.  Questo valore si basa su un tasso di compressione predefinito del 60% (è possibile modificarlo).
++
+** Spazio di archiviazione hotset totale on-broker richiesto: 31.104 TB, inclusa la replica, compresso.  Spazio di archiviazione totale richiesto fuori dal broker: 378.432 TB, compresso.  Utilizzolink:https://fusion.netapp.com["https://fusion.netapp.com"^] per il dimensionamento StorageGRID .
+
+
+
+
+Gli Stream Processor devono descrivere le loro applicazioni o servizi che consumano dati da Apache Kafka e li riproducono in Apache Kafka.  Nella maggior parte dei casi sono creati in ksqlDB o Kafka Streams.
+
+* *Nome.*  Streamer scintillante.
+* *Tempo di elaborazione.*  Quanto tempo impiega questo processore per elaborare un singolo messaggio?
++
+** 1 ms (trasformazione semplice, senza stato) [esempio], 10 ms (operazione in memoria con stato).
+** 100 ms (operazione di rete o disco con stato), 1000 ms (chiamata REST di terze parti).
+** Ho confrontato questo parametro e so esattamente quanto tempo ci vuole.
+
+
+* *Ritenzione dell'output.*  1 giorno (esempio).  Un processore di flusso restituisce il suo output ad Apache Kafka.  Per quanto tempo desideri che questi dati di output vengano archiviati in Apache Kafka?  Inserisci -1 con qualsiasi unità per una durata infinita.
+* Selezionare la casella di controllo "Abilitare l'archiviazione a livelli per ridurre il conteggio dei broker e consentire l'archiviazione infinita?"
+* *Conservazione in archivio.*  1 anno (ad esempio).  Per quanto tempo desideri che i tuoi dati rimangano archiviati?  Inserisci -1 con qualsiasi unità per una durata infinita.  Il calcolatore presuppone una conservazione di 10 anni per una conservazione infinita.
+* *Percentuale di passaggio in uscita.*  100 (ad esempio).  Un processore di flusso restituisce il suo output ad Apache Kafka.  Quale percentuale del throughput in entrata verrà reinviata ad Apache Kafka?  Ad esempio, se la velocità in ingresso è di 20 MBps e questo valore è 10, la velocità in uscita sarà di 2 MBps.
+* Da quali applicazioni viene letto?  Selezionare "Spark", il nome utilizzato nel dimensionamento basato sul tipo di produttore.  Sulla base dei dati sopra riportati, è possibile aspettarsi i seguenti effetti del dimensionamento sulle istanze del processore di flusso e sulle stime delle partizioni degli argomenti:
+* Questa applicazione di elaborazione di flussi richiede il seguente numero di istanze.  Probabilmente anche gli argomenti in arrivo richiederanno questo numero di partizioni.  Contattare Confluent per confermare questo parametro.
++
+** 1.000 per la produttività media senza moltiplicatore di crescita
+** 4.000 per la massima produttività senza moltiplicatore di crescita
+** 1.000 per la produttività media con un moltiplicatore di crescita
+** 4.000 per la massima produttività con un moltiplicatore di crescita
+
+
+
+
+
+
+=== Consumatori
+
+Descrivi le tue applicazioni o i tuoi servizi che consumano dati da Apache Kafka e non li restituiscono in Apache Kafka; ad esempio, un client nativo o Kafka Connector.
+
+* *Nome.*  Consumatore di scintille.
+* *Tempo di elaborazione.*  Quanto tempo impiega questo consumatore a elaborare un singolo messaggio?
++
+** 1 ms (ad esempio, un'attività semplice e senza stato come la registrazione)
+** 10 ms (scritture veloci su un datastore)
+** 100 ms (scritture lente su un datastore)
+** 1000 ms (chiamata REST di terze parti)
+** Qualche altro processo di riferimento di durata nota.
+
+
+* *Tipo di consumatore.*  Applicazione, proxy o sink per un datastore esistente (RDBMS, NoSQL, altro).
+* Da quali applicazioni viene letto?  Collegare questo parametro con le dimensioni del produttore e del flusso determinate in precedenza.
+
+
+Sulla base dei dati di cui sopra, è necessario determinare le dimensioni per le istanze dei consumatori e le stime della partizione degli argomenti.  Un'applicazione consumer richiede il seguente numero di istanze.
+
+* 2.000 per la produttività media, nessun moltiplicatore di crescita
+* 8.000 per la massima produttività, nessun moltiplicatore di crescita
+* 2.000 per la produttività media, incluso il moltiplicatore di crescita
+* 8.000 per la massima produttività, incluso il moltiplicatore di crescita
+
+
+Probabilmente anche gli argomenti in arrivo necessitano di questo numero di partizioni.  Contattare Confluent per conferma.
+
+Oltre ai requisiti per produttori, processori di streaming e consumatori, è necessario fornire i seguenti requisiti aggiuntivi:
+
+* *È tempo di ricostruire.*  Ad esempio, 4 ore.  Se un host broker Apache Kafka si guasta, i suoi dati vengono persi e viene predisposto un nuovo host per sostituire quello guasto, quanto velocemente deve ricostruirsi questo nuovo host?  Lasciare vuoto questo parametro se il valore è sconosciuto.
+* *Obiettivo di utilizzo delle risorse (percentuale).*  Ad esempio, 60.  Quanto vuoi che vengano utilizzati i tuoi host durante la velocità media?  Confluent consiglia un utilizzo del 60%, a meno che non si utilizzino cluster autobilancianti Confluent, nel qual caso l'utilizzo può essere maggiore.
+
+
+
+
+=== Descrivi il tuo ambiente
+
+* *In quale ambiente verrà eseguito il tuo cluster?*  Amazon Web Services, Microsoft Azure, Google Cloud Platform, bare-metal on premises, VMware on premises, OpenStack on premises o Kubernates on premises?
+* *Dettagli dell'host.*  Numero di core: 48 (ad esempio), tipo di scheda di rete (10GbE, 40GbE, 16GbE, 1GbE o altro tipo).
+* *Volumi di archiviazione.*  Host: 12 (ad esempio).  Quanti dischi rigidi o SSD sono supportati per host?  Confluent consiglia 12 dischi rigidi per host.
+* *Capacità/volume di archiviazione (in GB).*  1000 (ad esempio).  Quanto spazio di archiviazione può contenere un singolo volume in gigabyte?  Confluent consiglia dischi da 1 TB.
+* *Configurazione di archiviazione.*  Come vengono configurati i volumi di archiviazione?  Confluent consiglia RAID10 per sfruttare tutte le funzionalità di Confluent.  Sono supportati anche JBOD, SAN, RAID 1, RAID 0, RAID 5 e altri tipi.
+* *Capacità di trasmissione di un singolo volume (MBps).*  125 (ad esempio).  Qual è la velocità in megabyte al secondo con cui un singolo volume di archiviazione può leggere o scrivere?  Confluent consiglia dischi rigidi standard, che in genere hanno una velocità di trasmissione di 125 MBps.
+* *Capacità di memoria (GB).*  64 (ad esempio).
+
+
+Dopo aver determinato le variabili ambientali, seleziona Dimensiona il mio cluster.  Sulla base dei parametri di esempio indicati sopra, abbiamo determinato le seguenti dimensioni per Confluent Kafka:
+
+* *Apache Kafka.*  Numero di broker: 22.  Il cluster è vincolato allo storage.  Valuta la possibilità di abilitare l'archiviazione a livelli per ridurre il numero di host e consentire uno spazio di archiviazione infinito.
+* *Apache ZooKeeper.*  Conteggio: 5; Apache Kafka Connect Workers: Conteggio: 2; Schema Registry: Conteggio: 2; REST Proxy: Conteggio: 2; ksqlDB: Conteggio: 2; Confluent Control Center: Conteggio: 1.
+
+
+Utilizzare la modalità inversa per i team della piattaforma che non hanno in mente un caso d'uso.  Utilizzare la modalità partizioni per calcolare quante partizioni richiede un singolo argomento.  Vedere https://eventsizer.io[] per il dimensionamento basato sulle modalità inversa e partizioni.

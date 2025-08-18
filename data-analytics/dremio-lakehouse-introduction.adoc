@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/dremio-lakehouse-introduction.html 
+keywords: introduction, best practices, dremio, lakehouse 
+summary: 'Questo documento descrive le linee guida sulle best practice per l"utilizzo di Dremio su un controller di storage NetApp .' 
+---
+= La soluzione ibrida Iceberg Lakehouse di nuova generazione di NetApp e Dremio
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questo documento, analizziamo i dettagli di distribuzione di Dremio con diverse fonti di dati provenienti dai controller di storage NetApp , tra cui ONTAP S3, NAS e StorageGRID.  Durante l'implementazione, abbiamo utilizzato lo strumento di benchmarking TPC-DS per eseguire 99 query SQL su varie origini.  Il documento esamina anche i casi d'uso dei clienti all'interno di NetApp, nonché un caso d'uso che coinvolge un cliente di vendita di ricambi auto.

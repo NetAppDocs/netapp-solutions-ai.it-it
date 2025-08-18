@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-kubeflow-deploy.html 
+keywords: Kubeflow, Prerequisites, Kubernetes, cluster 
+summary: MLOps open source con NetApp - Distribuzione Kubeflow 
+---
+= Distribuzione di Kubeflow
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questa sezione descrive le attività che devi completare per distribuire Kubeflow nel tuo cluster Kubernetes.
+
+
+
+== Prerequisiti
+
+Prima di eseguire l'esercizio di distribuzione descritto in questa sezione, diamo per scontato che tu abbia già eseguito le seguenti attività:
+
+. Hai già un cluster Kubernetes funzionante e stai eseguendo una versione di Kubernetes supportata dalla versione di Kubeflow che intendi distribuire.  Per un elenco delle versioni di Kubernetes supportate, fare riferimento alle dipendenze per la versione di Kubeflow inlink:https://www.kubeflow.org/docs/releases/["documentazione ufficiale di Kubeflow"^] .
+. Hai già installato e configurato NetApp Trident nel tuo cluster Kubernetes.  Per maggiori dettagli su Trident, fare riferimento allink:https://docs.netapp.com/us-en/trident/index.html["Documentazione Trident"] .
+
+
+
+
+== Imposta la classe di archiviazione Kubernetes predefinita
+
+Prima di distribuire Kubeflow, ti consigliamo di designare una StorageClass predefinita all'interno del tuo cluster Kubernetes.  Il processo di distribuzione di Kubeflow potrebbe tentare di effettuare il provisioning di nuovi volumi persistenti utilizzando la StorageClass predefinita.  Se non viene designata alcuna StorageClass come StorageClass predefinita, la distribuzione potrebbe non riuscire.  Per designare una StorageClass predefinita all'interno del cluster, eseguire la seguente attività dall'host di jump di distribuzione.  Se hai già designato una StorageClass predefinita all'interno del tuo cluster, puoi saltare questo passaggio.
+
+. Designa una delle StorageClass esistenti come StorageClass predefinita.  I comandi di esempio che seguono mostrano la designazione di una StorageClass denominata `ontap-ai-flexvols-retain` come StorageClass predefinito.
+
+
+
+NOTE: IL `ontap-nas-flexgroup` Il tipo Trident Backend ha una dimensione minima del PVC piuttosto grande.  Per impostazione predefinita, Kubeflow tenta di fornire PVC di dimensioni pari solo a pochi GB.  Pertanto, non dovresti designare una StorageClass che utilizza `ontap-nas-flexgroup` Tipo di backend come StorageClass predefinito ai fini della distribuzione di Kubeflow.
+
+....
+$ kubectl get sc
+NAME                                PROVISIONER             AGE
+ontap-ai-flexgroups-retain          csi.trident.netapp.io   25h
+ontap-ai-flexgroups-retain-iface1   csi.trident.netapp.io   25h
+ontap-ai-flexgroups-retain-iface2   csi.trident.netapp.io   25h
+ontap-ai-flexvols-retain            csi.trident.netapp.io   3s
+$ kubectl patch storageclass ontap-ai-flexvols-retain -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+storageclass.storage.k8s.io/ontap-ai-flexvols-retain patched
+$ kubectl get sc
+NAME                                 PROVISIONER             AGE
+ontap-ai-flexgroups-retain           csi.trident.netapp.io   25h
+ontap-ai-flexgroups-retain-iface1    csi.trident.netapp.io   25h
+ontap-ai-flexgroups-retain-iface2    csi.trident.netapp.io   25h
+ontap-ai-flexvols-retain (default)   csi.trident.netapp.io   54s
+....
+
+
+== Opzioni di distribuzione di Kubeflow
+
+Esistono molte opzioni diverse per distribuire Kubeflow.  Fare riferimento allink:https://www.kubeflow.org/docs/started/installing-kubeflow/["documentazione ufficiale di Kubeflow"] per un elenco delle opzioni di distribuzione e scegli l'opzione più adatta alle tue esigenze.
+
+
+NOTE: Per scopi di convalida, abbiamo distribuito Kubeflow 1.7 utilizzandolink:https://www.deploykf.org["deployKF"] 0.1.1.

@@ -1,0 +1,54 @@
+---
+section: ai-use-cases
+title: Casi d'uso dell'intelligenza artificiale
+url: "/ai-use-cases/index.html"
+entries:
+- title: NetApp AIPod Mini per RAG aziendale
+  pdf-filename: NetApp AIPod Mini per l'inferenza RAG
+  url: "/infra/ai-minipod.html"
+- title: Intelligenza artificiale responsabile con la trasformazione delle immagini
+    di Protopia
+  pdf-filename: 'Intelligenza artificiale responsabile e inferenza riservata: intelligenza
+    artificiale NetApp con trasformazione delle immagini Protopia'
+  entries:
+  - title: Panoramica
+    url: "/software/ai-conf-protopia-overview.html"
+  - title: Aree di soluzione
+    url: "/software/ai-conf-protopia-usecases.html"
+  - title: Panoramica della tecnologia
+    url: "/software/ai-conf-protopia-tech.html"
+  - title: Piano di test e convalida
+    url: "/software/ai-conf-protopia-plan.html"
+  - title: Configurazione di prova
+    url: "/software/ai-conf-protopia-config.html"
+  - title: Procedura di prova
+    url: "/software/ai-conf-protopia-procedure.html"
+  - title: Confronto dell'accuratezza dell'inferenza
+    url: "/software/ai-conf-protopia-accuracy.html"
+  - title: Velocità di offuscamento
+    url: "/software/ai-conf-protopia-speed.html"
+  - title: Conclusione
+    url: "/software/ai-conf-protopia-conclusion.html"
+  - title: Informazioni aggiuntive
+    url: "/software/ai-conf-protopia-addtl.html"
+- title: Dall'analisi dei Big Data alla migrazione dell'IA
+  pdf-filename: Spostamento dei dati da un ambiente Big Data a un ambiente AI
+  url: "/data-analytics/bda-ai-introduction.html"
+- title: Inferenza AI Edge con NetApp e Lenovo
+  pdf-filename: Inferenza AI all'Edge - NetApp con Lenovo ThinkSystem - Progettazione
+    della soluzione
+  entries:
+  - title: Introduzione
+    url: "/infra/ai-lenovo-edge-intro.html"
+  - title: Conclusione
+    url: "/infra/ai-lenovo-edge-conclusion.html"
+- title: Intelligenza artificiale generativa e valore NetApp
+  pdf-filename: Intelligenza artificiale generativa e valore NetApp
+  url: "/gen-ai/ai-wp-genai.html"
+- title: Progetta Quantum StorNext con sistemi E-Series
+  pdf-filename: Guida alla progettazione dei sistemi Quantum StorNext con NetApp E-Series
+  url: "/infra/ai-eseries-nva1150-design.html"
+- title: Distribuisci Quantum StorNext con i sistemi E-Series
+  pdf-filename: Guida all'implementazione dei sistemi Quantum StorNext con NetApp
+    E-Series
+  url: "/infra/ai-eseries-nva1150-deploy.html"

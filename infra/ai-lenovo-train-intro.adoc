@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-train-intro.html 
+keywords: tr4810, 4810, introduction, cluster architecture, lenovo, ai 
+summary: 'Questa soluzione si concentra sull"architettura cluster sia entry-level che mid-range, utilizzando storage NetApp e server Lenovo ottimizzati per carichi di lavoro di intelligenza artificiale.  È pensato per team di piccole e medie dimensioni per i quali la maggior parte dei lavori di elaborazione sono a nodo singolo (con una o più GPU) o sono distribuiti su pochi nodi di elaborazione.  Questa non è una limitazione importante, perché la maggior parte delle attività quotidiane di addestramento dell"IA sono svolte su un singolo nodo.' 
+---
+= TR-4810: NetApp AFF A400 con Lenovo ThinkSystem SR670 V2 per la formazione di modelli AI e ML
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Sathish Thyagarajan, David Arnette, NetApp Mircea Troaca, Lenovo
+
+[role="lead"]
+Questa soluzione presenta un'architettura cluster di fascia media che utilizza storage NetApp e server Lenovo ottimizzati per carichi di lavoro di intelligenza artificiale (AI).  È pensato per le piccole e medie imprese, per le quali la maggior parte dei processi di elaborazione avviene su un singolo nodo (con una o più GPU) o è distribuita su pochi nodi di elaborazione.  Questa soluzione si adatta alla maggior parte delle attività quotidiane di formazione sull'intelligenza artificiale svolte da molte aziende.
+
+Questo documento riguarda i test e la convalida di una configurazione di elaborazione e storage composta da server Lenovo SR670V2 a otto GPU, un sistema di storage NetApp AFF A400 di fascia media e uno switch di interconnessione da 100 GbE.  Per misurare le prestazioni, abbiamo utilizzato ResNet50 con il set di dati ImageNet, una dimensione del batch di 408, mezza precisione, CUDA e cuDNN.  Questa architettura fornisce una soluzione efficiente e conveniente per le piccole e medie imprese che stanno appena avviando iniziative di intelligenza artificiale e che richiedono le funzionalità di livello aziendale dell'archiviazione dati connessa al cloud NetApp ONTAP .
+
+
+
+== Pubblico di destinazione
+
+Il presente documento è destinato ai seguenti destinatari:
+
+* Data scientist, data engineer, data administrator e sviluppatori di sistemi di intelligenza artificiale
+* Architetti aziendali che progettano soluzioni per lo sviluppo di modelli di intelligenza artificiale
+* Data scientist e data engineer che cercano modi efficienti per raggiungere gli obiettivi di sviluppo di deep learning (DL) e machine learning (ML)
+* Leader aziendali e decisori OT/IT che desiderano raggiungere il time-to-market più rapido possibile per le iniziative di intelligenza artificiale
+
+
+
+
+== Architettura della soluzione
+
+Questa soluzione con server Lenovo ThinkSystem e NetApp ONTAP con storage AFF è progettata per gestire l'addestramento dell'intelligenza artificiale su grandi set di dati utilizzando la potenza di elaborazione delle GPU insieme alle CPU tradizionali.  Questa convalida dimostra elevate prestazioni e una gestione ottimale dei dati con un'architettura scalabile che utilizza uno, due o quattro server Lenovo SR670 V2 insieme a un singolo sistema di storage NetApp AFF A400 .  La figura seguente fornisce una panoramica architettonica.
+
+image:a400-thinksystem-002.png["Questa immagine mostra uno switch Ethernet circondato dal server di gestione, quattro SR670 V2 con otto GPU ciascuno e un sistema di storage NetApp ONTAP ."]
+
+Questa soluzione NetApp e Lenovo offre i seguenti vantaggi chiave:
+
+* Prestazioni altamente efficienti e convenienti durante l'esecuzione di più attività di formazione in parallelo
+* Prestazioni scalabili basate su diversi numeri di server Lenovo e diversi modelli di controller di storage NetApp
+* Protezione dati robusta per soddisfare obiettivi di punto di ripristino (RPO) e obiettivi di tempo di ripristino (RTO) bassi senza perdita di dati
+* Gestione ottimizzata dei dati con snapshot e cloni per semplificare i flussi di lavoro di sviluppo
+

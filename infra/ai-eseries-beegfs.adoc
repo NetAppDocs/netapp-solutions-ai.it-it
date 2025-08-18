@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-beegfs.html 
+keywords:  
+summary:  
+---
+= BeeGFS su NetApp con storage E-Series
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+BeeGFS su NetApp con storage E-Series è una soluzione integrata e collaudata con un'infrastruttura HPC semplice, affidabile, scalabile e conveniente, in grado di tenere il passo con i carichi di lavoro più estremi.
+
+link:https://docs.netapp.com/us-en/beegfs/index.html["BeeGFS su NetApp con storage E-Series"^]

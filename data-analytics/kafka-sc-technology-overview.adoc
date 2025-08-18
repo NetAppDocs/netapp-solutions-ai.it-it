@@ -1,0 +1,155 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-technology-overview.html 
+keywords: ONTAP, storage controller, primary use cases, Native s3 applications, fabricpool endpoints, System Manager, event streaming, enterprise 
+summary: Questa pagina descrive la tecnologia utilizzata in questa soluzione. 
+---
+= Panoramica della tecnologia
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questa sezione descrive la tecnologia utilizzata in questa soluzione.
+
+
+
+== Controller di archiviazione NetApp ONTAP
+
+NetApp ONTAP è un sistema operativo di storage di livello aziendale ad alte prestazioni.
+
+NetApp ONTAP 9.8 introduce il supporto per le API Amazon Simple Storage Service (S3).  ONTAP supporta un sottoinsieme di azioni API S3 di Amazon Web Services (AWS) e consente di rappresentare i dati come oggetti nei sistemi basati su ONTAP tra provider cloud (AWS, Azure e GCP) e in locale.
+
+Il software NetApp StorageGRID è la soluzione di punta NetApp per l'archiviazione di oggetti.  ONTAP integra StorageGRID fornendo un punto di acquisizione e pre-elaborazione sull'edge, espandendo il data fabric basato su NetApp per i dati degli oggetti e aumentando il valore del portafoglio di prodotti NetApp .
+
+L'accesso a un bucket S3 viene fornito tramite applicazioni client e utenti autorizzati.  Il diagramma seguente mostra l'applicazione che accede a un bucket S3.
+
+image:kafka-sc-004.png["Questa grafica mostra l'applicazione che accede a un bucket S3."]
+
+
+
+== Casi d'uso principali
+
+Lo scopo principale del supporto delle API S3 è quello di fornire l'accesso agli oggetti su ONTAP.  L'architettura di archiviazione unificata ONTAP ora supporta file (NFS e SMB), blocchi (FC e iSCSI) e oggetti (S3).
+
+
+
+== Applicazioni S3 native
+
+Un numero crescente di applicazioni è in grado di sfruttare il supporto ONTAP per l'accesso agli oggetti tramite S3.  Sebbene sia adatto a carichi di lavoro di archiviazione ad alta capacità, la necessità di prestazioni elevate nelle applicazioni S3 native sta crescendo rapidamente e include:
+
+* Analisi
+* Intelligenza artificiale
+* Acquisizione edge-to-core
+* Apprendimento automatico
+
+
+I clienti possono ora utilizzare strumenti di gestibilità familiari come ONTAP System Manager per fornire rapidamente storage di oggetti ad alte prestazioni per lo sviluppo e le operazioni in ONTAP, sfruttando al contempo l'efficienza e la sicurezza dello storage ONTAP .
+
+
+
+== Endpoint FabricPool
+
+A partire da ONTAP 9.8, FabricPool supporta la suddivisione in livelli in bucket in ONTAP, consentendo la suddivisione in livelli da ONTAP a ONTAP .  Si tratta di un'opzione eccellente per i clienti che desiderano riutilizzare l'infrastruttura FAS esistente come endpoint di archiviazione di oggetti.
+
+FabricPool supporta il tiering su ONTAP in due modi:
+
+* *Suddivisione in livelli dei cluster locali.*  I dati inattivi vengono suddivisi in livelli in un bucket situato sul cluster locale mediante i LIF del cluster.
+* *Suddivisione in livelli del cluster remoto.*  I dati inattivi vengono suddivisi in livelli in un bucket situato su un cluster remoto in modo simile a un livello cloud FabricPool tradizionale, utilizzando LIF IC sul client FabricPool e LIF dati sull'archivio oggetti ONTAP .
+
+
+ONTAP S3 è la soluzione ideale se si desiderano funzionalità S3 su cluster esistenti senza hardware e gestione aggiuntivi.  Per le distribuzioni superiori a 300 TB, il software NetApp StorageGRID continua a essere la soluzione NetApp di punta per l'archiviazione di oggetti.  Non è richiesta una licenza FabricPool quando si utilizza ONTAP o StorageGRID come livello cloud.
+
+
+
+=== NetApp ONTAP per storage a livelli Confluent
+
+Ogni data center deve garantire il funzionamento delle applicazioni aziendali critiche e la disponibilità e la sicurezza dei dati importanti.  Il nuovo sistema NetApp AFF A900 è basato sul software ONTAP Enterprise Edition e su un design ad alta resilienza.  Il nostro nuovo sistema di archiviazione NVMe ultraveloce elimina le interruzioni delle operazioni mission-critical, riduce al minimo l'ottimizzazione delle prestazioni e protegge i tuoi dati dagli attacchi ransomware.
+
+Dall'implementazione iniziale al ridimensionamento del cluster Confluent, il tuo ambiente richiede un rapido adattamento ai cambiamenti che non interrompono le tue applicazioni aziendali critiche.  La gestione dei dati aziendali, la qualità del servizio (QoS) e le prestazioni ONTAP consentono di pianificare e adattare il tutto al proprio ambiente.
+
+L'utilizzo congiunto NetApp ONTAP e Confluent Tiered Storage semplifica la gestione dei cluster Apache Kafka sfruttando ONTAP come destinazione di storage scalabile e consente il ridimensionamento indipendente delle risorse di elaborazione e storage per Confluent.
+
+Un server ONTAP S3 è basato sulle funzionalità di storage scalabili di ONTAP.  Il ridimensionamento del cluster ONTAP può essere eseguito senza problemi estendendo i bucket S3 per utilizzare i nodi appena aggiunti al cluster ONTAP .
+
+
+
+=== Gestione semplice con ONTAP System Manager
+
+ONTAP System Manager è un'interfaccia grafica basata su browser che consente di configurare, gestire e monitorare il controller di archiviazione ONTAP in sedi distribuite a livello globale da un unico pannello di controllo.
+
+image:kafka-sc-005.png["Questa immagine mostra l'area di lavoro di ONTAP System Manager."]
+
+È possibile configurare e gestire ONTAP S3 con System Manager e ONTAP CLI.  Quando si abilita S3 e si creano bucket tramite System Manager, ONTAP fornisce impostazioni predefinite basate sulle best practice per una configurazione semplificata.  Se si configura il server S3 e i bucket dalla CLI, è comunque possibile gestirli con System Manager, se lo si desidera, o viceversa.
+
+Quando si crea un bucket S3 tramite System Manager, ONTAP configura un livello di servizio di prestazioni predefinito, ovvero il più alto disponibile sul sistema.  Ad esempio, su un sistema AFF , l'impostazione predefinita sarebbe Estremo.  I livelli di servizio delle prestazioni sono gruppi di policy QoS adattive predefinite.  Invece di uno dei livelli di servizio predefiniti, è possibile specificare un gruppo di policy QoS personalizzato o nessun gruppo di policy.
+
+I gruppi di policy QoS adattive predefiniti includono quanto segue:
+
+* *Estremo.*  Utilizzato per applicazioni che richiedono la latenza più bassa e le prestazioni più elevate.
+* *Prestazione.*  Utilizzato per applicazioni con esigenze di prestazioni e latenza modeste.
+* *Valore.*  Utilizzato per applicazioni in cui la produttività e la capacità sono più importanti della latenza.
+* *Costume.*  Specificare una policy QoS personalizzata o nessuna policy QoS.
+
+
+Se si seleziona *Utilizza per la suddivisione in livelli*, non vengono selezionati livelli di servizio delle prestazioni e il sistema tenta di selezionare supporti a basso costo con prestazioni ottimali per i dati suddivisi in livelli.
+
+ONTAP tenta di fornire questo bucket sui livelli locali che dispongono dei dischi più appropriati, soddisfacendo il livello di servizio scelto.  Tuttavia, se è necessario specificare quali dischi includere nel bucket, valutare la possibilità di configurare l'archiviazione di oggetti S3 dalla CLI specificando i livelli locali (aggregati).  Se si configura il server S3 dalla CLI, è comunque possibile gestirlo con System Manager, se lo si desidera.
+
+Se si desidera poter specificare quali aggregati vengono utilizzati per i bucket, è possibile farlo solo tramite la CLI.
+
+
+
+== Confluente
+
+Confluent Platform è una piattaforma di streaming dati completa che consente di accedere, archiviare e gestire facilmente i dati come flussi continui e in tempo reale.  Sviluppato dai creatori originali di Apache Kafka, Confluent amplia i vantaggi di Kafka con funzionalità di livello aziendale, eliminando al contempo l'onere della gestione o del monitoraggio di Kafka.  Oggi, oltre l'80% delle aziende Fortune 100 si avvale della tecnologia di streaming dei dati e la maggior parte utilizza Confluent.
+
+
+
+=== Perché Confluent?
+
+Integrando dati storici e in tempo reale in un'unica fonte centrale di verità, Confluent semplifica la creazione di una categoria completamente nuova di applicazioni moderne basate sugli eventi, l'acquisizione di una pipeline di dati universale e lo sblocco di nuovi potenti casi d'uso con piena scalabilità, prestazioni e affidabilità.
+
+
+
+=== A cosa serve Confluent?
+
+Confluent Platform ti consente di concentrarti su come ricavare valore aziendale dai tuoi dati anziché preoccuparti dei meccanismi sottostanti, ad esempio come i dati vengono trasportati o integrati tra sistemi diversi.  Nello specifico, Confluent Platform semplifica la connessione delle fonti di dati a Kafka, la creazione di applicazioni di streaming, nonché la protezione, il monitoraggio e la gestione dell'infrastruttura Kafka.  Oggi, la piattaforma Confluent viene utilizzata per un'ampia gamma di casi d'uso in numerosi settori, dai servizi finanziari, alla vendita al dettaglio omnicanale, alle auto autonome, al rilevamento delle frodi, ai microservizi e all'IoT.
+
+La figura seguente mostra i componenti della piattaforma Confluent.
+
+image:kafka-sc-006.png["Questo grafico mostra i componenti della piattaforma Confluent."]
+
+
+
+=== Panoramica della tecnologia di streaming di eventi Confluent
+
+Il cuore della piattaforma Confluent è https://kafka.apache.org/["Kafka"^] , la piattaforma di streaming distribuita open source più popolare.  Le principali funzionalità di Kafka includono quanto segue:
+
+* Pubblica e abbonati a flussi di record.
+* Memorizzare flussi di record in modo tollerante agli errori.
+* Elaborare flussi di record.
+
+
+Confluent Platform include anche Schema Registry, REST Proxy, un totale di oltre 100 connettori Kafka predefiniti e ksqlDB.
+
+
+
+=== Panoramica delle funzionalità aziendali della piattaforma Confluent
+
+* *Centro di controllo confluente.*  Un sistema basato sull'interfaccia utente per la gestione e il monitoraggio di Kafka.  Consente di gestire facilmente Kafka Connect e di creare, modificare e gestire connessioni ad altri sistemi.
+* *Confluent per Kubernetes.*  Confluent per Kubernetes è un operatore Kubernetes.  Gli operatori Kubernetes estendono le capacità di orchestrazione di Kubernetes fornendo funzionalità e requisiti esclusivi per una specifica applicazione della piattaforma.  Per Confluent Platform, ciò include una notevole semplificazione del processo di distribuzione di Kafka su Kubernetes e l'automazione delle tipiche attività del ciclo di vita dell'infrastruttura.
+* *Connettori Kafka Connect.*  I connettori utilizzano l'API Kafka Connect per connettere Kafka ad altri sistemi, quali database, archivi chiave-valore, indici di ricerca e file system.  Confluent Hub dispone di connettori scaricabili per le fonti e i sink di dati più diffusi, comprese versioni completamente testate e supportate di questi connettori con Confluent Platform.  Maggiori dettagli possono essere trovati https://docs.confluent.io/home/connect/userguide.html["Qui"^] .
+* *Cluster autobilancianti.*  Fornisce bilanciamento automatico del carico, rilevamento degli errori e auto-riparazione.  Fornisce inoltre supporto per l'aggiunta o la disattivazione di broker in base alle necessità, senza necessità di ottimizzazione manuale.
+* *Collegamento di cluster confluenti.*  Collega direttamente i cluster tra loro e rispecchia gli argomenti da un cluster all'altro tramite un ponte di collegamento.  Il collegamento dei cluster semplifica la configurazione di distribuzioni multi-datacenter, multi-cluster e cloud ibride.
+* *Bilanciatore automatico dei dati Confluent.*  Monitora il cluster per quanto riguarda il numero di broker, la dimensione delle partizioni, il numero di partizioni e il numero di leader all'interno del cluster.  Consente di spostare i dati per creare un carico di lavoro uniforme nel cluster, limitando al contempo il traffico di ribilanciamento per ridurre al minimo l'effetto sui carichi di lavoro di produzione durante il ribilanciamento.
+* *Replicatore confluente.*  Rende più semplice che mai la gestione di più cluster Kafka in più data center.
+* *Archiviazione a livelli.*  Offre opzioni per archiviare grandi volumi di dati Kafka utilizzando il tuo provider cloud preferito, riducendo così i costi e gli oneri operativi.  Grazie all'archiviazione a livelli, puoi conservare i dati su un archivio oggetti conveniente e utilizzare broker di scalabilità solo quando hai bisogno di più risorse di elaborazione.
+* *Client JMS confluente.*  Confluent Platform include un client compatibile con JMS per Kafka.  Questo client Kafka implementa l'API standard JMS 1.1, utilizzando i broker Kafka come backend.  Questa funzionalità è utile se si dispone di applicazioni legacy che utilizzano JMS e si desidera sostituire il broker di messaggi JMS esistente con Kafka.
+* *Proxy MQTT confluente.*  Fornisce un modo per pubblicare dati direttamente su Kafka da dispositivi e gateway MQTT senza la necessità di un broker MQTT intermedio.
+* *Plugin di sicurezza Confluent.*  I plugin di sicurezza Confluent vengono utilizzati per aggiungere funzionalità di sicurezza a vari strumenti e prodotti della piattaforma Confluent.  Attualmente è disponibile un plugin per il proxy REST Confluent che aiuta ad autenticare le richieste in arrivo e a propagare il principal autenticato alle richieste a Kafka.  Ciò consente ai client proxy REST Confluent di utilizzare le funzionalità di sicurezza multitenant del broker Kafka.
+

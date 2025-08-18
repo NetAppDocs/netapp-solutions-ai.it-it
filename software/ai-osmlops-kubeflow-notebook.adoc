@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-kubeflow-notebook.html 
+keywords: Jupyter, Notebook, Workspace, Kubeflow 
+summary: 'MLOps open source con NetApp : predisponi uno spazio di lavoro Jupyter Notebook per l"uso da parte di data scientist o sviluppatori' 
+---
+= Fornire un'area di lavoro Jupyter Notebook per l'uso da parte di Data Scientist o Sviluppatori
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Kubeflow è in grado di fornire rapidamente nuovi server Jupyter Notebook che fungano da spazi di lavoro per gli scienziati dei dati.  Per ulteriori informazioni sui notebook Jupyter nel contesto Kubeflow, vedere https://www.kubeflow.org/docs/components/notebooks/["documentazione ufficiale di Kubeflow"^] .
+
+image:aicp-009.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]

@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-storagegrid-datalake-adas.html 
+keywords:  
+summary:  
+---
+= TR-4851: Data lake NetApp StorageGRID per carichi di lavoro di guida autonoma - Progettazione della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+David Arnette, NetApp
+
+[role="lead"]
+TR-4851 dimostra l'uso dell'archiviazione di oggetti NetApp StorageGRID come repository di dati e sistema di gestione per lo sviluppo di software di apprendimento automatico (ML) e apprendimento profondo (DL).  In questo documento vengono descritti il flusso di dati e i requisiti nello sviluppo di software per veicoli autonomi, nonché le funzionalità StorageGRID che semplificano il ciclo di vita dei dati.  Questa soluzione si applica a qualsiasi flusso di lavoro di pipeline di dati multifase tipico dei processi di sviluppo ML e DL.
+
+link:https://www.netapp.com/pdf.html?item=/media/19399-tr-4851.pdf["TR-4851: Data lake NetApp StorageGRID per carichi di lavoro di guida autonoma - Progettazione della soluzione"^]

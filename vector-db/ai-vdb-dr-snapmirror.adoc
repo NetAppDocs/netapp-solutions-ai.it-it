@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: vector-db/ai-vdb-dr-snapmirror.html 
+keywords: vector database 
+summary: Disaster Recovery tramite NetApp SnapMirror - soluzione di database vettoriale per NetApp 
+---
+= Ripristino di emergenza tramite NetApp SnapMirror
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questa sezione illustra il DR (disaster recovery) con SnapMirror per la soluzione di database vettoriale per NetApp.
+
+
+
+== Ripristino di emergenza tramite NetApp SnapMirror
+
+image:vector-database-dr-fsxn-gcnv.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]
+
+Il ripristino dopo un disastro è fondamentale per mantenere l'integrità e la disponibilità di un database vettoriale, soprattutto considerando il suo ruolo nella gestione di dati ad alta dimensionalità e nell'esecuzione di ricerche di similarità complesse.  Una strategia di disaster recovery ben pianificata e implementata garantisce che i dati non vengano persi o compromessi in caso di incidenti imprevisti, come guasti hardware, calamità naturali o attacchi informatici.  Ciò è particolarmente significativo per le applicazioni che si basano su database vettoriali, in cui la perdita o il danneggiamento dei dati potrebbe causare notevoli interruzioni operative e perdite finanziarie.  Inoltre, un solido piano di disaster recovery garantisce la continuità aziendale riducendo al minimo i tempi di inattività e consentendo il rapido ripristino dei servizi.  Ciò è possibile grazie al prodotto di replicazione dei dati NetApp SnapMirrror in diverse posizioni geografiche, backup regolari e meccanismi di failover.  Pertanto, il disaster recovery non è solo una misura protettiva, ma una componente fondamentale per una gestione responsabile ed efficiente dei database vettoriali.
+
+SnapMirror di NetApp consente la replica dei dati da un controller di storage NetApp ONTAP a un altro, ed è utilizzato principalmente per soluzioni ibride e di disaster recovery (DR).  Nel contesto di un database vettoriale, questo strumento facilita la transizione fluida dei dati tra ambienti on-premise e cloud.  Questa transizione viene realizzata senza richiedere alcuna conversione di dati o refactoring delle applicazioni, migliorando così l'efficienza e la flessibilità della gestione dei dati su più piattaforme.
+
+La soluzione NetApp Hybrid in uno scenario di database vettoriale può apportare ulteriori vantaggi:
+
+. Scalabilità: la soluzione cloud ibrida di NetApp offre la possibilità di scalare le risorse in base alle proprie esigenze.  È possibile utilizzare risorse on-premise per carichi di lavoro regolari e prevedibili e risorse cloud come Amazon FSx ONTAP per NetApp ONTAP e Google Cloud NetApp Volume (NetApp Volumes) per periodi di punta o carichi imprevisti.
+. Efficienza dei costi: il modello di cloud ibrido di NetApp consente di ottimizzare i costi utilizzando risorse on-premise per carichi di lavoro regolari e pagando le risorse cloud solo quando ne hai bisogno.  Questo modello di pagamento a consumo può rivelarsi piuttosto conveniente con un'offerta di servizi NetApp Instaclustr.  Instaclustr offre supporto e consulenza ai principali fornitori di servizi cloud e on-premise.
+. Flessibilità: il cloud ibrido di NetApp ti offre la flessibilità di scegliere dove elaborare i tuoi dati.  Ad esempio, potresti scegliere di eseguire operazioni vettoriali complesse in locale, dove hai hardware più potente, e operazioni meno intensive nel cloud.
+. Continuità aziendale: in caso di disastro, avere i dati in un cloud ibrido NetApp può garantire la continuità aziendale.  Se le tue risorse locali sono interessate, puoi passare rapidamente al cloud.  Possiamo sfruttare NetApp SnapMirror per spostare i dati da locale a cloud e viceversa.
+. Innovazione: le soluzioni cloud ibride di NetApp possono anche favorire un'innovazione più rapida, offrendo accesso a servizi e tecnologie cloud all'avanguardia.  Le innovazioni NetApp nel cloud, come Amazon FSx ONTAP per NetApp ONTAP, Azure NetApp Files e Google Cloud NetApp Volumes, sono prodotti innovativi e NAS preferiti dai provider di servizi cloud.
+

@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-use-case-analytics.html 
+keywords: analytics platform, nfs, hadoop, jbod, monte carlo 
+summary: 'In questo scenario, la piattaforma di analisi di una grande banca di servizi finanziari e di investimento è stata modernizzata utilizzando la soluzione di archiviazione NetApp NFS per ottenere un miglioramento significativo nell"analisi dei rischi di investimento e dei derivati per la sua unità aziendale di gestione patrimoniale e quantitativa.' 
+---
+= Caso d'uso 5: accelerare i carichi di lavoro analitici
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questo scenario, la piattaforma di analisi di una grande banca di servizi finanziari e di investimento è stata modernizzata utilizzando la soluzione di archiviazione NetApp NFS per ottenere un miglioramento significativo nell'analisi dei rischi di investimento e dei derivati per la sua unità aziendale di gestione patrimoniale e quantitativa.
+
+
+
+== Scenario
+
+Nell'ambiente esistente del cliente, l'infrastruttura Hadoop utilizzata per la piattaforma di analisi sfruttava l'archiviazione interna dei server Hadoop.  A causa della natura proprietaria dell'ambiente JBOD, molti clienti interni all'organizzazione non sono stati in grado di sfruttare il loro modello quantitativo Monte Carlo, una simulazione che si basa su campioni ricorrenti di dati in tempo reale.  La scarsa capacità di comprendere gli effetti dell'incertezza sui movimenti del mercato stava giocando un ruolo sfavorevole per la business unit di gestione patrimoniale quantitativa.
+
+
+
+== Requisiti e sfide
+
+L'unità aziendale quantitativa della banca desiderava un metodo di previsione efficiente per ottenere previsioni accurate e tempestive.  Per fare ciò, il team ha riconosciuto la necessità di modernizzare l'infrastruttura, ridurre i tempi di attesa I/O esistenti e migliorare le prestazioni delle applicazioni analitiche come Hadoop e Spark per simulare in modo efficiente i modelli di investimento, misurare i potenziali guadagni e analizzare i rischi.
+
+
+
+== Soluzione
+
+Il cliente aveva JBOD per la sua soluzione Spark esistente.  NetApp ONTAP, NetApp StorageGRID e MinIO Gateway to NFS sono stati quindi sfruttati per ridurre i tempi di attesa I/O per il gruppo finanziario quantitativo della banca che esegue simulazioni e analisi sui modelli di investimento che valutano potenziali guadagni e rischi.  Questa immagine mostra la soluzione Spark con storage NetApp .
+
+image:hdcs-sh-013.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]
+
+Come mostrato nella figura sopra, i sistemi AFF A800, A700 e StorageGRID sono stati implementati per accedere ai file parquet tramite protocolli NFS e S3 in un cluster Hadoop a sei nodi con Spark e servizi di metadati YARN e Hive per operazioni di analisi dei dati.
+
+Una soluzione di storage con collegamento diretto (DAS) nel vecchio ambiente del cliente aveva lo svantaggio di dover scalare elaborazione e storage in modo indipendente.  Grazie alla soluzione NetApp ONTAP per Spark, la divisione di analisi finanziaria della banca è riuscita a separare l'archiviazione dall'elaborazione e a distribuire le risorse infrastrutturali in modo più efficace, in base alle necessità.
+
+Utilizzando ONTAP con NFS, le CPU del server di elaborazione sono state utilizzate quasi completamente per i processi Spark SQL e il tempo di attesa I/O è stato ridotto di quasi il 70%, garantendo quindi una maggiore potenza di elaborazione e un incremento delle prestazioni per i carichi di lavoro Spark.  Successivamente, l'aumento dell'utilizzo della CPU ha consentito al cliente di sfruttare anche le GPU, come GPUDirect, per un'ulteriore modernizzazione della piattaforma.  Inoltre, StorageGRID offre un'opzione di archiviazione a basso costo per i carichi di lavoro Spark e MinIO Gateway fornisce un accesso sicuro ai dati NFS tramite il protocollo S3.  Per i dati nel cloud, NetApp consiglia Cloud Volumes ONTAP, Azure NetApp Files e Google Cloud NetApp Volumes.

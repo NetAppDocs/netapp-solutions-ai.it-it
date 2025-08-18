@@ -1,0 +1,256 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-perf-aws-fsxn.html 
+keywords: AWS FSx ONTAP, openmessage benchmarking, architectural setup, kafka 
+summary: Un cluster Kafka con il livello di archiviazione montato su NetApp NFS è stato sottoposto a benchmark per le prestazioni nel cloud AWS.  Gli esempi di benchmarking sono descritti nelle sezioni seguenti. 
+---
+= Panoramica e convalida delle prestazioni in AWS FSx ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un cluster Kafka con il livello di archiviazione montato su NetApp NFS è stato sottoposto a benchmark per le prestazioni in AWS FSx ONTAP.  Gli esempi di benchmarking sono descritti nelle sezioni seguenti.
+
+
+
+== Apache Kafka in AWS FSx ONTAP
+
+Network File System (NFS) è un file system di rete ampiamente utilizzato per archiviare grandi quantità di dati.  Nella maggior parte delle organizzazioni i dati vengono sempre più generati da applicazioni di streaming come Apache Kafka.  Questi carichi di lavoro richiedono scalabilità, bassa latenza e un'architettura di acquisizione dati solida con moderne capacità di archiviazione.  Per consentire analisi in tempo reale e fornire informazioni fruibili, è necessaria un'infrastruttura ben progettata e altamente performante.
+
+Kafka è progettato per funzionare con un file system compatibile con POSIX e si affida al file system per gestire le operazioni sui file, ma quando si archiviano dati su un file system NFSv3, il client NFS del broker Kafka può interpretare le operazioni sui file in modo diverso rispetto a un file system locale come XFS o Ext4.  Un esempio comune è la rinomina NFS Silly che causava il fallimento dei broker Kafka durante l'espansione dei cluster e la riallocazione delle partizioni.  Per affrontare questa sfida, NetApp ha aggiornato il client NFS Linux open source con modifiche ora generalmente disponibili in RHEL8.7, RHEL9.1 e supportate dall'attuale versione di FSx ONTAP , ONTAP 9.12.1.
+
+Amazon FSx ONTAP fornisce un file system NFS completamente gestito, scalabile e ad alte prestazioni nel cloud.  I dati Kafka su FSx ONTAP possono essere scalati per gestire grandi quantità di dati e garantire la tolleranza agli errori.  NFS fornisce una gestione centralizzata dell'archiviazione e della protezione dei dati per set di dati critici e sensibili.
+
+Questi miglioramenti consentono ai clienti AWS di sfruttare FSx ONTAP durante l'esecuzione di carichi di lavoro Kafka sui servizi di elaborazione AWS.  Questi vantaggi sono: * Riduzione dell'utilizzo della CPU per ridurre il tempo di attesa I/O * Tempo di ripristino più rapido del broker Kafka.  * Affidabilità ed efficienza.  * Scalabilità e prestazioni.  * Disponibilità di zone multi-disponibilità.  * Protezione dei dati.
+
+
+
+=== Panoramica e convalida delle prestazioni in AWS FSx ONTAP
+
+Un cluster Kafka con il livello di archiviazione montato su NetApp NFS è stato sottoposto a benchmark per le prestazioni nel cloud AWS.  Gli esempi di benchmarking sono descritti nelle sezioni seguenti.
+
+
+
+==== Kafka in AWS FSx ONTAP
+
+Un cluster Kafka con AWS FSx ONTAP è stato sottoposto a benchmark per le prestazioni nel cloud AWS.  Questo benchmarking è descritto nelle sezioni seguenti.
+
+
+
+==== Configurazione architettonica
+
+La tabella seguente mostra la configurazione ambientale per un cluster Kafka che utilizza AWS FSx ONTAP.
+
+|===
+| Componente della piattaforma | Configurazione dell'ambiente 
+
+
+| Kafka 3.2.3  a| 
+* 3 guardiani dello zoo – t2.small
+* 3 server broker – i3en.2xlarge
+* 1 x Grafana – c5n.2xlarge
+* 4 x produttore/consumatore -- c5n.2xlarge *
+
+
+
+
+| Sistema operativo su tutti i nodi | RHEL8.6 
+
+
+| AWS FSx ONTAP | Multi-AZ con throughput di 4 GB/sec e 160.000 IOPS 
+|===
+
+
+==== Configurazione NetApp FSx ONTAP
+
+. Per i nostri test iniziali, abbiamo creato un file system FSx ONTAP con 2 TB di capacità e 40.000 IOPS per una velocità di elaborazione di 2 GB/sec.
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx create-file-system --region us-east-2  --storage-capacity 2048 --subnet-ids <desired subnet 1> subnet-<desired subnet 2> --file-system-type ONTAP --ontap-configuration DeploymentType=MULTI_AZ_HA_1,ThroughputCapacity=2048,PreferredSubnetId=<desired primary subnet>,FsxAdminPassword=<new password>,DiskIopsConfiguration="{Mode=USER_PROVISIONED,Iops=40000"}
+....
++
+Nel nostro esempio, stiamo distribuendo FSx ONTAP tramite AWS CLI.  Sarà necessario personalizzare ulteriormente il comando nel proprio ambiente, a seconda delle necessità.  FSx ONTAP può inoltre essere distribuito e gestito tramite la console AWS per un'esperienza di distribuzione più semplice e ottimizzata, con meno input dalla riga di comando.
+
++
+Documentazione In FSx ONTAP, il massimo IOPS raggiungibile per un file system con throughput di 2 GB/sec nella nostra regione di test (US-East-1) è di 80.000 IOPS.  Il numero massimo totale di IOPS per un file system FSx ONTAP è di 160.000 IOPS, il che richiede un throughput di 4 GB/sec per essere raggiunto, come verrà illustrato più avanti in questo documento.
+
++
+Per ulteriori informazioni sulle specifiche delle prestazioni di FSx ONTAP , non esitate a consultare la documentazione di AWS FSx ONTAP qui: https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html[] .
+
++
+La sintassi dettagliata della riga di comando per FSx "create-file-system" è disponibile qui: https://docs.aws.amazon.com/cli/latest/reference/fsx/create-file-system.html[]
+
++
+Ad esempio, è possibile specificare una chiave KMS specifica anziché la chiave master AWS FSx predefinita utilizzata quando non viene specificata alcuna chiave KMS.
+
+. Durante la creazione del file system FSx ONTAP , attendi che lo stato "LifeCycle" cambi in "AVAILABLE" nel tuo ritorno JSON dopo aver descritto il tuo file system come segue:
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx describe-file-systems  --region us-east-1 --file-system-ids fs-02ff04bab5ce01c7c
+....
+. Convalidare le credenziali effettuando l'accesso a FSx ONTAP SSH con l'utente fsxadmin: Fsxadmin è l'account amministratore predefinito per i file system FSx ONTAP al momento della creazione.  La password per fsxadmin è la password configurata durante la prima creazione del file system nella console AWS o tramite AWS CLI, come abbiamo fatto nel passaggio 1.
++
+....
+[root@ip-172-31-33-69 ~]# ssh fsxadmin@198.19.250.244
+The authenticity of host '198.19.250.244 (198.19.250.244)' can't be established.
+ED25519 key fingerprint is SHA256:mgCyRXJfWRc2d/jOjFbMBsUcYOWjxoIky0ltHvVDL/Y.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '198.19.250.244' (ED25519) to the list of known hosts.
+(fsxadmin@198.19.250.244) Password:
+
+This is your first recorded login.
+....
+. Una volta convalidate le credenziali, creare la macchina virtuale di archiviazione sul file system FSx ONTAP
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx --region us-east-1 create-storage-virtual-machine --name svmkafkatest --file-system-id fs-02ff04bab5ce01c7c
+....
++
+Una Storage Virtual Machine (SVM) è un file server isolato con credenziali amministrative e endpoint propri per l'amministrazione e l'accesso ai dati nei volumi FSx ONTAP e fornisce la multi-tenancy FSx ONTAP .
+
+. Dopo aver configurato la macchina virtuale di archiviazione primaria, accedi tramite SSH al file system FSx ONTAP appena creato e crea volumi nella macchina virtuale di archiviazione utilizzando il comando di esempio seguente; allo stesso modo, creiamo 6 volumi per questa convalida.  In base alla nostra convalida, mantieni il costituente predefinito (8) o meno costituenti, il che fornirà prestazioni migliori a Kafka.
++
+....
+FsxId02ff04bab5ce01c7c::*> volume create -volume kafkafsxN1 -state online -policy default -unix-permissions ---rwxr-xr-x -junction-active true -type RW -snapshot-policy none  -junction-path /kafkafsxN1 -aggr-list aggr1
+....
+. Per i nostri test avremo bisogno di una capacità aggiuntiva nei nostri volumi.  Estendi le dimensioni del volume a 2 TB e montalo sul percorso di giunzione.
++
+....
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN1 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN1" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN2 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN2" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN3 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN3" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN4 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN4" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN5 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN5" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN6 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN6" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume show -vserver svmkafkatest -volume *
+Vserver   Volume       Aggregate    State      Type       Size  Available Used%
+--------- ------------ ------------ ---------- ---- ---------- ---------- -----
+svmkafkatest
+          kafkafsxN1   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN2   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN3   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN4   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN5   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN6   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          svmkafkatest_root
+                       aggr1        online     RW          1GB    968.1MB    0%
+7 entries were displayed.
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN1 -junction-path /kafkafsxN1
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN2 -junction-path /kafkafsxN2
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN3 -junction-path /kafkafsxN3
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN4 -junction-path /kafkafsxN4
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN5 -junction-path /kafkafsxN5
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN6 -junction-path /kafkafsxN6
+....
++
+In FSx ONTAP, i volumi possono essere sottoposti a thin provisioning.  Nel nostro esempio, la capacità totale del volume esteso supera la capacità totale del file system, quindi dovremo estendere la capacità totale del file system per sbloccare ulteriore capacità del volume fornito, come illustreremo nel passaggio successivo.
+
+. Successivamente, per prestazioni e capacità aggiuntive, estendiamo la capacità di throughput di FSx ONTAP da 2 GB/sec a 4 GB/sec e IOPS a 160000 e capacità a 5 TB
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx update-file-system --region us-east-1  --storage-capacity 5120 --ontap-configuration 'ThroughputCapacity=4096,DiskIopsConfiguration={Mode=USER_PROVISIONED,Iops=160000}' --file-system-id fs-02ff04bab5ce01c7c
+....
++
+La sintassi dettagliata della riga di comando per FSx "update-file-system" è disponibile qui:https://docs.aws.amazon.com/cli/latest/reference/fsx/update-file-system.html[]
+
+. I volumi FSx ONTAP vengono montati con le opzioni nconnect e default nei broker Kafka
++
+L'immagine seguente mostra l'architettura finale del nostro cluster Kafka basato su FSx ONTAP :
+
++
+image:aws-fsx-kafka-architecture.png["Questa immagine mostra l'architettura di un cluster Kafka basato su FSx ONTAP."]
+
++
+** Calcolare.  Abbiamo utilizzato un cluster Kafka a tre nodi con un ensemble zookeeper a tre nodi in esecuzione su server dedicati.  Ogni broker aveva sei punti di montaggio NFS su sei volumi nell'istanza FSx ONTAP .
+** Monitoraggio.  Abbiamo utilizzato due nodi per una combinazione Prometheus-Grafana.  Per generare i carichi di lavoro, abbiamo utilizzato un cluster separato a tre nodi in grado di produrre e consumare dati per questo cluster Kafka.
+** Magazzinaggio.  Abbiamo utilizzato un FSx ONTAP con sei volumi da 2 TB montati.  Il volume è stato quindi esportato nel broker Kafka con un montaggio NFS. I volumi FSx ONTAP vengono montati con 16 sessioni nconnect e opzioni predefinite nei broker Kafka.
+
+
+
+
+
+
+==== Configurazioni di benchmarking di OpenMessage.
+
+Abbiamo utilizzato la stessa configurazione utilizzata per NetApp Cloud Volumes ONTAP e i relativi dettagli sono disponibili qui: link:kafka-nfs-performance-overview-and-validation-in-aws.html#architectural-setup
+
+
+
+==== Metodologia di test
+
+. Un cluster Kafka è stato predisposto secondo le specifiche descritte sopra utilizzando Terraform e Ansible.  Terraform viene utilizzato per creare l'infrastruttura utilizzando istanze AWS per il cluster Kafka, mentre Ansible crea il cluster Kafka su di esse.
+. Un carico di lavoro OMB è stato attivato con la configurazione del carico di lavoro descritta sopra e il driver Sync.
++
+....
+sudo bin/benchmark –drivers driver-kafka/kafka-sync.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+. Un altro carico di lavoro è stato attivato con il driver Throughput con la stessa configurazione del carico di lavoro.
++
+....
+sudo bin/benchmark –drivers driver-kafka/kafka-throughput.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+
+
+
+
+==== Osservazione
+
+Sono stati utilizzati due diversi tipi di driver per generare carichi di lavoro per confrontare le prestazioni di un'istanza Kafka in esecuzione su NFS.  La differenza tra i driver è la proprietà di svuotamento del registro.
+
+Per un fattore di replicazione Kafka 1 e FSx ONTAP:
+
+* Velocità di trasmissione totale generata in modo coerente dal driver Sync: ~ 3218 MBps e prestazioni di picco in ~ 3652 MBps.
+* Throughput totale generato in modo coerente dal driver Throughput: ~ 3679 MBps e prestazioni di picco in ~ 3908 MBps.
+
+
+Per Kafka con fattore di replicazione 3 e FSx ONTAP :
+
+* Velocità di trasmissione totale generata in modo coerente dal driver Sync: ~ 1252 MBps e prestazioni di picco in ~ 1382 MBps.
+* Throughput totale generato in modo coerente dal driver Throughput: ~ 1218 MBps e prestazioni di picco in ~ 1328 MBps.
+
+
+Nel fattore di replicazione Kafka 3, l'operazione di lettura e scrittura è avvenuta tre volte su FSx ONTAP. Nel fattore di replicazione Kafka 1, l'operazione di lettura e scrittura è avvenuta una volta su FSx ONTAP, quindi in entrambe le convalide siamo riusciti a raggiungere la velocità massima di 4 GB/sec.
+
+Il driver Sync è in grado di generare un throughput costante poiché i log vengono scaricati sul disco all'istante, mentre il driver Throughput genera picchi di throughput poiché i log vengono salvati sul disco in blocco.
+
+Questi numeri di throughput vengono generati per la configurazione AWS specificata.  Per requisiti di prestazioni più elevati, i tipi di istanza possono essere ampliati e ulteriormente ottimizzati per ottenere numeri di throughput migliori.  La produttività totale o tasso totale è la combinazione del tasso del produttore e del tasso del consumatore.
+
+image:aws-fsxn-performance-rf-1-rf-3.png["Questa immagine mostra le prestazioni di Kafka con RF1 e RF3"]
+
+Il grafico sottostante mostra le prestazioni FSx ONTAP a 2 GB/sec e 4 GB/sec per il fattore di replicazione Kafka 3.  Il fattore di replicazione 3 esegue l'operazione di lettura e scrittura tre volte sullo storage FSx ONTAP .  La velocità totale per il driver di throughput è di 881 MB/sec, che esegue operazioni di lettura e scrittura Kafka a circa 2,64 GB/sec sul file system FSx ONTAP da 2 GB/sec, mentre la velocità totale per il driver di throughput è di 1328 MB/sec, che esegue operazioni di lettura e scrittura Kafka a circa 3,98 GB/sec.  Le prestazioni di Kafka sono lineari e scalabili in base alla velocità di elaborazione di FSx ONTAP .
+
+image:aws-fsxn-2gb-4gb-scale.png["Questa immagine mostra le prestazioni di scalabilità di 2 GB/sec e 4 GB/sec."]
+
+Il grafico sottostante mostra le prestazioni tra l'istanza EC2 e FSx ONTAP (fattore di replicazione Kafka: 3)
+
+image:aws-fsxn-ec2-fsxn-comparition.png["Questa immagine mostra il confronto delle prestazioni di EC2 rispetto a FSx ONTAP in RF3."]

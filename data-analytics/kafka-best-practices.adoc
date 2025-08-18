@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-best-practices.html 
+keywords: best practices, guidelines, nfs, san 
+summary: Questa sezione presenta le lezioni apprese da questa certificazione. 
+---
+= Linee guida per le migliori pratiche
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questa sezione presenta le lezioni apprese da questa certificazione.
+
+* In base alla nostra convalida, l'archiviazione di oggetti S3 è la soluzione migliore per Confluent per conservare i dati.
+* Possiamo utilizzare SAN ad alta capacità (in particolare FC) per mantenere i dati attivi del broker o il disco locale, perché, nella configurazione di archiviazione a livelli Confluent, la dimensione dei dati contenuti nella directory dei dati del broker si basa sulla dimensione del segmento e sul tempo di conservazione quando i dati vengono spostati nell'archiviazione degli oggetti.
+* Gli archivi di oggetti offrono prestazioni migliori quando segment.bytes è più alto; abbiamo testato 512 MB.
+* In Kafka, la lunghezza della chiave o del valore (in byte) per ogni record prodotto sull'argomento è controllata da `length.key.value` parametro.  Per StorageGRID, le prestazioni di acquisizione e recupero degli oggetti S3 sono aumentate a valori più elevati.  Ad esempio, 512 byte hanno fornito un recupero di 5,8 GBps, 1024 byte hanno fornito un recupero s3 di 7,5 GBps e 2048 byte hanno fornito quasi 10 GBps.
+
+
+La figura seguente presenta l'acquisizione e il recupero degli oggetti S3 in base a `length.key.value` .
+
+image:confluent-kafka-011.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]
+
+* *Accordatura Kafka.*  Per migliorare le prestazioni dell'archiviazione a livelli, è possibile aumentare TierFetcherNumThreads e TierArchiverNumThreads.  Come linea guida generale, è consigliabile aumentare TierFetcherNumThreads in modo che corrisponda al numero di core fisici della CPU e aumentare TierArchiverNumThreads alla metà del numero di core della CPU.  Ad esempio, nelle proprietà del server, se si dispone di una macchina con otto core fisici, impostare confluent.tier.fetcher.num.threads = 8 e confluent.tier.archiver.num.threads = 4.
+* *Intervallo di tempo per l'eliminazione degli argomenti.*  Quando un argomento viene eliminato, l'eliminazione dei file dei segmenti di registro nell'archiviazione degli oggetti non inizia immediatamente.  Esiste invece un intervallo di tempo con un valore predefinito di 3 ore prima che i file vengano eliminati.  È possibile modificare la configurazione confluent.tier.topic.delete.check.interval.ms per cambiare il valore di questo intervallo.  Se elimini un argomento o un cluster, puoi anche eliminare manualmente gli oggetti nel rispettivo bucket.
+* *ACL su argomenti interni di archiviazione a livelli.*  Una best practice consigliata per le distribuzioni on-premise è quella di abilitare un'autorizzazione ACL sugli argomenti interni utilizzati per l'archiviazione a livelli.  Impostare le regole ACL per limitare l'accesso a questi dati solo all'utente broker.  In questo modo si proteggono gli argomenti interni e si impedisce l'accesso non autorizzato ai dati di archiviazione a livelli e ai metadati.
+
+
+[listing]
+----
+kafka-acls --bootstrap-server localhost:9092 --command-config adminclient-configs.conf \
+--add --allow-principal User:<kafka> --operation All --topic "_confluent-tier-state"
+----
+
+NOTE: Sostituisci l'utente `<kafka>` con il broker principale effettivo nella tua distribuzione.
+
+Ad esempio, il comando `confluent-tier-state` imposta gli ACL sull'argomento interno per l'archiviazione a livelli.  Attualmente esiste un solo argomento interno correlato allo storage a livelli.  L'esempio crea un ACL che fornisce l'autorizzazione Kafka principale per tutte le operazioni sull'argomento interno.

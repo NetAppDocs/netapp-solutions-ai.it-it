@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-customer-challenges.html 
+keywords: customer, challenge, data lake, repository, syncing, moving data 
+summary: 'In questa pagina vengono illustrate le sfide che un cliente potrebbe incontrare quando cerca di accedere ai dati derivanti dall"analisi dei big data per le operazioni di intelligenza artificiale.' 
+---
+= Sfide dei clienti
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+I clienti potrebbero trovarsi ad affrontare le seguenti sfide quando cercano di accedere ai dati derivanti dall'analisi dei big data per le operazioni di intelligenza artificiale:
+
+* I dati dei clienti si trovano in un repository di data lake.  Il data lake può contenere diversi tipi di dati, come dati strutturati, non strutturati, semi-strutturati, log e dati macchina-macchina.  Tutti questi tipi di dati devono essere elaborati nei sistemi di intelligenza artificiale.
+* L'intelligenza artificiale non è compatibile con i file system Hadoop.  Una tipica architettura AI non è in grado di accedere direttamente ai dati HDFS e HCFS, che devono essere spostati in un file system (NFS) comprensibile dall'AI.
+* In genere, lo spostamento dei dati del data lake verso l'intelligenza artificiale richiede processi specializzati.  La quantità di dati nel data lake può essere molto grande.  Un cliente deve disporre di un modo efficiente, ad alta produttività e conveniente per trasferire i dati nei sistemi di intelligenza artificiale.
+* Sincronizzazione dei dati.  Se un cliente desidera sincronizzare i dati tra la piattaforma big data e l'intelligenza artificiale, a volte i dati elaborati tramite l'intelligenza artificiale possono essere utilizzati con i big data per l'elaborazione analitica.
+

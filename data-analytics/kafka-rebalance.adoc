@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-rebalance.html 
+keywords: rebalance, test, self balancing, brokers 
+summary: Questo test si basa sulla funzionalità di autobilanciamento dei cluster, che automatizza il ribilanciamento in base alle modifiche della topologia del cluster o al carico non uniforme. 
+---
+= Cluster autobilancianti confluenti
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Se hai già gestito un cluster Kafka, probabilmente conosci le sfide che comporta la riassegnazione manuale delle partizioni a diversi broker per garantire che il carico di lavoro sia bilanciato nel cluster.  Per le organizzazioni con grandi distribuzioni Kafka, riorganizzare grandi quantità di dati può essere scoraggiante, noioso e rischioso, soprattutto se le applicazioni mission-critical vengono sviluppate sul cluster.  Tuttavia, anche per i casi d'uso più piccoli di Kafka, il processo richiede molto tempo ed è soggetto a errori umani.
+
+Nel nostro laboratorio abbiamo testato la funzionalità di autobilanciamento dei cluster Confluent, che automatizza il ribilanciamento in base alle modifiche della topologia del cluster o al carico non uniforme.  Il test di ribilanciamento Confluent aiuta a misurare il tempo necessario per aggiungere un nuovo broker quando un errore del nodo o il nodo di ridimensionamento richiedono il ribilanciamento dei dati tra i broker.  Nelle configurazioni Kafka classiche, la quantità di dati da ribilanciare aumenta con la crescita del cluster, ma nell'archiviazione a livelli il ribilanciamento è limitato a una piccola quantità di dati.  In base alla nostra convalida, il ribilanciamento nell'archiviazione a livelli richiede secondi o minuti in un'architettura Kafka classica e cresce in modo lineare con la crescita del cluster.
+
+Nei cluster autobilancianti, i ribilanciamenti delle partizioni sono completamente automatizzati per ottimizzare la produttività di Kafka, accelerare il ridimensionamento del broker e ridurre l'onere operativo legato all'esecuzione di un cluster di grandi dimensioni.  A regime, i cluster autobilancianti monitorano la distorsione dei dati tra i broker e riassegnano continuamente le partizioni per ottimizzare le prestazioni del cluster.  Quando si aumenta o diminuisce la scalabilità della piattaforma, i cluster autobilancianti riconoscono automaticamente la presenza di nuovi broker o la rimozione di vecchi broker e attivano una successiva riassegnazione delle partizioni.  Ciò consente di aggiungere e dismettere facilmente i broker, rendendo i cluster Kafka sostanzialmente più elastici.  Questi vantaggi si ottengono senza bisogno di alcun intervento manuale, calcoli complessi o il rischio di errore umano che solitamente comportano le riassegnazioni delle partizioni.  Di conseguenza, i ribilanciamenti dei dati vengono completati in molto meno tempo e puoi concentrarti su progetti di streaming di eventi di valore più elevato anziché dover supervisionare costantemente i tuoi cluster.

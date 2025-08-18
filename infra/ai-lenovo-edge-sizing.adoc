@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-edge-sizing.html 
+keywords: architecture, sizing, computer server, shared storage 
+summary: 'È possibile adattare la configurazione utilizzata per la convalida ad altri casi d"uso.' 
+---
+= Opzioni di dimensionamento dell'architettura
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile adattare la configurazione utilizzata per la convalida ad altri casi d'uso.
+
+
+
+== Server di elaborazione
+
+Abbiamo utilizzato una CPU Intel Xeon D-2123IT, che rappresenta il livello di CPU più basso supportato in SE350, con quattro core fisici e TDP da 60 W.  Sebbene il server non supporti la sostituzione delle CPU, è possibile ordinarne una con una CPU più potente.  La CPU più supportata è Intel Xeon D-2183IT con 16 core, 100 W e frequenza di 2,20 GHz.  Ciò aumenta considerevolmente la capacità di calcolo della CPU.  Sebbene la CPU non costituisca un collo di bottiglia per l'esecuzione dei carichi di lavoro di inferenza, essa agevola l'elaborazione dei dati e altre attività correlate all'inferenza.  Al momento, NVIDIA T4 è l'unica GPU disponibile per i casi d'uso edge; pertanto, al momento non è possibile effettuare l'upgrade o il downgrade della GPU.
+
+
+
+== Archiviazione condivisa
+
+Per i test e la convalida, ai fini del presente documento è stato utilizzato il sistema NetApp AFF C190 , che ha una capacità di archiviazione massima di 50,5 TB, una velocità effettiva di 4,4 GBps per letture sequenziali e 230 K IOPS per piccole letture casuali e si è dimostrato adatto per i carichi di lavoro di inferenza edge.
+
+Tuttavia, se hai bisogno di maggiore capacità di archiviazione o velocità di rete più elevate, dovresti utilizzare i sistemi di archiviazione NetApp AFF A220 o NetApp AFF A250 .  Inoltre, per la convalida di questa soluzione è stato utilizzato anche il sistema NetApp EF280, con una capacità massima di 1,5 PB e una larghezza di banda di 10 Gbps.  Se preferisci una maggiore capacità di archiviazione con una larghezza di banda maggiore, https://www.netapp.com/pdf.html?item=/media/19339-DS-4082.pdf&v=2021691654["NetApp EF300"^] può essere utilizzato.

@@ -1,0 +1,65 @@
+---
+indexpage:
+  title: Soluzioni di analisi dei dati moderne NetApp
+  summary: Le moderne soluzioni di analisi dei dati NetApp sono un insieme di capacità
+    strategiche e tecnologiche che dimostrano le potenzialità dello storage NetApp
+    nell'ambito dell'intelligenza artificiale.
+  lead: Trasforma la tua infrastruttura di analisi dei dati con le soluzioni comprovate
+    di NetApp per carichi di lavoro Big Data, tra cui Apache Spark, Hadoop, Kafka
+    e le moderne architetture di data lake che si estendono dall'edge al cloud.
+  tiles:
+  - title: Soluzioni Apache Kafka
+    links:
+    - title: Carichi di lavoro Apache Kafka con storage NetApp NFS
+      url: kafka-nfs-introduction.html
+    - title: Confluent Kafka con controller di archiviazione NetApp ONTAP
+      url: kafka-ontap-overview.html
+    - title: Le migliori pratiche per Confluent Kafka
+      url: confluent-kafka-introduction.html
+    - title: Convalida delle prestazioni di Kafka con AWS
+      url: kafka-nfs-perf-aws-fsxn.html
+    - title: Perché NetApp NFS per i carichi di lavoro Kafka?
+      url: kafka-nfs-why-netapp.html
+  - title: Soluzioni Apache Spark e Hadoop
+    links:
+    - title: Soluzioni di storage NetApp per Apache Spark
+      url: apache-spark-solution-overview.html
+    - title: Distribuisci il carico di lavoro Apache Spark con lo storage NetApp
+      url: nva-1157-deploy.html
+    - title: Soluzioni di dati cloud ibride NetApp per Spark e Hadoop
+      url: hdcs-sh-solution-overview.html
+    - title: Casi d'uso e architetture
+      url: spark-ai-use-cases.html
+    - title: Risultati dei test di Apache Spark
+      url: apache-spark-testing-results.html
+  - title: Gestione dei dati nel cloud e intelligenza artificiale
+    links:
+    - title: Gestione dei dati nel cloud con la dualità file-oggetto NetApp e AWS
+        SageMaker
+      url: cdm-fod-solution-overview.html
+    - title: 'Analisi dei Big Data: dati per l''intelligenza artificiale'
+      url: bda-ai-introduction.html
+    - title: Amazon FSx for NetApp ONTAP per MLOps
+      url: "../cloud/ai-mlops-fsxn-intro.html"
+    - title: Soluzione cloud ibrida Apache Spark
+      url: spark-hybrid-cloud.html
+  - title: Piattaforme di analisi e data lake moderne
+    links:
+    - title: La soluzione ibrida iceberg lakehouse di nuova generazione di NetApp
+        e Dremio
+      url: dremio-lakehouse-introduction.html
+    - title: NetApp StorageGRID con Splunk SmartStore
+      url: stgr-splunkss-introduction.html
+    - title: NetApp E-Series E5700 e Splunk Enterprise
+      url: tr-4623.html
+  - title: Risorse aggiuntive
+    links:
+    - title: Soluzioni diverse per strategie di analisi diverse
+      url: sb-4154.html
+    - title: 'Blog: Apache Spark gioca nel NetApp Data Analytics Playground'
+      url: https://www.netapp.com/blog/apache-spark-data-analytics/
+    - title: 'Blog: utilizzare XCP per la migrazione dei dati da un Data Lake e HPC
+        a ONTAP NFS'
+      url: https://www.netapp.com/blog/data-migration-xcp/
+    - title: 'NetApp TV: playlist di analisi dei Big Data'
+      url: https://youtube.com/playlist?list=PLdXI3bZJEw7l8oFkYC_umsBaBX3hqK3Oq

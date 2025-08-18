@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-nva1150-design.html 
+keywords:  
+summary:  
+---
+= NVA-1150-DESIGN: Guida alla progettazione dei sistemi Quantum StorNext con NetApp E-Series
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Ryan Rodine, NetApp
+
+[role="lead"]
+Questo documento fornisce dettagli su come progettare una soluzione di file system parallelo StorNext con i sistemi di storage NetApp E-Series.  Questa soluzione copre l'array all-flash NetApp EF280, l'array all-flash NVMe NetApp EF300, l'array all-flash NVMe EF600 e il sistema ibrido NetApp E5760.  Offre una caratterizzazione delle prestazioni basata sul benchmarking Frametest, uno strumento ampiamente utilizzato per i test nel settore dei media e dell'intrattenimento.
+
+link:https://www.netapp.com/pdf.html?item=/media/19426-nva-1150-design.pdf["NVA-1150-DESIGN: Guida alla progettazione dei sistemi Quantum StorNext con NetApp E-Series"^]

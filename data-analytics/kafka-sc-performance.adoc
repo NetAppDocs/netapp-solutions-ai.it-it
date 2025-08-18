@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-performance.html 
+keywords: data graphs, kafka throughput, s3 tiering traffic, aff a900, resource utilization 
+summary: 'Abbiamo eseguito test di storage a livelli con cinque o otto nodi broker durante un carico di lavoro di produzione-consumo con un controller di storage NetApp con coppia AFF A900 HA.  Secondo i nostri test, il tempo di completamento e i risultati delle prestazioni sono aumentati con il numero di nodi broker, fino a quando l"utilizzo delle risorse AFF A900 ha raggiunto il cento per cento.  La configurazione del controller di archiviazione ONTAP richiedeva almeno una coppia HA.' 
+---
+= Test delle prestazioni con generatore di carico di lavoro di produzione-consumo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Abbiamo eseguito test di storage a livelli con cinque o otto nodi broker durante un carico di lavoro di produzione-consumo con un controller di storage NetApp con coppia AFF A900 HA.  Secondo i nostri test, il tempo di completamento e i risultati delle prestazioni sono aumentati con il numero di nodi broker, fino a quando l'utilizzo delle risorse AFF A900 ha raggiunto il cento per cento.  La configurazione del controller di archiviazione ONTAP richiedeva almeno una coppia HA.
+
+Le prestazioni dell'operazione di recupero S3 sono aumentate in modo lineare in base al numero di nodi broker Confluent.  Il controller di archiviazione ONTAP supporta fino a 12 coppie HA in una singola distribuzione.
+
+Il grafico seguente mostra il traffico combinato di livelli S3 con cinque o otto nodi broker.  Abbiamo massimizzato le prestazioni della singola coppia HA AFF A900 .
+
+image:kafka-sc-009.png["Questo grafico di dati mostra il traffico combinato di livelli S3 con cinque o otto nodi broker."]
+
+Il grafico seguente mostra la velocità di trasmissione di Kafka a circa 31,74 GBps.
+
+image:kafka-sc-010.png["Questo grafico dei dati mostra la velocità di trasmissione di Kafka a circa 31,74 GBps."]
+
+Abbiamo anche osservato una produttività simile nel controller di archiviazione ONTAP `perfstat` rapporto.
+
+....
+object_store_server:wle-mendocino-07-08:get_data:34080805907b/ s
+object_store_server:wle-mendocino-07-08:put_data:484236974b/ s
+....

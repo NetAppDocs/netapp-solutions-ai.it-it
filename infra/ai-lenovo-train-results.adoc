@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-train-results.html 
+keywords: test results, data, 
+summary: Questa sezione riassume i risultati dei test effettuati su questa soluzione. 
+---
+= Risultati dei test
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+La tabella seguente riassume i risultati di tutti i test eseguiti per questa soluzione.
+
+|===
+| Descrizione del test | Riepilogo dei risultati 
+
+
+| Formazione sul riconoscimento delle immagini: più lavori simultanei | Prestazioni altamente efficienti.  Tutti i lavori venivano eseguiti alla massima velocità anche quando il cluster era completamente utilizzato.  I sistemi di storage NetApp hanno garantito prestazioni di formazione paragonabili allo storage SSD locale, consentendo al contempo una facile condivisione dei dati tra i server. 
+
+
+| Formazione sul riconoscimento delle immagini: scalabilità | Altamente efficiente per un massimo di quattro nodi.  A quel punto, l'espansione era meno efficiente, ma comunque fattibile.  L'utilizzo di una rete di calcolo ad alta velocità migliora la scalabilità.  Il sistema di storage NetApp ha garantito prestazioni di formazione paragonabili allo storage SSD locale, consentendo al contempo una facile condivisione dei dati tra i server. 
+|===

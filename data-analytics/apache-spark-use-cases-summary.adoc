@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/apache-spark-use-cases-summary.html 
+keywords: streaming data, machine learning, deep learning, interactive analysis, recommender system, natural language processing, 
+summary: In questa pagina vengono descritti i diversi ambiti in cui è possibile utilizzare questa soluzione. 
+---
+= Riepilogo del caso d'uso
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questa pagina vengono descritti i diversi ambiti in cui è possibile utilizzare questa soluzione.
+
+
+
+== dati in streaming
+
+Apache Spark può elaborare dati in streaming, utilizzati per i processi di estrazione, trasformazione e caricamento (ETL), arricchimento dei dati, attivazione del rilevamento di eventi e analisi di sessioni complesse:
+
+* *Streaming ETL.*  I dati vengono costantemente puliti e aggregati prima di essere inseriti negli archivi dati.  Netflix utilizza Kafka e Spark Streaming per creare una soluzione di monitoraggio dei dati e di raccomandazione di film online in tempo reale, in grado di elaborare miliardi di eventi al giorno provenienti da diverse fonti di dati.  Tuttavia, l'ETL tradizionale per l'elaborazione batch viene trattato in modo diverso.  Questi dati vengono prima letti e poi convertiti in un formato di database prima di essere scritti nel database.
+* *Arricchimento dei dati.*  Lo streaming Spark arricchisce i dati live con dati statici per consentire un'analisi dei dati più accurata in tempo reale.  Ad esempio, gli inserzionisti online possono fornire annunci personalizzati e mirati, basati sulle informazioni relative al comportamento dei clienti.
+* *Rilevamento dell'evento trigger.*  Lo streaming Spark consente di rilevare e reagire rapidamente a comportamenti insoliti che potrebbero indicare problemi potenzialmente gravi.  Ad esempio, gli istituti finanziari utilizzano i trigger per rilevare e bloccare le transazioni fraudolente, mentre gli ospedali li utilizzano per rilevare pericolosi cambiamenti di salute rilevati nei parametri vitali di un paziente.
+* *Analisi di sessioni complesse.*  Spark Streaming raccoglie eventi quali l'attività dell'utente dopo l'accesso a un sito web o a un'applicazione, che vengono poi raggruppati e analizzati.  Ad esempio, Netflix utilizza questa funzionalità per fornire consigli sui film in tempo reale.
+
+
+Per ulteriori configurazioni di dati in streaming, verifica di Confluent Kafka e test delle prestazioni, vederelink:confluent-kafka-introduction.html["TR-4912: Linee guida sulle best practice per l'archiviazione a livelli Confluent Kafka con NetApp"^] .
+
+
+
+== Apprendimento automatico
+
+Il framework integrato Spark consente di eseguire query ripetute sui set di dati utilizzando la libreria di apprendimento automatico (MLlib).  MLlib viene utilizzato in ambiti quali il clustering, la classificazione e la riduzione della dimensionalità per alcune comuni funzioni di big data, come l'intelligenza predittiva, la segmentazione dei clienti per scopi di marketing e l'analisi del sentiment.  MLlib viene utilizzato nella sicurezza di rete per condurre ispezioni in tempo reale dei pacchetti di dati alla ricerca di indicazioni di attività dannose.  Aiuta i fornitori di servizi di sicurezza a conoscere le nuove minacce e a restare un passo avanti agli hacker, proteggendo al contempo i propri clienti in tempo reale.
+
+
+
+== Apprendimento profondo
+
+TensorFlow è un framework di deep learning molto diffuso e utilizzato in tutto il settore.  TensorFlow supporta la formazione distribuita su un cluster CPU o GPU.  Questa formazione distribuita consente agli utenti di eseguirla su una grande quantità di dati con molti livelli profondi.
+
+Fino a poco tempo fa, se volevamo utilizzare TensorFlow con Apache Spark, dovevamo eseguire tutti gli ETL necessari per TensorFlow in PySpark e poi scrivere i dati su un archivio intermedio.  Tali dati verrebbero poi caricati sul cluster TensorFlow per il processo di addestramento vero e proprio.  Questo flusso di lavoro richiedeva all'utente di gestire due cluster diversi, uno per ETL e uno per la formazione distribuita di TensorFlow.  L'esecuzione e la manutenzione di più cluster erano solitamente operazioni noiose e dispendiose in termini di tempo.
+
+I DataFrame e gli RDD nelle versioni precedenti di Spark non erano adatti al deep learning perché l'accesso casuale era limitato.  In Spark 3.0 con Project Hydrogen, è stato aggiunto il supporto nativo per i framework di deep learning.  Questo approccio consente una pianificazione non basata su MapReduce sul cluster Spark.
+
+
+
+== Analisi interattiva
+
+Apache Spark è sufficientemente veloce da eseguire query esplorative senza campionamento con linguaggi di sviluppo diversi da Spark, tra cui SQL, R e Python.  Spark utilizza strumenti di visualizzazione per elaborare dati complessi e visualizzarli in modo interattivo.  Spark con streaming strutturato esegue query interattive su dati in tempo reale nell'analisi web, consentendo di eseguire query interattive sulla sessione corrente di un visitatore web.
+
+
+
+== Sistema di raccomandazione
+
+Nel corso degli anni, i sistemi di raccomandazione hanno apportato enormi cambiamenti alle nostre vite, poiché aziende e consumatori hanno reagito ai radicali cambiamenti nello shopping online, nell'intrattenimento online e in molti altri settori.  Questi sistemi rappresentano infatti tra i casi di successo più evidenti dell'intelligenza artificiale nella produzione.  In molti casi d'uso pratici, i sistemi di raccomandazione vengono combinati con l'intelligenza artificiale conversazionale o con chatbot interfacciati con un backend NLP per ottenere informazioni rilevanti e produrre inferenze utili.
+
+Oggigiorno molti rivenditori stanno adottando nuovi modelli di business, come l'acquisto online e il ritiro in negozio, il ritiro sul marciapiede, il self-checkout, lo scan-and-go e molto altro.  Questi modelli sono diventati importanti durante la pandemia di COVID-19, rendendo gli acquisti più sicuri e comodi per i consumatori.  L'intelligenza artificiale è fondamentale per queste tendenze digitali in crescita, che sono influenzate dal comportamento dei consumatori e viceversa.  Per soddisfare le crescenti esigenze dei consumatori, ampliare l'esperienza del cliente, migliorare l'efficienza operativa e aumentare i ricavi, NetApp aiuta i suoi clienti aziendali e le aziende a utilizzare algoritmi di apprendimento automatico e profondo per progettare sistemi di raccomandazione più rapidi e accurati.
+
+Esistono diverse tecniche diffuse per fornire raccomandazioni, tra cui il filtraggio collaborativo, i sistemi basati sui contenuti, il modello di raccomandazione basato sull'apprendimento profondo (DLRM) e le tecniche ibride.  In precedenza i clienti utilizzavano PySpark per implementare il filtraggio collaborativo per la creazione di sistemi di raccomandazione.  Spark MLlib implementa i minimi quadrati alternati (ALS) per il filtraggio collaborativo, un algoritmo molto diffuso tra le aziende prima dell'avvento del DLRM.
+
+
+
+== Elaborazione del linguaggio naturale
+
+L'intelligenza artificiale conversazionale, resa possibile dall'elaborazione del linguaggio naturale (NLP), è il ramo dell'intelligenza artificiale che aiuta i computer a comunicare con gli esseri umani.  L'NLP è diffuso in ogni settore verticale e in molti casi d'uso, dagli assistenti intelligenti e chatbot alla ricerca Google e al testo predittivo.  Secondo un https://www.forbes.com/sites/forbestechcouncil/2021/05/07/nice-chatbot-ing-with-you/?sh=7011eff571f4["Gartner"^] Si prevede che entro il 2022 il 70% delle persone interagirà quotidianamente con piattaforme di intelligenza artificiale conversazionale.  Per una conversazione di alta qualità tra un essere umano e una macchina, le risposte devono essere rapide, intelligenti e naturali.
+
+I clienti necessitano di una grande quantità di dati per elaborare e addestrare i loro modelli NLP e di riconoscimento automatico del parlato (ASR).  Devono inoltre spostare i dati attraverso l'edge, il core e il cloud e hanno bisogno della potenza necessaria per eseguire inferenze in millisecondi per stabilire una comunicazione naturale con gli esseri umani.  NetApp AI e Apache Spark rappresentano una combinazione ideale per elaborazione, archiviazione, elaborazione dati, addestramento di modelli, messa a punto e distribuzione.
+
+L'analisi del sentimento è un campo di studio della PNL in cui vengono estratti sentimenti positivi, negativi o neutri da un testo.  L'analisi del sentiment ha una varietà di casi d'uso, dalla determinazione delle prestazioni dei dipendenti del centro di supporto nelle conversazioni con i chiamanti alla fornitura di risposte automatizzate appropriate tramite chatbot.  È stato utilizzato anche per prevedere il prezzo delle azioni di un'azienda in base alle interazioni tra i rappresentanti dell'azienda e il pubblico durante le conference call trimestrali sui risultati.  Inoltre, l'analisi del sentiment può essere utilizzata per determinare l'opinione di un cliente sui prodotti, sui servizi o sul supporto forniti dal marchio.
+
+Abbiamo usato il https://www.johnsnowlabs.com/spark-nlp/["Spark NLP"^] biblioteca da https://www.johnsnowlabs.com/["John Snow Labs"^] per caricare pipeline pre-addestrate e modelli di rappresentazioni di encoder bidirezionali da trasformatori (BERT) inclusi https://sparknlp.org/2023/01/12/classifierdl_bertwiki_finance_sentiment_pipeline_en.html["sentimento delle notizie finanziarie"^] E https://sparknlp.org/2022/04/11/bert_embeddings_finbert_pretrain_yiyanghkust_en_3_0.html["FinBERT"^] , eseguendo la tokenizzazione, il riconoscimento di entità denominate, l'addestramento del modello, l'adattamento e l'analisi del sentiment su larga scala.  Spark NLP è l'unica libreria NLP open source in produzione che offre trasformatori all'avanguardia come BERT, ALBERT, ELECTRA, XLNet, DistilBERT, RoBERTa, DeBERTa, XLM-RoBERTa, Longformer, ELMO, Universal Sentence Encoder, Google T5, MarianMT e GPT2.  La libreria funziona non solo in Python e R, ma anche nell'ecosistema JVM (Java, Scala e Kotlin) su larga scala, estendendo Apache Spark in modo nativo.

@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-introduction.html 
+keywords: tr4947, 4947, introduction, kafka, nfs 
+summary: 'In questo documento vengono descritti i seguenti argomenti: il problema della ridenominazione inutile e la convalida della soluzione, la riduzione dell"utilizzo della CPU per ridurre il tempo di attesa I/O, tempi di ripristino più rapidi del broker Kafka e prestazioni nel cloud e in locale.' 
+---
+= TR-4947: Carico di lavoro Apache Kafka con storage NetApp NFS - Validazione funzionale e prestazioni
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Shantanu Chakole, Karthikeyan Nagalingam e Joe Scott, NetApp
+
+[role="lead"]
+Kafka è un sistema di messaggistica distribuito di tipo publish-subscribe con una coda robusta in grado di accettare grandi quantità di dati di messaggi.  Con Kafka, le applicazioni possono scrivere e leggere dati sugli argomenti in modo molto rapido.  Grazie alla sua tolleranza agli errori e alla sua scalabilità, Kafka viene spesso utilizzato nel settore dei big data come metodo affidabile per acquisire e spostare rapidamente numerosi flussi di dati.  I casi d'uso includono l'elaborazione di flussi, il monitoraggio delle attività del sito web, la raccolta e il monitoraggio delle metriche, l'aggregazione dei log, l'analisi in tempo reale e così via.
+
+Sebbene le normali operazioni Kafka su NFS funzionino bene, il problema assurdo della ridenominazione causa l'arresto anomalo dell'applicazione durante il ridimensionamento o il ripartizionamento di un cluster Kafka in esecuzione su NFS.  Si tratta di un problema significativo perché un cluster Kafka deve essere ridimensionato o ripartizionato per scopi di bilanciamento del carico o di manutenzione.  Puoi trovare ulteriori dettagli https://www.netapp.com/blog/ontap-ready-for-streaming-applications/["Qui"^] .
+
+Il presente documento descrive i seguenti argomenti:
+
+* Il problema della ridenominazione sciocca e la convalida della soluzione
+* Riduzione dell'utilizzo della CPU per ridurre il tempo di attesa I/O
+* Tempi di recupero più rapidi del broker Kafka
+* Prestazioni nel cloud e on-premise
+
+
+
+
+== Perché utilizzare l'archiviazione NFS per i carichi di lavoro Kafka?
+
+I carichi di lavoro Kafka nelle applicazioni di produzione possono trasmettere in streaming enormi quantità di dati tra le applicazioni.  Questi dati vengono conservati e archiviati nei nodi broker Kafka nel cluster Kafka.  Kafka è noto anche per la disponibilità e il parallelismo, che ottiene suddividendo gli argomenti in partizioni e replicando poi tali partizioni in tutto il cluster.  Ciò significa che l'enorme quantità di dati che fluisce attraverso un cluster Kafka viene generalmente moltiplicata in termini di dimensioni.  NFS rende il ribilanciamento dei dati molto rapido e semplice man mano che cambia il numero di broker.  Negli ambienti di grandi dimensioni, il ribilanciamento dei dati su DAS quando cambia il numero di broker richiede molto tempo e, nella maggior parte degli ambienti Kafka, il numero di broker cambia frequentemente.
+
+Altri vantaggi includono quanto segue:
+
+* *Scadenza.*  NFS è un protocollo maturo, il che significa che la maggior parte degli aspetti relativi alla sua implementazione, protezione e utilizzo sono ben compresi.
+* *Aprire.*  NFS è un protocollo aperto e il suo continuo sviluppo è documentato nelle specifiche Internet come protocollo di rete libero e aperto.
+* *Economico.*  NFS è una soluzione economica per la condivisione di file in rete, facile da configurare perché utilizza l'infrastruttura di rete esistente.
+* *Gestione centralizzata.*  La gestione centralizzata di NFS riduce la necessità di software e spazio su disco aggiuntivi sui sistemi dei singoli utenti.
+* *Distribuito.*  NFS può essere utilizzato come file system distribuito, riducendo la necessità di dispositivi di archiviazione su supporti rimovibili.
+
+
+
+
+== Perché NetApp per i carichi di lavoro Kafka?
+
+L'implementazione NetApp NFS è considerata uno standard di riferimento per il protocollo e viene utilizzata in innumerevoli ambienti NAS aziendali. Oltre alla credibilità, NetApp offre anche i seguenti vantaggi:
+
+* Affidabilità ed efficienza
+* Scalabilità e prestazioni
+* Alta disponibilità (partner HA in un cluster NetApp ONTAP )
+* Protezione dei dati
++
+** *Ripristino di emergenza (NetApp SnapMirror).*  Il tuo sito non funziona più oppure vuoi ripartire da un sito diverso e riprendere da dove eri rimasto.
+** Gestibilità del sistema di storage (amministrazione e gestione tramite NetApp OnCommand).
+** *Bilanciamento del carico.*  Il cluster consente di accedere a volumi diversi da LIF di dati ospitati su nodi diversi.
+** *Operazioni non distruttive.*  Gli spostamenti LIF o di volume sono trasparenti per i client NFS.
+
+
+

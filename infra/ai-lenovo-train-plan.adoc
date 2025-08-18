@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-train-plan.html 
+keywords: test plan, validation, image recognition training, processes 
+summary: 'In questa convalida, abbiamo eseguito l"addestramento al riconoscimento delle immagini come specificato da MLPerf v2.0.  Nello specifico, abbiamo addestrato il modello ResNet v2.0 con il set di dati ImageNet.  Il parametro principale è il tempo impiegato per raggiungere la precisione desiderata.  Riportiamo inoltre la larghezza di banda di addestramento in immagini al secondo per valutare meglio l"efficienza di scalabilità.' 
+---
+= Piano di prova
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questa convalida, abbiamo eseguito l'addestramento al riconoscimento delle immagini come specificato da MLPerf v2.0.  Nello specifico, abbiamo addestrato il modello ResNet v2.0 con il set di dati ImageNet fino a raggiungere una precisione del 76,1%.  Il parametro principale è il tempo impiegato per raggiungere la precisione desiderata.  Riportiamo inoltre la larghezza di banda di addestramento in immagini al secondo per valutare meglio l'efficienza di scalabilità.
+
+Il caso di test primario ha valutato più processi di formazione indipendenti (uno per nodo) eseguiti contemporaneamente.  Questo simula il caso d'uso principale, un sistema condiviso utilizzato da più data scientist.  Il secondo caso di prova ha valutato l'efficienza di scalabilità.

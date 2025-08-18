@@ -1,0 +1,87 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-architecture.html 
+keywords: Hardware, Software, Requirements, Trident, DeepOps, ONTAP, Ubuntu 
+summary: MLOps open source con NetApp - Architettura 
+---
+= Architettura
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questa soluzione non dipende da hardware specifico.  La soluzione è compatibile con qualsiasi dispositivo di storage fisico NetApp , istanza definita dal software o servizio cloud supportato da NetApp Trident.  Tra gli esempi figurano un sistema di archiviazione NetApp AFF , Amazon FSx ONTAP, Azure NetApp Files, Google Cloud NetApp Volumes o un'istanza NetApp Cloud Volumes ONTAP .  Inoltre, la soluzione può essere implementata su qualsiasi cluster Kubernetes, a condizione che la versione di Kubernetes utilizzata sia supportata da NetApp Trident e dagli altri componenti della soluzione implementati.  Per un elenco delle versioni di Kubernetes supportate da Trident, vedere https://docs.netapp.com/us-en/trident/index.html["Documentazione Trident"^] .  Per i dettagli sugli ambienti utilizzati per convalidare i vari componenti di questa soluzione, consultare le tabelle seguenti.
+
+
+
+== Ambiente di convalida Apache Airflow
+
+|===
+| Componente software | Versione 
+
+
+| Apache Airflow | 2.0.1, distribuito tramitelink:https://artifacthub.io/packages/helm/airflow-helm/airflow["Grafico del timone Apache Airflow"^] 8.0.8 
+
+
+| Kubernetes | 1,18 
+
+
+| NetApp Trident | 21,01 
+|===
+
+
+== Ambiente di convalida JupyterHub
+
+|===
+| Componente software | Versione 
+
+
+| JupyterHub | 4.1.5, distribuito tramitelink:https://hub.jupyter.org/helm-chart/["Grafico Helm di JupyterHub"^] 3.3.7 
+
+
+| Kubernetes | 1,29 
+
+
+| NetApp Trident | 24,02 
+|===
+
+
+== Ambiente di convalida MLflow
+
+|===
+| Componente software | Versione 
+
+
+| Flusso ML | 2.14.1, distribuito tramitelink:https://artifacthub.io/packages/helm/bitnami/mlflow["Grafico Helm MLflow"^] 1.4.12 
+
+
+| Kubernetes | 1,29 
+
+
+| NetApp Trident | 24,02 
+|===
+
+
+== Ambiente di convalida Kubeflow
+
+|===
+| Componente software | Versione 
+
+
+| Kubeflow | 1.7, distribuito tramitelink:https://www.deploykf.org["deployKF"^] 0.1.1 
+
+
+| Kubernetes | 1,26 
+
+
+| NetApp Trident | 23,07 
+|===
+
+
+== Supporto
+
+NetApp non offre supporto aziendale per Apache Airflow, JupyterHub, MLflow, Kubeflow o Kubernetes.  Se sei interessato a una piattaforma MLOps completamente supportata,link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["contattare NetApp"^] sulle soluzioni MLOps completamente supportate che NetApp offre insieme ai partner.

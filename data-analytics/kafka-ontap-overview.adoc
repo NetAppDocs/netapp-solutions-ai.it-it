@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-ontap-overview.html 
+keywords: tr4941, 4941, introduction 
+summary: 'Questo documento descrive i benchmark delle prestazioni per la piattaforma Confluent su NetApp ONTAP utilizzando un kit di benchmarking per l"archiviazione a livelli.' 
+---
+= TR-4941: Confluent con i controller di storage NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam, Joe Scott, NetApp Rankesh Kumar, Confluent
+
+[role="lead"]
+Per rendere la piattaforma Confluent più scalabile ed elastica, deve essere in grado di scalare e bilanciare i carichi di lavoro molto rapidamente.  L'archiviazione a livelli semplifica la gestione di enormi volumi di dati in Confluent, riducendone l'onere operativo.
+
+L'idea fondamentale è quella di separare l'archiviazione dei dati dall'elaborazione dei dati, il che rende molto più semplice scalare ciascuna attività in modo indipendente.
+
+Dotato di innovazioni all'avanguardia nel settore, il software di gestione dati NetApp ONTAP offre a Confluent numerosi vantaggi, ovunque si trovino i dati.
+
+Questo documento descrive i benchmark delle prestazioni per la piattaforma Confluent su NetApp ONTAP utilizzando un kit di benchmarking per l'archiviazione a livelli.

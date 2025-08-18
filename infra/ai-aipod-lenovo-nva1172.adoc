@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-aipod-lenovo-nva1172.html 
+keywords:  
+summary:  
+---
+= NVA-1172-DESIGN: NetApp AIPod con Lenovo per NVIDIA OVX
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Bobby Oommen, Abhinav Singh, Roney Daniel, NetApp
+
+[role="lead"]
+Questa architettura di riferimento abbina i server Lenovo ThinkSystem OVX certificati NVIDIA, basati su GPU NVIDIA L40S, alla rete NVIDIA Spectrum per fornire una soluzione infrastrutturale ottimale per ottimizzare e distribuire LLM (Large Language Model).  Lo scopo di questo documento è fornire indicazioni relative all'archiviazione per una configurazione OVX.  Questa piattaforma è adatta a vari carichi di lavoro di intelligenza artificiale generativa, tra cui RAG (Retrieval Augmented Generation), messa a punto e addestramento di modelli leggeri.
+
+link:https://www.netapp.com/pdf.html?item=/media/111933-lenovoaipod-nva-1172-design-v20.pdf["NVA-1172-DESIGN: Guida alla progettazione di NetApp AIPod con Lenovo per NVIDIA OVX"^]

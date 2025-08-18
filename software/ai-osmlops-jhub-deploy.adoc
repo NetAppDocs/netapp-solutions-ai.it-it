@@ -1,0 +1,154 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-jhub-deploy.html 
+keywords: AI, control plane, MLOps, JupyterHub 
+summary: MLOps open source con NetApp - Distribuzione JupyterHub 
+---
+= Distribuzione di JupyterHub
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questa sezione descrive le attività che devi completare per distribuire JupyterHub nel tuo cluster Kubernetes.
+
+
+NOTE: È possibile distribuire JupyterHub su piattaforme diverse da Kubernetes.  L'implementazione di JupyterHub su piattaforme diverse da Kubernetes esula dall'ambito di questa soluzione.
+
+
+
+== Prerequisiti
+
+Prima di eseguire l'esercizio di distribuzione descritto in questa sezione, diamo per scontato che tu abbia già eseguito le seguenti attività:
+
+. Hai già un cluster Kubernetes funzionante.
+. Hai già installato e configurato NetApp Trident nel tuo cluster Kubernetes.  Per maggiori dettagli su Trident, fare riferimento allink:https://docs.netapp.com/us-en/trident/index.html["Documentazione Trident"^] .
+
+
+
+
+== Installa Helm
+
+JupyterHub viene distribuito tramite Helm, un noto gestore di pacchetti per Kubernetes.  Prima di distribuire JupyterHub, devi installare Helm sul tuo nodo di controllo Kubernetes.  Per installare Helm, seguire le istruzioni https://helm.sh/docs/intro/install/["istruzioni di installazione"^] nella documentazione ufficiale di Helm.
+
+
+
+== Imposta la classe di archiviazione Kubernetes predefinita
+
+Prima di distribuire JupyterHub, è necessario designare una StorageClass predefinita all'interno del cluster Kubernetes.  Per designare una StorageClass predefinita all'interno del cluster, seguire le istruzioni descritte inlink:ai-osmlops-kubeflow-deploy.html["Distribuzione di Kubeflow"] sezione.  Se hai già designato una StorageClass predefinita all'interno del tuo cluster, puoi saltare questo passaggio.
+
+
+
+== Distribuisci JupyterHub
+
+Dopo aver completato i passaggi precedenti, sei pronto per distribuire JupyterHub.  Per distribuire JupyterHub sono necessari i seguenti passaggi:
+
+
+
+=== Configurare la distribuzione di JupyterHub
+
+Prima della distribuzione è buona norma ottimizzare la distribuzione di JupyterHub per il proprio ambiente.  È possibile creare un file *config.yaml* e utilizzarlo durante la distribuzione tramite il grafico Helm.
+
+Un esempio di file *config.yaml* può essere trovato qui https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/HEAD/jupyterhub/values.yaml[]
+
+
+NOTE: In questo file config.yaml è possibile impostare il parametro *(singleuser.storage.dynamic.storageClass)* per NetApp Trident StorageClass.  Questa è la classe di archiviazione che verrà utilizzata per predisporre i volumi per gli spazi di lavoro dei singoli utenti.
+
+
+
+=== Aggiunta di volumi condivisi
+
+Se vuoi utilizzare un volume condiviso per tutti gli utenti di JupyterHub, puoi modificare di conseguenza il tuo *config.yaml*.  Ad esempio, se hai un PersistentVolumeClaim condiviso denominato jupyterhub-shared-volume, puoi montarlo come /home/shared in tutti i pod utente come:
+
+[source, shell]
+----
+singleuser:
+  storage:
+    extraVolumes:
+      - name: jupyterhub-shared
+        persistentVolumeClaim:
+          claimName: jupyterhub-shared-volume
+    extraVolumeMounts:
+      - name: jupyterhub-shared
+        mountPath: /home/shared
+----
+
+NOTE: Questo è un passaggio facoltativo, puoi adattare questi parametri alle tue esigenze.
+
+
+
+=== Distribuisci JupyterHub con Helm Chart
+
+Informa Helm del repository dei grafici JupyterHub Helm.
+
+[source, shell]
+----
+helm repo add jupyterhub https://hub.jupyter.org/helm-chart/
+helm repo update
+----
+Dovrebbe apparire un output simile a questo:
+
+[source, shell]
+----
+Hang tight while we grab the latest from your chart repositories...
+...Skip local chart repository
+...Successfully got an update from the "stable" chart repository
+...Successfully got an update from the "jupyterhub" chart repository
+Update Complete. ⎈ Happy Helming!⎈
+----
+Ora installa il grafico configurato dal tuo config.yaml eseguendo questo comando dalla directory che contiene il tuo config.yaml:
+
+[source, shell]
+----
+helm upgrade --cleanup-on-fail \
+  --install my-jupyterhub jupyterhub/jupyterhub \
+  --namespace my-namespace \
+  --create-namespace \
+  --values config.yaml
+----
+
+NOTE: In questo esempio:
+
+<helm-release-name> è impostato su my-jupyterhub, che sarà il nome della tua release JupyterHub.  <k8s-namespace> è impostato su my-namespace, che è lo spazio dei nomi in cui si desidera installare JupyterHub.  Il flag --create-namespace viene utilizzato per creare lo spazio dei nomi se non esiste già.  Il flag --values specifica il file config.yaml che contiene le opzioni di configurazione desiderate.
+
+
+
+=== Controlla la distribuzione
+
+Mentre è in esecuzione il passaggio 2, puoi vedere i pod creati tramite il seguente comando:
+
+[source, shell]
+----
+kubectl get pod --namespace <k8s-namespace>
+----
+Attendi che l'hub e il proxy pod entrino nello stato In esecuzione.
+
+[source, shell]
+----
+NAME                    READY     STATUS    RESTARTS   AGE
+hub-5d4ffd57cf-k68z8    1/1       Running   0          37s
+proxy-7cb9bc4cc-9bdlp   1/1       Running   0          37s
+----
+
+
+=== Accedi a JupyterHub
+
+Trova l'IP che possiamo usare per accedere a JupyterHub.  Eseguire il seguente comando finché l'indirizzo EXTERNAL-IP del servizio proxy-public non è disponibile, come nell'output di esempio.
+
+
+NOTE: Abbiamo utilizzato il servizio NodePort nel nostro file config.yaml; puoi adattarlo al tuo ambiente in base alla configurazione (ad esempio LoadBalancer).
+
+[source, shell]
+----
+kubectl --namespace <k8s-namespace> get service proxy-public
+----
+[source, shell]
+----
+NAME           TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)        AGE
+proxy-public   NodePort   10.51.248.230   104.196.41.97   80:30000/TCP   1m
+----
+Per utilizzare JupyterHub, inserisci l'IP esterno per il servizio proxy-public in un browser.

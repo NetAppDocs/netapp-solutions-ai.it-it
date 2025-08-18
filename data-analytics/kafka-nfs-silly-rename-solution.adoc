@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-silly-rename-solution.html 
+keywords: solution, posix, xfs, ext4, rebalancing 
+summary: In questa sezione viene descritto il problema della ridenominazione e le modifiche necessarie al server NFS e al client NFS per risolvere il problema. 
+---
+= Soluzione NetApp per un problema di rinomina stupido per carichi di lavoro da NFS a Kafka
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Kafka è stato sviluppato partendo dal presupposto che il file system sottostante sia compatibile con POSIX: ad esempio, XFS o Ext4.  Il ribilanciamento delle risorse di Kafka rimuove i file mentre l'applicazione li sta ancora utilizzando.  Un file system conforme a POSIX consente di procedere con l'annullamento del collegamento.  Tuttavia, rimuove il file solo dopo che tutti i riferimenti al file sono scomparsi.  Se il file system sottostante è collegato alla rete, il client NFS intercetta le chiamate di unlink e gestisce il flusso di lavoro.  Poiché ci sono aperture in sospeso sul file che viene scollegato, il client NFS invia una richiesta di rinomina al server NFS e, all'ultima chiusura del file scollegato, esegue un'operazione di rimozione sul file rinominato.  Questo comportamento è comunemente noto come NFS silly rename ed è orchestrato dal client NFS.
+
+Qualsiasi broker Kafka che utilizzi l'archiviazione da un server NFSv3 riscontra problemi a causa di questo comportamento.  Tuttavia, il protocollo NFSv4.x dispone di funzionalità per risolvere questo problema consentendo al server di assumersi la responsabilità dei file aperti e non collegati.  I server NFS che supportano questa funzionalità opzionale comunicano la capacità di proprietà al client NFS al momento dell'apertura del file.  Il client NFS interrompe quindi la gestione dell'unlink quando ci sono aperture in sospeso e consente al server di gestire il flusso.  Sebbene la specifica NFSv4 fornisca linee guida per l'implementazione, fino ad ora non esistevano implementazioni di server NFS note che supportassero questa funzionalità opzionale.
+
+Per risolvere il problema assurdo della ridenominazione, sono necessarie le seguenti modifiche al server NFS e al client NFS:
+
+* *Modifiche al client NFS (Linux).*  Al momento dell'apertura del file, il server NFS risponde con un flag, indicando la capacità di gestire lo scollegamento dei file aperti.  Le modifiche apportate al lato client NFS consentono al server NFS di gestire la disconnessione in presenza del flag.  NetApp ha aggiornato il client NFS Linux open source con queste modifiche.  Il client NFS aggiornato è ora generalmente disponibile in RHEL8.7 e RHEL9.1.
+* *Modifiche al server NFS.*  Il server NFS tiene traccia delle aperture.  La disconnessione di un file aperto esistente è ora gestita dal server in modo da corrispondere alla semantica POSIX.  Quando l'ultimo file aperto viene chiuso, il server NFS avvia la rimozione effettiva del file, evitando così il noioso processo di rinomina.  Il server NFS ONTAP ha implementato questa funzionalità nella sua ultima versione, ONTAP 9.12.1.
+
+
+Grazie alle modifiche sopra descritte al client e al server NFS, Kafka può sfruttare in tutta sicurezza tutti i vantaggi dell'archiviazione NFS collegata alla rete.

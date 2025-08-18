@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-hadoop-data-protection.html 
+keywords: distcp, copy, backup workflow, hdfs, mapreduce 
+summary: 'Hadoop DistCp è uno strumento nativo utilizzato per la copia intercluster e intracluster di grandi dimensioni.  Il processo di base Hadoop DistCp è un tipico flusso di lavoro di backup che utilizza strumenti nativi di Hadoop come MapReduce per copiare i dati Hadoop da un"origine HDFS a una destinazione corrispondente.' 
+---
+= Protezione dei dati Hadoop e NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Hadoop DistCp è uno strumento nativo utilizzato per la copia intercluster e intracluster di grandi dimensioni.  Il processo di base di Hadoop DistCp illustrato nella figura seguente è un tipico flusso di lavoro di backup che utilizza strumenti nativi di Hadoop come MapReduce per copiare i dati Hadoop da un'origine HDFS a una destinazione corrispondente.
+
+L'accesso diretto NFS NetApp consente ai clienti di impostare NFS come destinazione per lo strumento Hadoop DistCp per copiare i dati dalla sorgente HDFS in una condivisione NFS tramite MapReduce.  L'accesso diretto NFS NetApp funge da driver NFS per lo strumento DistCp.
+
+image:hdcs-sh-004.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]

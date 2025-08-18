@@ -1,0 +1,37 @@
+---
+indexpage:
+  title: Infrastruttura AI NetApp e sistemi convergenti
+  summary: Distribuisci un'infrastruttura di intelligenza artificiale pronta per l'uso
+    aziendale con le architetture di riferimento convalidate e i sistemi convergenti
+    di NetApp.  Dalle soluzioni NetApp AIPod alle piattaforme di storage ad alte prestazioni,
+    i nostri progetti offrono le prestazioni, la scalabilità e l'affidabilità necessarie
+    per i carichi di lavoro AI/ML più impegnativi.
+  lead: Distribuisci un'infrastruttura di intelligenza artificiale pronta per l'uso
+    aziendale con le architetture di riferimento convalidate e i sistemi convergenti
+    di NetApp.  Dalle soluzioni NetApp AIPod alle piattaforme di storage ad alte prestazioni,
+    i nostri progetti offrono le prestazioni, la scalabilità e l'affidabilità necessarie
+    per i carichi di lavoro AI/ML più impegnativi.
+  tiles:
+  - title: Architetture di riferimento NetApp AIPod
+    links:
+    - title: NetApp AIPod con sistemi NVIDIA DGX
+      url: "../infra/ai-aipod-nv-intro.html"
+    - title: NetApp AIPod con Lenovo per NVIDIA OVX
+      url: "../infra/ai-aipod-lenovo-nva1172.html"
+    - title: Architettura AIPod
+      url: "../infra/ai-aipod-nv-architecture.html"
+    - title: Dettagli sulla distribuzione AIPod
+      url: "../infra/ai-aipod-nv-deploy.html"
+    - title: Guida alla convalida e al dimensionamento AIPod
+      url: "../infra/ai-aipod-nv-validation.html"
+  - title: Archiviazione ad alte prestazioni per carichi di lavoro di intelligenza
+      artificiale
+    links:
+    - title: NVIDIA DGX SuperPOD con storage serie EF
+      url: "../infra/ai-eseries-superpod.html"
+    - title: File system parallelo BeeGFS con E-Series
+      url: "../infra/ai-eseries-beegfs.html"
+    - title: IBM Spectrum Scale con storage E-Series
+      url: "../infra/ai-eseries-spectrumscale.html"
+    - title: NetApp ONTAP con Lenovo ThinkSystem
+      url: "../infra/ai-lenovo-train-intro.html"

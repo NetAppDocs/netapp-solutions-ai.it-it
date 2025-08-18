@@ -1,0 +1,41 @@
+---
+indexpage:
+  title: Casi d'uso e applicazioni di intelligenza artificiale NetApp
+  summary: Esplora le implementazioni di intelligenza artificiale nel mondo reale
+    con le soluzioni NetApp , dai sistemi RAG aziendali e dall'inferenza edge alle
+    pratiche di intelligenza artificiale responsabili e alle strategie di migrazione
+    dei dati.  Questi casi d'uso dimostrano come NetApp consenta l'utilizzo di applicazioni
+    di intelligenza artificiale in ambienti diversi, mantenendo al contempo sicurezza,
+    prestazioni e scalabilità.
+  lead: Esplora le implementazioni di intelligenza artificiale nel mondo reale con
+    le soluzioni NetApp , dai sistemi RAG aziendali e dall'inferenza edge alle pratiche
+    di intelligenza artificiale responsabili e alle strategie di migrazione dei dati.  Questi
+    casi d'uso dimostrano come NetApp consente alle organizzazioni di distribuire
+    applicazioni di intelligenza artificiale in ambienti diversi, mantenendo al contempo
+    sicurezza, prestazioni e scalabilità.
+  tiles:
+  - title: Applicazioni e casi d'uso dell'intelligenza artificiale aziendale
+    links:
+    - title: NetApp AIPod Mini per RAG aziendale
+      url: "../infra/ai-minipod.html"
+    - title: Intelligenza artificiale generativa e valore NetApp
+      url: "../gen-ai/ai-wp-genai.html"
+    - title: Inferenza AI Edge con NetApp e Lenovo
+      url: "../infra/ai-lenovo-edge-intro.html"
+    - title: Dall'analisi dei Big Data alla migrazione dell'IA
+      url: "../data-analytics/bda-ai-introduction.html"
+  - title: IA responsabile
+    links:
+    - title: Intelligenza artificiale responsabile con la trasformazione delle immagini
+        di Protopia
+      url: "../software/ai-conf-protopia-overview.html"
+    - title: Aree di soluzione
+      url: "../software/ai-conf-protopia-usecases.html"
+    - title: Panoramica della tecnologia
+      url: "../software/ai-conf-protopia-tech.html"
+  - title: Soluzioni di archiviazione e infrastruttura AI
+    links:
+    - title: Progetta Quantum StorNext con sistemi E-Series
+      url: "../infra/ai-eseries-nva1150-design.html"
+    - title: Distribuisci Quantum StorNext con i sistemi E-Series
+      url: "../infra/ai-eseries-nva1150-deploy.html"

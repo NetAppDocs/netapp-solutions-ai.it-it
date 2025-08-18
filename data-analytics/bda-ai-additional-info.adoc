@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-additional-info.html 
+keywords: additional information 
+summary:  
+---
+= Dove trovare ulteriori informazioni
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per saperne di più sulle informazioni descritte nel presente documento, consultare i seguenti documenti e/o siti web:
+
+* Guida alle best practice e all'implementazione NetApp FlexGroup Volume
++
+https://www.netapp.com/pdf.html?item=/media/12385-tr4571pdf.pdf[]
+
+* Documentazione del prodotto NetApp
++
+https://www.netapp.com/us/documentation/index.aspx[]
+
+

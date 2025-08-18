@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-mlflow-trace.html 
+keywords: AI, control plane, MLOps, MLflow 
+summary: 'MLOps open source con NetApp : tracciabilità dal set di dati al modello con NetApp e MLflow' 
+---
+= Tracciabilità dal set di dati al modello con NetApp e MLflow
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+IL https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["Kit degli strumenti NetApp DataOps per Kubernetes"^] può essere utilizzato insieme alle funzionalità di tracciamento degli esperimenti di MLflow per implementare la tracciabilità dal set di dati al modello o dall'area di lavoro al modello.
+
+Per implementare la tracciabilità dal set di dati al modello o dall'area di lavoro al modello, è sufficiente creare uno snapshot del volume del set di dati o dell'area di lavoro utilizzando DataOps Toolkit come parte dell'esecuzione dell'addestramento, come mostrato nel seguente frammento di codice di esempio.  Questo codice salverà il nome del volume di dati e il nome dello snapshot come tag associati all'esecuzione di addestramento specifica che stai registrando sul tuo server di monitoraggio degli esperimenti MLflow.
+
+[source]
+----
+...
+from netapp_dataops.k8s import create_volume_snapshot
+
+with mlflow.start_run() :
+    ...
+
+    namespace = "my_namespace" # Kubernetes namespace in which dataset volume PVC resides
+    dataset_volume_name = "project1" # Name of PVC corresponding to dataset volume
+    snapshot_name = "run1" # Name to assign to your new snapshot
+
+    # Create snapshot
+    create_volume_snapshot(
+        namespace=namespace,
+        pvc_name=dataset_volume_name,
+        snapshot_name=snapshot_name,
+        printOutput=True
+    )
+
+    # Log data volume name and snapshot name as "tags"
+    # associated with this training run in mlflow.
+    mlflow.set_tag("data_volume_name", dataset_volume_name)
+    mlflow.set_tag("snapshot_name", snapshot_name)
+
+    ...
+----

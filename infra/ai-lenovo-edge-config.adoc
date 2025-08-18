@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-edge-config.html 
+keywords: test, configuration, network infrastructure, storage provisioning, SE350 server 
+summary: 'Questa sezione descrive le configurazioni testate, l"infrastruttura di rete, il server SE350 e i dettagli del provisioning dello storage.' 
+---
+= Configurazione di prova
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+La figura seguente mostra la configurazione del test.  Abbiamo utilizzato il sistema di storage NetApp AFF C190 e due server Lenovo ThinkSystem SE350 (ciascuno con un acceleratore NVIDIA T4).  Questi componenti sono collegati tramite uno switch di rete 10GbE.  L'archiviazione di rete contiene set di dati di convalida/test e modelli preaddestrati.  I server forniscono capacità di calcolo e l'accesso all'archiviazione avviene tramite protocollo NFS.
+
+Questa sezione descrive le configurazioni testate, l'infrastruttura di rete, il server SE350 e i dettagli del provisioning dello storage.  Nella tabella seguente sono elencati i componenti di base per l'architettura della soluzione.
+
+|===
+| Componenti della soluzione | Dettagli 
+
+
+| Server Lenovo ThinkSystem  a| 
+* 2 server SE350, ciascuno con una scheda GPU NVIDIA T4
+
+
+
+
+|   a| 
+* Ogni server contiene una CPU Intel Xeon D-2123IT con quattro core fisici che funzionano a 2,20 GHz e 128 GB di RAM
+
+
+
+
+| Sistema di storage NetApp AFF entry-level (coppia HA)  a| 
+* Software NetApp ONTAP 9
+* 24 SSD da 960 GB
+* protocollo NFS
+* Un gruppo di interfacce per controller, con quattro indirizzi IP logici per i punti di montaggio
+
+
+|===
+image:ai-edge-010.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]
+
+Nella tabella seguente è elencata la configurazione di archiviazione: AFF C190 con 2RU, 24 slot per unità.
+
+|===
+| Controllore | Aggregato | Volume FlexGroup | Dimensione aggregata | Dimensione del volume | Punto di montaggio del sistema operativo 
+
+
+| Controller1 | Aggr1 | /netapplenovo_AI_fg | 8.42TiB | 15 TB | /netapp_lenovo_fg 
+
+
+| Controller2 | Aggr2 |  | 8.42TiB |  |  
+|===
+La cartella /netappLenovo_AI_fg contiene i set di dati utilizzati per la convalida del modello.
+
+La figura seguente mostra la configurazione del test.  Abbiamo utilizzato il sistema di storage NetApp EF280 e due server Lenovo ThinkSystem SE350 (ciascuno con un acceleratore NVIDIA T4).  Questi componenti sono collegati tramite uno switch di rete 10GbE.  L'archiviazione di rete contiene set di dati di convalida/test e modelli preaddestrati.  I server forniscono capacità di calcolo e l'accesso all'archiviazione avviene tramite protocollo NFS.
+
+Nella tabella seguente è elencata la configurazione di archiviazione per EF280.
+
+|===
+| Controllore | Gruppo di volumi | Volume | Dimensione del volume | Dimensione DDP | Metodo di connessione 
+
+
+| Controller1 | DDP1 | Volume 1 | 8.42TiB | 16 TB | SE350-1 a iSCSI LUN 0 
+
+
+| Controller2 |  | Volume 2 | 8.42TiB |  | SE350-2 a iSCSI LUN 1 
+|===
+image:ai-edge-011.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]

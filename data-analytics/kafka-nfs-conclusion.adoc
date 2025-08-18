@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-conclusion.html 
+keywords: conclusion 
+summary: La soluzione NetApp per il problema assurdo della ridenominazione fornisce una forma di archiviazione semplice, economica e gestita centralmente per carichi di lavoro che in precedenza erano incompatibili con NFS. 
+---
+= Conclusione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+La soluzione NetApp per il problema assurdo della ridenominazione fornisce una forma di archiviazione semplice, economica e gestita centralmente per carichi di lavoro che in precedenza erano incompatibili con NFS.
+
+Questo nuovo paradigma consente ai clienti di creare cluster Kafka più gestibili, più facili da migrare e da rispecchiare ai fini del disaster recovery e della protezione dei dati.  Abbiamo anche visto che NFS offre ulteriori vantaggi, come un utilizzo ridotto della CPU e tempi di ripristino più rapidi, un'efficienza di archiviazione notevolmente migliorata e prestazioni migliori tramite NetApp ONTAP.

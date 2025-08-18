@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-solution-benefits.html 
+keywords: benefits, performance, multi-site, scalability, capacity, availability, cache 
+summary: La soluzione consente di aggiungere risorse di elaborazione, hot storage o S3 per soddisfare la crescente domanda in termini di numero di utenti o velocità di acquisizione in distribuzioni singole e multi-sito. 
+---
+= Vantaggi di questa soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+La soluzione consente di aggiungere risorse di elaborazione, hot storage o S3 per soddisfare la crescente domanda in termini di numero di utenti o velocità di acquisizione in distribuzioni singole e multi-sito.
+
+* *Prestazione.*  La combinazione di Splunk SmartStore e NetApp StorageGRID garantisce una rapida migrazione dei dati tra hot bucket e warm bucket utilizzando l'archiviazione di oggetti.  StorageGRID accelera il processo di migrazione garantendo prestazioni rapide per carichi di lavoro di oggetti di grandi dimensioni.
+* *Pronto per più siti.*  L'architettura distribuita StorageGRID consente a Splunk SmartStore di estendere le distribuzioni su siti singoli e multipli tramite un unico namespace globale in cui è possibile accedere ai dati da qualsiasi sito, indipendentemente da dove si trovino.
+* *Migliorata scalabilità.*  Scala le risorse di storage in modo indipendente dalle risorse di elaborazione per soddisfare le esigenze e le richieste in continua evoluzione nel tuo ambiente Splunk, garantendo così un TCO migliore.
+* *Capacità.*  Gestisci i volumi in rapida crescita nella distribuzione Splunk con StorageGRID , scalando un singolo namespace a oltre 560 PB.
+* *Disponibilità dei dati.*  Ottimizza la disponibilità dei dati, le prestazioni, la distribuzione geografica, la conservazione, la protezione e i costi di archiviazione con policy basate sui metadati che possono essere adattate dinamicamente in base all'evoluzione del valore aziendale dei tuoi dati.
+
+
+Aumenta le prestazioni con la cache SmartStore, un componente dell'indicizzatore che gestisce il trasferimento delle copie dei bucket tra l'archiviazione locale (hot) e quella remota (warm).  Il dimensionamento Splunk per questa soluzione si basa su https://docs.splunk.com/Documentation/Splunk/8.0.5/Capacity/Summaryofperformancerecommendations["linee guida fornite da Splunk"^] .  La soluzione consente di aggiungere risorse di elaborazione, hot storage o S3 per soddisfare la crescente domanda in termini di numero di utenti o velocità di acquisizione in distribuzioni singole e multi-sito.
