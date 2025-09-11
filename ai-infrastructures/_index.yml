@@ -16,6 +16,10 @@ indexpage:
     links:
     - title: NetApp AIPod con sistemi NVIDIA DGX
       url: "../infra/ai-aipod-nv-intro.html"
+    - title: Sistemi di storage NetApp AFF A90 con NVIDIA DGX SuperPOD - Progettazione
+      url: "../infra/ai-dgx-superpod-nva1175-design.html"
+    - title: Sistemi di storage NetApp AFF A90 con NVIDIA DGX SuperPOD - Distribuzione
+      url: "../infra/ai-dgx-superpod-nva1175-deploy.html"
     - title: NetApp AIPod con Lenovo per NVIDIA OVX
       url: "../infra/ai-aipod-lenovo-nva1172.html"
     - title: Architettura AIPod

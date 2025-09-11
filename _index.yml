@@ -32,6 +32,10 @@ indexpage:
       url: "/infra/ai-aipod-lenovo-nva1172.html"
     - title: File system parallelo BeeGFS con E-Series
       url: "/infra/ai-eseries-beegfs.html"
+    - title: Sistemi di storage NetApp AFF A90 con NVIDIA DGX SuperPOD - Progettazione
+      url: "/infra/ai-dgx-superpod-nva1175-design.html"
+    - title: Sistemi di storage NetApp AFF A90 con NVIDIA DGX SuperPOD - Distribuzione
+      url: "/infra/ai-dgx-superpod-nva1175-deploy.html"
   - title: Casi d'uso e applicazioni dell'intelligenza artificiale
     links:
     - title: AIPod Mini per l'inferenza RAG
