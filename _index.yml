@@ -58,6 +58,9 @@ indexpage:
       url: "/cloud/ai-mlops-fsxn-intro.html"
     - title: Kit di strumenti NetApp DataOps
       url: "/software/dataops-toolkit.html"
+    - title: 'NetApp + Union.ai: Guida tecnica alla formazione sull''intelligenza
+        artificiale ibrida'
+      url: "/software/ai-hybrid-union.html"
   - title: Soluzioni di intelligenza artificiale per Big Data e cloud ibrido
     links:
     - title: Soluzioni di dati cloud ibride

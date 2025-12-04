@@ -42,6 +42,9 @@ indexpage:
       url: "../software/ai-hybrid-ddlnexus-intro.html"
     - title: Accesso ai dati tra ambienti con Domino
       url: "../software/ai-hybrid-ddlnexus-data.html"
+    - title: 'NetApp + Union.ai: Guida tecnica alla formazione sull''intelligenza
+        artificiale ibrida'
+      url: "../software/ai-hybrid-union.html"
     - title: NVIDIA AI Enterprise con NetApp e VMware
       url: "../software/ai-nvaie-vmw-intro.html"
     - title: Integrazione del software NVIDIA NGC

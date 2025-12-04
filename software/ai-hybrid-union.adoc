@@ -1,0 +1,397 @@
+---
+sidebar: sidebar 
+permalink: software/ai-hybrid-union.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, Union.ai, Hybrid AI training 
+summary: 'Distribuisci un ambiente di formazione AI ibrido utilizzando l"orchestrazione Union.ai con NetApp FlexCache per consentire ai carichi di lavoro di formazione GPU basati su cloud di accedere ai dati locali in modo efficiente e sicuro.' 
+---
+= Distribuisci la formazione ibrida sull'intelligenza artificiale con Union.ai e NetApp FlexCache
+:allow-uri-read: 
+
+
+[role="lead"]
+Scopri come distribuire un ambiente di formazione AI ibrido utilizzando l'orchestrazione Union.ai con NetApp FlexCache e Trident per il provisioning dello storage Kubernetes.
+
+David Espejo, Union.ai Sathish Thyagarajan, NetApp
+
+
+
+== Panoramica
+
+La piattaforma di orchestrazione ibrida di Union.ai si integra perfettamente con NetApp ONTAP e FlexCache per accelerare i flussi di lavoro di formazione AI/ML.  Questa soluzione consente di mantenere i dati in modo sicuro in sede, sfruttando al contempo l'elaborazione GPU basata su cloud per i carichi di lavoro di formazione dell'intelligenza artificiale.  NetApp FlexCache garantisce che solo i dati necessari vengano memorizzati nella cache del cloud, consentendo pipeline ibride AI/ML efficienti, sicure e scalabili.
+
+
+
+== Caso d'uso del cliente: formazione sull'intelligenza artificiale nel cloud ibrido
+
+* Dati on-premise: archiviati su NetApp ONTAP per conformità e sicurezza.
+* Cloud computing: addestramento GPU scalabile su EKS/GKE/AKS.
+* Orchestrazione AI/ML: Union.ai coordina l'elaborazione dei dati e la formazione in tutti gli ambienti.
+* Provisioning dello storage: NetApp Trident automatizza il provisioning PVC/PV.
+
+
+
+
+== Valore per il cliente
+
+* Esegui carichi di lavoro di intelligenza artificiale su enormi set di dati utilizzando le funzionalità di scalabilità orizzontale di NetApp ONTAP.
+* Sposta e sincronizza i dati tra locale e cloud utilizzando le funzionalità cloud ibride di NetApp.
+* Memorizza rapidamente nella cache i dati locali nel cloud utilizzando FlexCache.
+* Union.ai semplifica l'orchestrazione tra ambienti con il controllo delle versioni, il tracciamento della discendenza e la gestione degli artefatti.
+* Esegui la formazione nel cloud mantenendo i dati sensibili in sede.
+
+
+
+
+== Abilitazione del plugin – Prerequisiti
+
+[cols="32%,68%"]
+|===
+
+
+| *Requisito* | *Dettagli* 
+
+
+| Versione ONTAP | ONTAP 9.7+ (licenza FlexCache non richiesta) 
+
+
+| Licenza FlexCache | Richiesto su ONTAP 9.6 e versioni precedenti 
+
+
+| Kubernetes | Cluster on-prem e cloud (EKS/GKE/AKS) 
+
+
+| Trident | Installato sia su cluster on-premise che cloud 
+
+
+| Union.ai | Piano di controllo distribuito (Union Cloud o self-hosted) 
+
+
+| Networking | Connettività inter-cluster (se i cluster ONTAP sono separati) 
+
+
+| Permessi  a| 
+Accesso amministrativo ai cluster ONTAP e Kubernetes.
+
+✅Utilizzare le credenziali ONTAP corrette (ad esempio, vsadmin)
+
+
+
+| Nuovo su Union.ai? | Consultare la guida complementare alla fine di questo documento 
+|===
+
+
+== Architettura di riferimento
+
+La figura seguente mostra il piano di controllo Union.ai integrato con lo storage NetApp per l'addestramento dell'IA ibrida.
+
+image::ai-hybrid-union-001.png[Architettura di formazione AI ibrida con Union.ai e NetApp]
+
+* Piano di controllo Union.ai: orchestra i flussi di lavoro, gestisce lo spostamento dei dati e si integra con le API NetApp .
+* NetApp ONTAP + FlexCache: fornisce un efficiente caching dei dati da locale al cloud.
+* Cluster di formazione ibridi: i processi di formazione vengono eseguiti nei cluster cloud K8s (ad esempio, EKS) con dati memorizzati nella cache da locale.
+
+
+
+
+=== _Passaggio 1: creare un volume FlexCache
+
+Utilizzo di ONTAP System Manager
+
+. Vai su Archiviazione > Volumi.
+. Fare clic su Aggiungi.
+. Seleziona Altre opzioni.
+. Abilita Aggiungi come cache per un volume remoto.
+. Scegli i volumi di origine (on-prem) e di destinazione (cloud).
+. Definire QoS o livello di prestazioni (facoltativo).
+. Fare clic su Crea.
+
+
+💡Se NetApp DataOps Toolkit non funziona a causa di problemi di autorizzazione o di aggregazione, creare il volume FlexCache direttamente tramite ONTAP System Manager o CLI.
+
+
+
+=== _Passaggio 2: Configura Trident_
+
+Installare Trident su entrambi i cluster:
+
+🔗 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["+++ Guida all'installazione Trident +++"]
+
+Crea Trident Backend
+
+[source, cli]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+name: ontap-flexcache
+spec:
+version: 1
+storageDriverName: ontap-nas
+managementLIF: <ONTAP-MGMT-IP>
+dataLIF: <ONTAP-DATA-IP>
+svm: <SVM-NAME>
+username: vsadmin
+password: <password>
+
+Apply: kubectl apply -f backend-flexcache.yaml
+----
+Se si riceve un errore 401 Non autorizzato, verificare che l'utente ONTAP disponga di autorizzazioni API sufficienti e che vengano utilizzati il ​​nome utente (vsadmin) e la password corretti.
+
+Definisci StorageClass
+
+[source, cli]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+name: flexcache-sc
+provisioner: csi.trident.netapp.io
+parameters:
+backendType: "ontap-nas"
+Apply:
+kubectl apply -f storageclass-flexcache.yaml
+----
+
+
+=== _Passaggio 3: distribuire i flussi di lavoro Union.ai_
+
+Union utilizza i PVC per montare i volumi FlexCache nei processi di formazione.
+
+Esempio di PodTemplate
+
+[source, cli]
+----
+apiVersion: v1
+kind: PodTemplate
+metadata:
+name: netapp-podtemplate
+namespace: flytesnacks-development
+template:
+metadata:
+labels:
+default-storage: netapp
+spec:
+containers:
+- name: primary
+volumeMounts:
+- name: flexcache-storage
+mountPath: /data/flexcache
+volumes:
+- name: flexcache-storage
+persistentVolumeClaim:
+claimName: flexcache-pvc
+----
+Esempio di flusso di lavoro
+
+dall'attività di importazione dell'unione, flusso di lavoro
+
+[source, cli]
+----
+@task(pod_template="netapp-podtemplate")
+
+def train_model(pvc_path: str):
+----
+
+
+= Carica e addestra sui dati dal PVC
+
+[source, cli]
+----
+@workflow
+
+def training_pipeline():
+
+train_model(pvc_path="/data/flexcache")
+----
+L'operatore dell'Unione:
+
+* Creare il PVC
+* Montare il volume FlexCache
+* Pianifica il lavoro nel cluster cloud K8s
+
+
+
+
+=== Passaggio 4: convalidare l'integrazione_
+
+[cols="21%,79%"]
+|===
+| *Compito* | *Convalida* 
+
+
+| Supporto in PVC | I pod di addestramento dovrebbero montare /data/flexcache correttamente 
+
+
+| Accesso ai dati | I lavori di formazione possono leggere/scrivere da FlexCache 
+
+
+| Comportamento della cache | Monitora i risultati/mancati risultati della cache in ONTAP.  Assicurarsi che gli aggregati supportino FlexCache 
+
+
+| Prestazione | Convalida la latenza e la produttività per i carichi di lavoro di formazione 
+|===
+Utilizzare NetApp BlueXP o ONTAP CLI per monitorare le prestazioni.
+
+
+
+== Considerazioni sulla sicurezza
+
+* Utilizzare endpoint VPC per FSx per NetApp ONTAP
+* Abilita la crittografia in transito e a riposo
+* Applicare RBAC/IAM per l'accesso ONTAP
+* Union.ai non accede né memorizza i dati dei clienti
+
+
+
+
+== Monitoraggio e ottimizzazione
+
+[cols="31%,69%"]
+|===
+
+
+| *Attrezzo* | *Scopo* 
+
+
+| NetApp BlueXP | Monitorare l'utilizzo e le prestazioni FlexCache 
+
+
+| Interfaccia utente Union.ai | Monitorare lo stato e le metriche della pipeline 
+
+
+| Tronchi Trident | Debug di problemi PVC o backend 
+|===
+*Miglioramenti opzionali*
+
+* Automatizza la creazione FlexCache utilizzando le API BlueXP
+* Utilizzare Union SDK per riscaldare la cache prima dell'addestramento
+* Aggiungere pipeline di inferenza batch o di fornitura di modelli dopo l'addestramento
+* Se DataOps Toolkit fallisce, ricorrere alla creazione manuale FlexCache tramite System Manager
+
+
+*Risoluzione dei problemi*
+
+[cols="41%,59%"]
+|===
+| _Problema_ | _Risoluzione_ 
+
+
+| PVC bloccato in sospeso | Controlla i log Trident e la configurazione del backend 
+
+
+| 401 Non autorizzato dall'API ONTAP | Utilizzare vsadmin e verificare i permessi 
+
+
+| Lavoro fallito: nessun archivio adatto | Assicurarsi che l'aggregato ONTAP supporti FlexCache/ FabricPool 
+
+
+| Prestazioni di allenamento lente | Controlla il tasso di hit della cache e la latenza di rete 
+
+
+| I dati non si sincronizzano | Convalida dello stato di salute della relazione FlexCache in ONTAP 
+|===
+*Passi successivi*
+
+. Convalida FlexCache con dati di prova
+. Distribuisci pipeline di formazione Union.ai
+. Monitorare e ottimizzare le prestazioni
+. Documentare la configurazione specifica del cliente
+
+
+
+
+== Link correlati
+
+* https://docs.union.ai["+++Documentazione Union.ai+++"]
+* https://docs.netapp.com/us-en/ontap/flexcache/index.html["+++ Panoramica NetApp FlexCache +++"]
+* https://docs.netapp.com/us-en/trident/index.html["+++ Pilota Trident CSI+++"]
+* https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["+++FSx per NetApp ONTAP+++"]
+
+
+
+
+== Conclusione
+
+Ora disponi di un ambiente di addestramento AI ibrido convalidato utilizzando Union.ai e NetApp FlexCache.  I processi di formazione possono essere eseguiti nel cloud, accedendo ai dati locali in modo sicuro ed efficiente, senza replicare interi set di dati o compromettere la governance.
+
+
+
+=== *Union.ai - Guida complementare*
+
+
+
+==== *Passaggio 1: Scegli il modello di distribuzione*
+
+*Opzione A: Union Cloud*
+
+* Visita: https://console.union.ai["+++console.union.ai+++"]
+* Crea organizzazione → Crea progetto
+
+
+*Opzione B: Auto-ospitato*
+
+* Seguire:https://docs.union.ai/platform/latest/deployment/self-hosted/["+++Guida auto-ospitata+++"]
+* Distribuisci tramite Helm:
+
+
+helm repo aggiungi unionai https://unionai.github.io/helm-charts/[]
+
+helm install union unionai/union -n union-system -f values.yaml
+
+
+
+==== *Passaggio 2: Installa Union Operator*
+
+****kubectl applica -fhttps://raw.githubusercontent.com/unionai/operator/main/deploy/operator.yaml[]
+
+kubectl get pods -n union-system
+
+
+
+
+
+==== *Passaggio 3: Installa Union CLI*
+
+****pip install unionai
+
+accesso sindacale
+
+
+
+
+
+==== *Passaggio 4: Registra il flusso di lavoro*
+
+****progetto sindacale crea intelligenza artificiale ibrida
+
+registro sindacale training_pipeline.py --project hybrid-ai
+
+
+
+
+
+==== *Passaggio 5: Esecuzione e monitoraggio*
+
+****union run training_pipeline --project hybrid-ai
+
+formazione di vigilanza sindacale_pipeline
+
+Visualizza i registri in https://console.union.ai["+++Interfaccia utente dell'Unione+++"]
+
+
+
+==== *Passaggio 6: Registra Compute Cluster (facoltativo)*
+
+****union cluster register --name cloud-k8s --kubeconfig ~/.kube/config
+
+
+
+==== *Passaggio 7: Traccia artefatti e lignaggio*
+
+Union tiene traccia automaticamente:
+
+* Parametri di input/output
+* Versioni dei dati
+* Registri e metriche
+* Lignaggio di esecuzione
+
