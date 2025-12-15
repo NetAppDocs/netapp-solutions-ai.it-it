@@ -31,6 +31,8 @@ Questo documento descrive le linee guida sulle best practice per l'utilizzo di C
 
 Confluent è diventata la piattaforma di streaming in tempo reale predefinita per molte applicazioni, in particolare per i carichi di lavoro di big data, analisi e streaming.  Tiered Storage consente agli utenti di separare l'elaborazione dall'archiviazione nella piattaforma Confluent.  Rende l'archiviazione dei dati più conveniente, consente di archiviare quantità di dati praticamente infinite e di aumentare (o diminuire) i carichi di lavoro su richiesta, semplificando inoltre le attività amministrative come il ribilanciamento dei dati e dei tenant.  I sistemi di archiviazione compatibili con S3 possono sfruttare tutte queste funzionalità per democratizzare i dati con tutti gli eventi in un unico posto, eliminando la necessità di una complessa ingegneria dei dati.  Per maggiori informazioni sul motivo per cui dovresti utilizzare l'archiviazione a livelli per Kafka, controllalink:https://docs.confluent.io/platform/current/kafka/tiered-storage.html#netapp-object-storage["questo articolo di Confluent"^] .
 
+NetApp instaclustr supporta anche Kafka con storage a livelli dalla versione 3.8.1. Per maggiori dettagli, consultare qui link:https://www.instaclustr.com/support/documentation/kafka-add-ons/using-kafka-tiered-storage/["instaclust utilizzando l'archiviazione a livelli Kafka"]
+
 
 
 == Perché NetApp StorageGRID per l'archiviazione a livelli?
