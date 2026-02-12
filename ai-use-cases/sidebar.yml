@@ -6,6 +6,12 @@ entries:
 - title: NetApp AIPod Mini per RAG aziendale
   pdf-filename: NetApp AIPod Mini per l'inferenza RAG
   url: "/infra/ai-minipod.html"
+- title: NetApp AIPod Mini per ERAG - Infra Readiness Checklist
+  pdf-filename: NetApp AIPod Mini per ERAG - Infra Readiness Checklist
+  url: "/infra/ai-aipod-mini-infra-readiness.html"
+- title: NetApp AIPod Mini per ERAG - Fasi di deployment
+  pdf-filename: NetApp AIPod Mini per ERAG - Fasi di deployment
+  url: "/infra/ai-aipod-mini-deployment-steps.html"
 - title: Intelligenza artificiale responsabile con la trasformazione delle immagini
     di Protopia
   pdf-filename: 'Intelligenza artificiale responsabile e inferenza riservata: intelligenza

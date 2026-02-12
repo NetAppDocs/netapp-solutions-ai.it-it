@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-aipod-mini-infra-readiness.html 
+keywords: netapp, aipod, RAG, ai solution, design, infrastructure, FAQs 
+summary: 'Questo documento delinea una checklist completa per la preparazione dell"infrastruttura per NetApp AIPod Mini for Enterprise RAG, che funge da riferimento pre-distribuzione.' 
+---
+= NetApp AIPod Mini per ERAG - Infra Readiness Checklist
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo documento delinea una checklist completa per la preparazione dell'infrastruttura per NetApp AIPod Mini for Enterprise RAG, che funge da riferimento pre-distribuzione.
+
+
+
+== Prontezza aziendale e dei casi d'uso
+
+* La soluzione è allineata ai risultati aziendali (ad esempio, produttività, servizio clienti, aspetti legali, assistenza sanitaria, produzione, settore pubblico)?
+* Hai stimato il Time to First Token (TTFT) e le esigenze di latenza per i tuoi carichi di lavoro LLM?
+* Conosci il carico di utenti/concorrenza previsto (ad esempio, 32 utenti simultanei per 2-worker node per RAG)?
+* Hai identificato i principali carichi di lavoro AI/GenAI (RAG, inferencing, fine-tuning, LLM dipartimentali, integrazione di vector DB)?
+* Stai valutando le opzioni di AI basate su CPU (OPEA, Intel Xeon) rispetto alle alternative GPU per un equilibrio tra costi e prestazioni?
+
+
+
+
+== Requisiti tecnici e infrastrutturali
+
+* La tua pipeline di dati è pronta (preparazione dei dati, ETL, inserimento sicuro nel vector DB)?
+* Hai bisogno di elevata disponibilità, ridondanza o funzionalità DR?
+* Stai sfruttando il supporto dello stack AI Ubuntu Linux / Kubernetes / Red Hat OpenShift?
+* Hai convalidato le prestazioni della rete (25–100GbE a seconda del carico di lavoro)?
+* Lo storage è fornito con NetApp ONTAP + Trident CSI driver per la persistenza Kubernetes?
+* Almeno 3 compute nodes (2 worker, 1 control plane) dimensionati correttamente?
+
+
+
+
+== Allineamento tra software ed ecosistema
+
+* Le tue app containerizzate sono compatibili con Kubernetes e i grafici Helm forniti?
+* Quali database vettoriali (ad esempio, Milvus, pgvector) sono previsti per la distribuzione?
+* Hai bisogno della pre-integrazione OPEA (Open Platform for Enterprise AI) per retrieval-augmented generation (RAG)?
+* Stai sfruttando le opzioni hybrid-cloud (Cloud Volumes ONTAP, FSxN, Anthos, Azure Arc)?
+* Hai bisogno di integrazioni con partner ISV (ESRI, PACS sanitari, ISV finanziari/legali)?
+
+
+
+
+== Governance e sicurezza dei dati
+
+* Hai abilitato il controllo degli accessi in base al ruolo (RBAC) in Kubernetes?
+* Esiste un piano di protezione dei dati e di backup (SnapMirror, SnapCenter, protezione da ransomware)?
+* Hai mappato le esigenze di conformità dei dati (HIPAA, GDPR, FedRAMP, CJIS)?
+* Hai bisogno di una distribuzione privata dell'AI (air-gapped, on-premises, enclave sicura)?
+
+
+
+
+== Considerazioni operative e di supporto
+
+* Gli amministratori sono formati/abilitati su Kubernetes, Trident CSI e sull'implementazione dello stack OPEA?
+* Hai bisogno di supporto per multi-tenancy (dipartimenti, agenzie SLED, unità aziendali)?
+* Esiste un piano per il monitoraggio e l'osservabilità (ONTAP System Manager, Cloud Insights, Prometheus/Grafana)?
+* Chi sarà responsabile delle operazioni del secondo giorno (IT del cliente, partner, managed service provider)?
+
+
+
+
+== Allineamento commerciale e GTM
+
+* Esiste una roadmap (espansione dell’IA da livello dipartimentale a livello enterprise)?
+* Avete una proiezione pro forma pluriennale (TCO, ARR, margin uplift)?
+* Gli scenari di aumento delle licenze sono chiari (vector DB, software ISV, AI ops tools)?
+* Hai valutato gli incentivi per i partner (margine del distributore, OEM/Intel co-funding)?
+* L'acquisto è allineato ai cicli di budget (CapEx vs OpEx, modelli di consumo)?
+* Avete un partner di servizi (Arrow, WWT, Presidio, ecc.) per il dimensionamento e l'implementazione?
+
