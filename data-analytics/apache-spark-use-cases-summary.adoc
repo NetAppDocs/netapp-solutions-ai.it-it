@@ -18,6 +18,7 @@ In questa pagina vengono descritti i diversi ambiti in cui è possibile utilizza
 
 
 
+[[streaming-data]]
 == dati in streaming
 
 Apache Spark può elaborare dati in streaming, utilizzati per i processi di estrazione, trasformazione e caricamento (ETL), arricchimento dei dati, attivazione del rilevamento di eventi e analisi di sessioni complesse:
@@ -32,12 +33,14 @@ Per ulteriori configurazioni di dati in streaming, verifica di Confluent Kafka e
 
 
 
+[[machine-learning]]
 == Apprendimento automatico
 
 Il framework integrato Spark consente di eseguire query ripetute sui set di dati utilizzando la libreria di apprendimento automatico (MLlib).  MLlib viene utilizzato in ambiti quali il clustering, la classificazione e la riduzione della dimensionalità per alcune comuni funzioni di big data, come l'intelligenza predittiva, la segmentazione dei clienti per scopi di marketing e l'analisi del sentiment.  MLlib viene utilizzato nella sicurezza di rete per condurre ispezioni in tempo reale dei pacchetti di dati alla ricerca di indicazioni di attività dannose.  Aiuta i fornitori di servizi di sicurezza a conoscere le nuove minacce e a restare un passo avanti agli hacker, proteggendo al contempo i propri clienti in tempo reale.
 
 
 
+[[deep-learning]]
 == Apprendimento profondo
 
 TensorFlow è un framework di deep learning molto diffuso e utilizzato in tutto il settore.  TensorFlow supporta la formazione distribuita su un cluster CPU o GPU.  Questa formazione distribuita consente agli utenti di eseguirla su una grande quantità di dati con molti livelli profondi.
@@ -48,12 +51,14 @@ I DataFrame e gli RDD nelle versioni precedenti di Spark non erano adatti al dee
 
 
 
+[[interactive-analysis]]
 == Analisi interattiva
 
 Apache Spark è sufficientemente veloce da eseguire query esplorative senza campionamento con linguaggi di sviluppo diversi da Spark, tra cui SQL, R e Python.  Spark utilizza strumenti di visualizzazione per elaborare dati complessi e visualizzarli in modo interattivo.  Spark con streaming strutturato esegue query interattive su dati in tempo reale nell'analisi web, consentendo di eseguire query interattive sulla sessione corrente di un visitatore web.
 
 
 
+[[recommender-system]]
 == Sistema di raccomandazione
 
 Nel corso degli anni, i sistemi di raccomandazione hanno apportato enormi cambiamenti alle nostre vite, poiché aziende e consumatori hanno reagito ai radicali cambiamenti nello shopping online, nell'intrattenimento online e in molti altri settori.  Questi sistemi rappresentano infatti tra i casi di successo più evidenti dell'intelligenza artificiale nella produzione.  In molti casi d'uso pratici, i sistemi di raccomandazione vengono combinati con l'intelligenza artificiale conversazionale o con chatbot interfacciati con un backend NLP per ottenere informazioni rilevanti e produrre inferenze utili.
@@ -64,6 +69,7 @@ Esistono diverse tecniche diffuse per fornire raccomandazioni, tra cui il filtra
 
 
 
+[[natural-language-processing]]
 == Elaborazione del linguaggio naturale
 
 L'intelligenza artificiale conversazionale, resa possibile dall'elaborazione del linguaggio naturale (NLP), è il ramo dell'intelligenza artificiale che aiuta i computer a comunicare con gli esseri umani.  L'NLP è diffuso in ogni settore verticale e in molti casi d'uso, dagli assistenti intelligenti e chatbot alla ricerca Google e al testo predittivo.  Secondo un https://www.forbes.com/sites/forbestechcouncil/2021/05/07/nice-chatbot-ing-with-you/?sh=7011eff571f4["Gartner"^] Si prevede che entro il 2022 il 70% delle persone interagirà quotidianamente con piattaforme di intelligenza artificiale conversazionale.  Per una conversazione di alta qualità tra un essere umano e una macchina, le risposte devono essere rapide, intelligenti e naturali.

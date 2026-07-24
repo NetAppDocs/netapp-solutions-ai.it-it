@@ -18,6 +18,7 @@ NetApp SnapMirror è una tecnologia di replicazione che consente di replicare i 
 
 
 
+[[example-worklfow-and-demo]]
 == Esempio di flusso di lavoro e demo
 
 Fare riferimento alink:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Accelerating-Data-Ingestion-and-AI-ML-Experimentation-with-NetApp-SnapMirror-and/ba-p/457814["questo post del blog Tech ONTAP"] per un esempio dettagliato del flusso di lavoro e una demo dell'utilizzo di NetApp SnapMirror per l'acquisizione di dati in JupyterHub.

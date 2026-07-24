@@ -22,48 +22,56 @@ Questo documento fornisce inoltre casi d'uso dei clienti per risolvere problemi 
 
 
 
+[[customer-challenges]]
 == Sfide dei clienti
 
 Questa sezione si concentra sulle sfide dei clienti relative all'analisi dei big data e all'intelligenza artificiale, al machine learning e al digital learning nei settori in cui i dati crescono, come la vendita al dettaglio, il marketing digitale, il settore bancario, la produzione discreta, la produzione di processo, la pubblica amministrazione e i servizi professionali.
 
 
 
+[[unpredictable-performance]]
 === Prestazioni imprevedibili
 
 Le distribuzioni Hadoop tradizionali utilizzano in genere hardware di base.  Per migliorare le prestazioni, è necessario ottimizzare la rete, il sistema operativo, il cluster Hadoop, i componenti dell'ecosistema come Spark e l'hardware.  Anche se si ottimizza ogni livello, può essere difficile raggiungere i livelli di prestazioni desiderati perché Hadoop viene eseguito su hardware di base che non è stato progettato per prestazioni elevate nel tuo ambiente.
 
 
 
+[[media-and-node-failures]]
 === Guasti dei media e dei nodi
 
 Anche in condizioni normali, l'hardware di base è soggetto a guasti.  Se un disco su un nodo dati si guasta, per impostazione predefinita il master Hadoop considera quel nodo non funzionante.  Quindi copia dati specifici da quel nodo attraverso la rete dalle repliche a un nodo sano.  Questo processo rallenta i pacchetti di rete per qualsiasi attività Hadoop.  Il cluster deve quindi copiare nuovamente i dati e rimuovere i dati sovrareplicati quando il nodo non funzionante torna a uno stato funzionante.
 
 
 
+[[hadoop-vendor-lock-in]]
 === Blocco del fornitore Hadoop
 
 I distributori Hadoop dispongono di una propria distribuzione Hadoop con il proprio controllo delle versioni, che vincola il cliente a tali distribuzioni.  Tuttavia, molti clienti necessitano di supporto per l'analisi in memoria che non vincoli il cliente a specifiche distribuzioni Hadoop.  Hanno bisogno della libertà di modificare le distribuzioni e continuare a portare con sé le proprie analisi.
 
 
 
+[[lack-of-support-for-more-than-one-language]]
 === Mancanza di supporto per più di una lingua
 
 Oltre ai programmi MapReduce Java, spesso i clienti necessitano del supporto per più lingue per eseguire i loro lavori.  Opzioni come SQL e script offrono maggiore flessibilità per ottenere risposte, più possibilità per organizzare e recuperare i dati e modi più rapidi per spostare i dati in un framework di analisi.
 
 
 
+[[difficulty-of-use]]
 === Difficoltà d'uso
 
 Da un po' di tempo le persone si lamentano della difficoltà di utilizzo di Hadoop.  Sebbene Hadoop sia diventato più semplice e potente con ogni nuova versione, questa critica persiste.  Hadoop richiede la conoscenza dei modelli di programmazione Java e MapReduce, una sfida per gli amministratori di database e per chi ha competenze di scripting tradizionali.
 
 
 
+[[complicated-frameworks-and-tools]]
 === Framework e strumenti complicati
 
 I team di intelligenza artificiale delle aziende devono affrontare molteplici sfide.  Anche con conoscenze specialistiche in materia di data science, gli strumenti e i framework per diversi ecosistemi di distribuzione e applicazioni potrebbero non essere facilmente traducibili dall'uno all'altro.  Una piattaforma di data science dovrebbe integrarsi perfettamente con le corrispondenti piattaforme big data basate su Spark, con facilità di spostamento dei dati, modelli riutilizzabili, codice pronto all'uso e strumenti che supportano le migliori pratiche per la prototipazione, la convalida, il controllo delle versioni, la condivisione, il riutilizzo e la rapida distribuzione dei modelli in produzione.
 
 
 
+[[why-choose-netapp]]
 == Perché scegliere NetApp?
 
 NetApp può migliorare la tua esperienza Spark nei seguenti modi:
@@ -101,6 +109,7 @@ Le sezioni seguenti descrivono le capacità di archiviazione importanti per i cl
 
 
 
+[[storage-tiering]]
 === Livelli di archiviazione
 
 Grazie alla suddivisione in livelli di archiviazione di Hadoop, è possibile archiviare i file con diversi tipi di archiviazione in base a una policy di archiviazione.  I tipi di archiviazione includono `hot` , `cold` , `warm` , `all_ssd` , `one_ssd` , E `lazy_persist` .
@@ -120,6 +129,7 @@ image:apache-spark-002.png["È il momento di ordinare 1 TB di dati."]
 
 
 
+[[performance-scaling-scale-out]]
 === Scalabilità delle prestazioni - Scalabilità orizzontale
 
 Quando è necessaria una maggiore potenza di calcolo da un cluster Hadoop in una soluzione AFF , è possibile aggiungere nodi dati con un numero appropriato di controller di archiviazione.  NetApp consiglia di iniziare con quattro nodi dati per array di controller di storage e di aumentare il numero a otto nodi dati per controller di storage, a seconda delle caratteristiche del carico di lavoro.
@@ -128,18 +138,21 @@ AFF e FAS sono perfetti per l'analisi in loco.  In base ai requisiti di calcolo,
 
 
 
+[[performance-scaling-scale-up]]
 === Scalabilità delle prestazioni - Scalabilità verticale
 
 Le funzionalità di scalabilità consentono di aggiungere unità disco ai sistemi AFF, FAS ed E-Series quando è necessaria ulteriore capacità di archiviazione.  Con Cloud Volumes ONTAP, il ridimensionamento dello storage al livello PB è una combinazione di due fattori: il livellamento dei dati utilizzati raramente nello storage di oggetti dallo storage a blocchi e l'accumulo di licenze Cloud Volumes ONTAP senza elaborazione aggiuntiva.
 
 
 
+[[multiple-protocols]]
 === Protocolli multipli
 
 I sistemi NetApp supportano la maggior parte dei protocolli per le distribuzioni Hadoop, tra cui SAS, iSCSI, FCP, InfiniBand e NFS.
 
 
 
+[[operational-and-supported-solutions]]
 === Soluzioni operative e supportate
 
 Le soluzioni Hadoop descritte in questo documento sono supportate da NetApp.  Queste soluzioni sono inoltre certificate dai principali distributori Hadoop.  Per informazioni, vedere il http://hortonworks.com/partner/netapp/["Hortonworks"^] sito e Cloudera http://www.cloudera.com/partners/partners-listing.html?q=netapp["certificazione"^] E http://www.cloudera.com/partners/solutions/netapp.html["partner"^] siti.

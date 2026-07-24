@@ -30,6 +30,7 @@ Il presente documento descrive i seguenti argomenti:
 
 
 
+[[why-use-nfs-storage-for-kafka-workloads]]
 == Perché utilizzare l'archiviazione NFS per i carichi di lavoro Kafka?
 
 I carichi di lavoro Kafka nelle applicazioni di produzione possono trasmettere in streaming enormi quantità di dati tra le applicazioni.  Questi dati vengono conservati e archiviati nei nodi broker Kafka nel cluster Kafka.  Kafka è noto anche per la disponibilità e il parallelismo, che ottiene suddividendo gli argomenti in partizioni e replicando poi tali partizioni in tutto il cluster.  Ciò significa che l'enorme quantità di dati che fluisce attraverso un cluster Kafka viene generalmente moltiplicata in termini di dimensioni.  NFS rende il ribilanciamento dei dati molto rapido e semplice man mano che cambia il numero di broker.  Negli ambienti di grandi dimensioni, il ribilanciamento dei dati su DAS quando cambia il numero di broker richiede molto tempo e, nella maggior parte degli ambienti Kafka, il numero di broker cambia frequentemente.
@@ -45,6 +46,7 @@ Altri vantaggi includono quanto segue:
 
 
 
+[[why-netapp-for-kafka-workloads]]
 == Perché NetApp per i carichi di lavoro Kafka?
 
 L'implementazione NetApp NFS è considerata uno standard di riferimento per il protocollo e viene utilizzata in innumerevoli ambienti NAS aziendali. Oltre alla credibilità, NetApp offre anche i seguenti vantaggi:

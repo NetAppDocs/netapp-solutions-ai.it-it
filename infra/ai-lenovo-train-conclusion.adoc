@@ -26,6 +26,7 @@ Lo storage NetApp garantisce prestazioni uguali o migliori dello storage SSD loc
 
 
 
+[[acknowledgments]]
 == Ringraziamenti
 
 * Karthikeyan Nagalingam, Ingegnere tecnico di marketing, NetApp
@@ -34,6 +35,7 @@ Lo storage NetApp garantisce prestazioni uguali o migliori dello storage SSD loc
 
 
 
+[[where-to-find-additional-information]]
 == Dove trovare ulteriori informazioni
 
 Per saperne di più sulle informazioni descritte nel presente documento, fare riferimento ai seguenti documenti e/o siti web:

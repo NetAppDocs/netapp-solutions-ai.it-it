@@ -21,6 +21,7 @@ NOTE: È possibile distribuire Airflow su piattaforme diverse da Kubernetes.  L'
 
 
 
+[[prerequisites]]
 == Prerequisiti
 
 Prima di eseguire l'esercizio di distribuzione descritto in questa sezione, diamo per scontato che tu abbia già eseguito le seguenti attività:
@@ -31,18 +32,21 @@ Prima di eseguire l'esercizio di distribuzione descritto in questa sezione, diam
 
 
 
+[[install-helm]]
 == Installa Helm
 
 Airflow viene distribuito tramite Helm, un noto gestore di pacchetti per Kubernetes.  Prima di distribuire Airflow, è necessario installare Helm sull'host di distribuzione.  Per installare Helm sull'host di distribuzione jump, seguire le istruzioni https://helm.sh/docs/intro/install/["istruzioni di installazione"^] nella documentazione ufficiale di Helm.
 
 
 
+[[set-default-kubernetes-storageclass]]
 == Imposta la classe di archiviazione Kubernetes predefinita
 
 Prima di distribuire Airflow, è necessario designare una StorageClass predefinita all'interno del cluster Kubernetes.  Il processo di distribuzione di Airflow tenta di effettuare il provisioning di nuovi volumi persistenti utilizzando la StorageClass predefinita.  Se non viene designata alcuna StorageClass come StorageClass predefinita, la distribuzione fallisce.  Per designare una StorageClass predefinita all'interno del cluster, seguire le istruzioni descritte inlink:ai-osmlops-kubeflow-deploy.html["Distribuzione di Kubeflow"] sezione.  Se hai già designato una StorageClass predefinita all'interno del tuo cluster, puoi saltare questo passaggio.
 
 
 
+[[use-helm-to-deploy-airflow]]
 == Usa Helm per distribuire il flusso d'aria
 
 Per distribuire Airflow nel cluster Kubernetes tramite Helm, eseguire le seguenti attività dall'host di jump di distribuzione:

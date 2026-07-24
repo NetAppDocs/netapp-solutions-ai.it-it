@@ -22,6 +22,7 @@ image:bda-ai-006.png["Figura che mostra il dialogo di input/output o che rappres
 
 
 
+[[why-are-customers-moving-from-hdfs-and-mapr-fs-to-nfs]]
 == Perché i clienti stanno passando da HDFS e MapR-FS a NFS?
 
 La maggior parte delle distribuzioni Hadoop, come Cloudera e Hortonworks, utilizzano HDFS, mentre le distribuzioni MapR utilizzano il proprio file system denominato Mapr-FS per archiviare i dati.  I dati HDFS e MapR-FS forniscono agli scienziati dei dati informazioni preziose che possono essere sfruttate nell'apprendimento automatico (ML) e nell'apprendimento profondo (DL).  I dati in HDFS e MapR-FS non sono condivisi, il che significa che non possono essere utilizzati da altre applicazioni.  I clienti sono alla ricerca di dati condivisi, in particolare nel settore bancario, dove i dati sensibili dei clienti vengono utilizzati da più applicazioni.  L'ultima versione di Hadoop (3.x o successiva) supporta l'origine dati NFS, a cui è possibile accedere senza software di terze parti aggiuntivo.  Con la nuova funzionalità NetApp XCP, i dati possono essere spostati direttamente da HDFS e MapR-FS a NetApp NFS per fornire accesso a più applicazioni

@@ -20,6 +20,7 @@ Nel complesso, questo documento rappresenta una risorsa preziosa per comprendere
 
 
 
+[[where-to-find-additional-information]]
 == Dove trovare ulteriori informazioni
 
 Per saperne di più sulle informazioni descritte nel presente documento, consultare i seguenti documenti e/o siti web:

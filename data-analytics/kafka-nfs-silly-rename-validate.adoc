@@ -18,6 +18,7 @@ Per la convalida funzionale, abbiamo dimostrato che un cluster Kafka con un moun
 
 
 
+[[validation-setup]]
 == Impostazione di convalida
 
 L'installazione viene eseguita su AWS.  Nella tabella seguente sono riportati i diversi componenti della piattaforma e la configurazione ambientale utilizzati per la convalida.
@@ -47,6 +48,7 @@ image:kafka-nfs-001.png["Questa immagine mostra la topologia AWS contenente una 
 
 
 
+[[architectural-flow]]
 == Flusso architettonico
 
 * *Calcolare.*  Abbiamo utilizzato un cluster Kafka a quattro nodi con un ensemble zookeeper a tre nodi in esecuzione su server dedicati.
@@ -59,6 +61,7 @@ Per tutti i server sono state scelte le proprietà predefinite di Kafka.  Lo ste
 
 
 
+[[methodology-of-testing]]
 == Metodologia di test
 
 . Aggiornamento `-is-preserve-unlink-enabled true` al volume di Kafka, come segue:

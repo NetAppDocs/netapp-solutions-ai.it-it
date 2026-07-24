@@ -18,6 +18,7 @@ Un cluster Kafka con il livello di archiviazione montato su NetApp NFS è stato 
 
 
 
+[[apache-kafka-in-aws-fsx-ontap]]
 == Apache Kafka in AWS FSx ONTAP
 
 Network File System (NFS) è un file system di rete ampiamente utilizzato per archiviare grandi quantità di dati.  Nella maggior parte delle organizzazioni i dati vengono sempre più generati da applicazioni di streaming come Apache Kafka.  Questi carichi di lavoro richiedono scalabilità, bassa latenza e un'architettura di acquisizione dati solida con moderne capacità di archiviazione.  Per consentire analisi in tempo reale e fornire informazioni fruibili, è necessaria un'infrastruttura ben progettata e altamente performante.
@@ -30,6 +31,7 @@ Questi miglioramenti consentono ai clienti AWS di sfruttare FSx ONTAP durante l'
 
 
 
+[[performance-overview-and-validation-in-aws-fsx-ontap]]
 === Panoramica e convalida delle prestazioni in AWS FSx ONTAP
 
 Un cluster Kafka con il livello di archiviazione montato su NetApp NFS è stato sottoposto a benchmark per le prestazioni nel cloud AWS.  Gli esempi di benchmarking sono descritti nelle sezioni seguenti.

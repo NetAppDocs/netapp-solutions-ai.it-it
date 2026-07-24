@@ -18,6 +18,7 @@ Questa sezione descrive le configurazioni testate, l'infrastruttura di rete, il 
 
 
 
+[[solution-architecture]]
 == Architettura della soluzione
 
 Per questa convalida abbiamo utilizzato i componenti della soluzione elencati nella tabella seguente.
@@ -54,6 +55,7 @@ image:a400-thinksystem-007.png["Questa immagine mostra il livello di elaborazion
 
 
 
+[[storage-controller]]
 == Controllore di archiviazione
 
 Nella tabella seguente è elencata la configurazione di archiviazione.

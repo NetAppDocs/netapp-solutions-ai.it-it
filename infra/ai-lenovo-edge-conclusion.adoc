@@ -26,6 +26,7 @@ I sistemi di storage NetApp garantiscono prestazioni uguali o migliori rispetto 
 
 
 
+[[acknowledgments]]
 == Ringraziamenti
 
 * JJ  Falkanger, Direttore senior, Soluzioni HPC e IA, Lenovo
@@ -36,6 +37,7 @@ I sistemi di storage NetApp garantiscono prestazioni uguali o migliori rispetto 
 
 
 
+[[where-to-find-additional-information]]
 == Dove trovare ulteriori informazioni
 
 Per saperne di più sulle informazioni descritte nel presente documento, fare riferimento ai seguenti documenti e/o siti web:

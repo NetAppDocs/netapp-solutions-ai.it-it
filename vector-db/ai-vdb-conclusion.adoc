@@ -18,6 +18,7 @@ Questa sezione conclude la soluzione del database vettoriale per NetApp.
 
 
 
+[[conclusion]]
 == Conclusione
 
 In conclusione, questo documento fornisce una panoramica completa sull'implementazione e la gestione di database vettoriali, come Milvus e pgvector, sulle soluzioni di storage NetApp .  Abbiamo discusso le linee guida dell'infrastruttura per sfruttare l'archiviazione di oggetti NetApp ONTAP e StorageGRID e convalidato il database Milvus in AWS FSx ONTAP tramite l'archiviazione di file e oggetti.
@@ -30,6 +31,7 @@ Infine, abbiamo discusso due casi d'uso dell'intelligenza artificiale generativa
 
 
 
+[[acknowledgments]]
 === Ringraziamenti
 
 L'autore desidera ringraziare sentitamente i collaboratori indicati di seguito, coloro che hanno fornito feedback e commenti per rendere questo documento utile ai clienti NetApp e ai settori NetApp .
@@ -44,6 +46,7 @@ L'autore desidera ringraziare sentitamente i collaboratori indicati di seguito, 
 
 
 
+[[where-to-find-additional-information]]
 === Dove trovare ulteriori informazioni
 
 Per saperne di più sulle informazioni descritte nel presente documento, consultare i seguenti documenti e/o siti web:
@@ -56,6 +59,7 @@ Per saperne di più sulle informazioni descritte nel presente documento, consult
 
 
 
+[[version-history]]
 === Cronologia delle versioni
 
 |===

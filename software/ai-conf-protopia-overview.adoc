@@ -35,6 +35,7 @@ Per questa soluzione utilizziamo il Face Detection Data Set and Benchmark (FDDB)
 
 
 
+[[target-audience]]
 == Pubblico di destinazione
 
 Il presente rapporto tecnico è destinato ai seguenti destinatari:
@@ -48,6 +49,7 @@ Il presente rapporto tecnico è destinato ai seguenti destinatari:
 
 
 
+[[solution-architecture]]
 == Architettura della soluzione
 
 Questa soluzione è progettata per gestire carichi di lavoro di intelligenza artificiale in tempo reale e in batch su grandi set di dati, sfruttando la potenza di elaborazione delle GPU insieme alle CPU tradizionali.  Questa convalida dimostra l'inferenza che preserva la privacy per l'apprendimento automatico e la gestione ottimale dei dati richiesta alle organizzazioni che cercano implementazioni di intelligenza artificiale responsabili.  Questa soluzione fornisce un'architettura adatta per una piattaforma Kubernetes a nodo singolo o multiplo per l'edge computing e il cloud computing interconnessi con NetApp ONTAP AI nel core on-premise, NetApp DataOps Toolkit e il software di offuscamento Protopia utilizzando le interfacce Jupyter Lab e CLI.  La figura seguente mostra la panoramica dell'architettura logica del data fabric basato su NetApp con DataOps Toolkit e Protopia.

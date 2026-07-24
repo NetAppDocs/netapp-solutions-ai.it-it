@@ -18,12 +18,14 @@ La configurazione utilizzata per questa convalida può essere adattata ad altri 
 
 
 
+[[cpu-adjustments]]
 == Regolazioni della CPU
 
 Per questa convalida abbiamo utilizzato un processore Skylake Intel Xeon Platinum 8360Y, come consigliato da Lenovo.  Ci aspettiamo che la CPU Cascade Lake equivalente, un processore Intel Xeon Gold 6330, offra prestazioni simili perché questo carico di lavoro non è vincolato alla CPU.
 
 
 
+[[storage-capacity-increase]]
 == Aumento della capacità di archiviazione
 
 In base alle esigenze di capacità di archiviazione, è possibile aumentare lo spazio di archiviazione condiviso (volume NFS) su richiesta, a condizione di disporre di ulteriori modelli di controller e di ripiani per dischi.  È possibile eseguire questa operazione dalla CLI o dall'interfaccia Web NetApp del controller di storage come utente amministratore.

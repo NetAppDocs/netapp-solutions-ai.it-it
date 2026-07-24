@@ -18,6 +18,7 @@ Questa sezione tratta la definizione e l'uso di un database vettoriale nelle sol
 
 
 
+[[vector-database]]
 == Database vettoriale
 
 Un database vettoriale è un tipo specializzato di database progettato per gestire, indicizzare e ricercare dati non strutturati utilizzando incorporamenti di modelli di apprendimento automatico.  Invece di organizzare i dati in un formato tabellare tradizionale, li organizza come vettori ad alta dimensionalità, noti anche come incorporamenti vettoriali.  Questa struttura unica consente al database di gestire dati complessi e multidimensionali in modo più efficiente e accurato.
@@ -28,6 +29,7 @@ Inoltre, i database vettoriali sono adatti a gestire dati temporali, ovvero dati
 
 
 
+[[advantages-of-vector-database-for-ml-and-ai]]
 === Vantaggi del database vettoriale per ML e AI:
 
 * Ricerca ad alta dimensionalità: i database vettoriali eccellono nella gestione e nel recupero di dati ad alta dimensionalità, spesso generati nelle applicazioni di intelligenza artificiale e apprendimento automatico.
@@ -39,6 +41,7 @@ Inoltre, i database vettoriali sono adatti a gestire dati temporali, ovvero dati
 
 
 
+[[vector-databases-and-use-cases]]
 === Database vettoriali e casi d'uso.
 
 Questa sezione fornisce vari database vettoriali e i dettagli sui loro casi d'uso.

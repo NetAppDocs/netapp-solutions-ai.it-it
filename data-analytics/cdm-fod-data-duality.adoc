@@ -18,12 +18,14 @@ I dati sono disponibili in NFS e accessibili da S3 da AWS SageMaker.
 
 
 
+[[technology-requirements]]
 == Requisiti tecnologici
 
 Per il caso d'uso di dualità dei dati sono necessari NetApp BlueXP, NetApp Cloud Volumes ONTAP e AWS SageMaker Notebooks.
 
 
 
+[[software-requirements]]
 === Requisiti software
 
 Nella tabella seguente sono elencati i componenti software necessari per implementare il caso d'uso.
@@ -42,6 +44,7 @@ Nella tabella seguente sono elencati i componenti software necessari per impleme
 |===
 
 
+[[deployment-procedures]]
 == Procedure di distribuzione
 
 L'implementazione della soluzione di dualità dei dati comporta le seguenti attività:
@@ -55,6 +58,7 @@ L'implementazione della soluzione di dualità dei dati comporta le seguenti atti
 
 
 
+[[bluexp-connector]]
 === Connettore BlueXP
 
 Per questa convalida abbiamo utilizzato AWS.  È applicabile anche ad Azure e Google Cloud.  Per creare un connettore BlueXP in AWS, completa i seguenti passaggi:
@@ -71,6 +75,7 @@ Per questa convalida abbiamo utilizzato AWS.  È applicabile anche ad Azure e Go
 
 
 
+[[netapp-cloud-volumes-ontap]]
 === NetApp Cloud Volumes ONTAP
 
 Per creare un'istanza Cloud Volumes ONTAP in BlueXP, completare i seguenti passaggi:
@@ -244,6 +249,7 @@ sagemaker_cvo_sn1::*>
 
 
 
+[[aws-sagemaker]]
 === AWS SageMaker
 
 Per creare un AWS Notebook da AWS SageMaker, completa i seguenti passaggi:
@@ -318,6 +324,7 @@ sh-4.2$
 
 
 
+[[data-for-machine-learning]]
 === Dati per l'apprendimento automatico
 
 In questa convalida, abbiamo utilizzato un set di dati di DBpedia, un progetto comunitario basato sul crowdsourcing, per estrarre contenuti strutturati dalle informazioni create in vari progetti Wikimedia.
@@ -443,6 +450,7 @@ sh-4.2$
 
 
 
+[[validate-machine-learning-from-jupyter-notebooks]]
 == Convalida l'apprendimento automatico da Jupyter Notebooks
 
 La seguente convalida consente di creare, addestrare e distribuire modelli di apprendimento automatico tramite classificazione del testo utilizzando l'esempio SageMaker BlazingText riportato di seguito:

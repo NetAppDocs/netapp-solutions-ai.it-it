@@ -18,6 +18,7 @@ Questa sezione evidenzia la convalida delle prestazioni eseguita sul database ve
 
 
 
+[[performance-validation]]
 == Validazione delle prestazioni
 
 La convalida delle prestazioni svolge un ruolo fondamentale sia nei database vettoriali che nei sistemi di archiviazione, fungendo da fattore chiave per garantire un funzionamento ottimale e un utilizzo efficiente delle risorse.  I database vettoriali, noti per la gestione di dati ad alta dimensionalità e l'esecuzione di ricerche di similarità, devono mantenere elevati livelli di prestazioni per elaborare query complesse in modo rapido e accurato.  La convalida delle prestazioni aiuta a identificare i colli di bottiglia, a perfezionare le configurazioni e a garantire che il sistema possa gestire i carichi previsti senza degradazione del servizio.  Allo stesso modo, nei sistemi di archiviazione, la convalida delle prestazioni è essenziale per garantire che i dati vengano archiviati e recuperati in modo efficiente, senza problemi di latenza o colli di bottiglia che potrebbero influire sulle prestazioni complessive del sistema.  Aiuta inoltre a prendere decisioni consapevoli sugli aggiornamenti o le modifiche necessarie all'infrastruttura di storage.  Pertanto, la convalida delle prestazioni è un aspetto cruciale della gestione del sistema, contribuendo in modo significativo al mantenimento di un'elevata qualità del servizio, dell'efficienza operativa e dell'affidabilità complessiva del sistema.
@@ -48,6 +49,7 @@ Si prega di controllare la metodologia utilizzata per milvus e i progressi di se
 |===
 
 
+[[vectordb-bench-with-milvus-standalone-cluster]]
 === VectorDB-Bench con cluster autonomo Milvus
 
 abbiamo eseguito la seguente convalida delle prestazioni sul cluster autonomo Milvus con vectorDB-Bench.  Di seguito è riportata la connettività di rete e server del cluster autonomo Milvus.
@@ -95,6 +97,7 @@ Dalla convalida delle prestazioni dell'istanza Milvus autonoma, è evidente che 
 
 
 
+[[vectordb-bench-with-milvus-cluster]]
 === VectorDB-Bench con cluster Milvus
 
 In questa sezione, discuteremo l'implementazione di un cluster Milvus all'interno di un ambiente Kubernetes.  Questa configurazione di Kubernetes è stata realizzata su una distribuzione VMware vSphere, che ospitava i nodi master e worker di Kubernetes.
@@ -144,6 +147,7 @@ Sulla base della convalida delle prestazioni sia del Milvus autonomo che del clu
 
 
 
+[[vectordb-bench-with-postgres-pgvecto-rs]]
 === vectorDB-Bench con Postgres (pgvecto.rs)
 
 Abbiamo eseguito le seguenti azioni su PostgreSQL (pgvecto.rs) utilizzando VectorDB-Bench: i dettagli riguardanti la connettività di rete e del server di PostgreSQL (in particolare, pgvecto.rs) sono i seguenti:
@@ -161,6 +165,7 @@ image:pgvecto-storage-perf-metrics.png["Figura che mostra il dialogo di input/ou
 
 
 
+[[performance-comparison-between-milvus-and-postgres-on-vector-db-bench]]
 === Confronto delle prestazioni tra Milvus e Postgres su Vector DB Bench
 
 image:perf-comp-milvus-postgres.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]
@@ -177,6 +182,7 @@ Se l'elevata precisione nelle tue query è una priorità, Milvus supera pgvecto.
 
 
 
+[[observation-based-on-our-performance-validations]]
 === Osservazione basata sulle nostre convalide delle prestazioni:
 
 Sulla base delle nostre convalide delle prestazioni, abbiamo fatto le seguenti osservazioni:

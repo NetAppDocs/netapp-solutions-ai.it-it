@@ -18,12 +18,14 @@ Questa sezione si concentra sui componenti hardware per NetApp AIPod con sistemi
 
 
 
+[[netapp-aff-storage-systems]]
 == Sistemi di archiviazione NetApp AFF
 
 I sistemi di storage all'avanguardia NetApp AFF consentono ai reparti IT di soddisfare i requisiti di storage aziendale con prestazioni leader del settore, flessibilità superiore, integrazione cloud e la migliore gestione dei dati della categoria.  Progettati specificamente per flash, i sistemi AFF aiutano ad accelerare, gestire e proteggere i dati aziendali critici.
 
 
 
+[[aff-a90-storage-systems]]
 === Sistemi di stoccaggio AFF A90
 
 NetApp AFF A90 , basato sul software di gestione dati NetApp ONTAP , offre protezione dati integrata, funzionalità anti-ransomware opzionali e le elevate prestazioni e la resilienza necessarie per supportare i carichi di lavoro aziendali più critici.  Elimina le interruzioni delle operazioni mission-critical, riduce al minimo l'ottimizzazione delle prestazioni e protegge i dati dagli attacchi ransomware.  Offre: • Prestazioni leader del settore • Sicurezza dei dati senza compromessi • Aggiornamenti semplificati e senza interruzioni
@@ -54,6 +56,7 @@ Per le distribuzioni più grandi, i sistemi AFF A1K offrono le prestazioni e le 
 
 
 
+[[nvidia-dgx-basepod]]
 == NVIDIA DGX BasePOD
 
 NVIDIA DGX BasePOD è una soluzione integrata composta da componenti hardware e software NVIDIA , soluzioni MLOps e storage di terze parti.  Sfruttando le migliori pratiche di progettazione di sistemi scalabili con prodotti NVIDIA e soluzioni partner convalidate, i clienti possono implementare una piattaforma efficiente e gestibile per lo sviluppo dell'intelligenza artificiale.  La figura 1 evidenzia i vari componenti di NVIDIA DGX BasePOD.
@@ -64,6 +67,7 @@ image:aipod-nv-basepod-layers.png["Figura che mostra il dialogo di input/output 
 
 
 
+[[nvidia-dgx-h100-systems]]
 === Sistemi NVIDIA DGX H100
 
 Il sistema NVIDIA DGX H100 è un concentrato di intelligenza artificiale accelerato dalle prestazioni rivoluzionarie della GPU NVIDIA H100 Tensor Core.
@@ -80,6 +84,7 @@ image:aipod-nv-h100-rear.png["Figura che mostra il dialogo di input/output o che
 
 
 
+[[nvidia-networking]]
 === NVIDIA
 
 

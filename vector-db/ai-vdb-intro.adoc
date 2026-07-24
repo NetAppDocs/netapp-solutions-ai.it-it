@@ -18,6 +18,7 @@ Questa sezione fornisce un'introduzione alla soluzione di database vettoriale pe
 
 
 
+[[introduction]]
 == Introduzione
 
 I database vettoriali affrontano in modo efficace le sfide progettate per gestire le complessità della ricerca semantica nei Large Language Models (LLM) e nell'intelligenza artificiale generativa (IA).  A differenza dei tradizionali sistemi di gestione dei dati, i database vettoriali sono in grado di elaborare e ricercare vari tipi di dati, tra cui immagini, video, testo, audio e altre forme di dati non strutturati, utilizzando il contenuto dei dati stessi anziché etichette o tag.

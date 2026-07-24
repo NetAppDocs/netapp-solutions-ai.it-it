@@ -18,6 +18,7 @@ In questa sezione vengono descritte le attività necessarie per completare la co
 
 
 
+[[prerequisites]]
 == Prerequisiti
 
 Per eseguire le attività descritte in questa sezione, è necessario avere accesso a un host Linux o macOS con i seguenti strumenti installati e configurati:
@@ -36,6 +37,7 @@ Per eseguire le attività descritte in questa sezione, è necessario avere acces
 
 
 
+[[scenario-1-on-demand-inferencing-in-jupyterlab]]
 == Scenario 1 – Inferenza su richiesta in JupyterLab
 
 . Creare uno spazio dei nomi Kubernetes per carichi di lavoro di inferenza AI/ML.
@@ -105,6 +107,7 @@ image:ai-protopia-009.png["Figura che mostra il dialogo di input/output o che ra
 
 
 
+[[scenario-2-batch-inferencing-on-kubernetes]]
 == Scenario 2 – Inferenza batch su Kubernetes
 
 . Creare uno spazio dei nomi Kubernetes per carichi di lavoro di inferenza AI/ML.
@@ -253,6 +256,7 @@ mAP: 0.8841195749171925
 
 
 
+[[scenario-3-nvidia-triton-inference-server]]
 == Scenario 3 – Server di inferenza NVIDIA Triton
 
 . Creare uno spazio dei nomi Kubernetes per carichi di lavoro di inferenza AI/ML.

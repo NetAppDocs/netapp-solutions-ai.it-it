@@ -29,12 +29,14 @@ Per accedere a un volume NetApp che risiede in un piano dati diverso, sono consi
 |===
 
 
+[[option-1-create-a-cache-of-a-volume-that-resides-in-a-different-data-plane]]
 == Opzione 1: creare una cache di un volume che risiede in un piano dati diverso
 
 Conlink:https://docs.netapp.com/us-en/ontap/flexcache/accelerate-data-access-concept.html["Tecnologia NetApp FlexCache"] , è possibile creare una cache di un volume NetApp che risiede in un piano dati diverso.  Ad esempio, se hai un volume NetApp nel tuo piano dati locale e devi accedere a quel volume nel tuo piano dati AWS, puoi creare una cache del volume in AWS.  In questa sezione vengono descritte le attività che devono essere eseguite per creare una cache di un volume NetApp che risiede in un piano dati diverso.
 
 
 
+[[create-flexcache-volume-in-destination-environment]]
 === Crea volume FlexCache nell'ambiente di destinazione
 
 
@@ -53,6 +55,7 @@ NOTE: System Manager non è disponibile in Amazon FSx ONTAP.
 
 
 
+[[expose-flexcache-volume-to-domino]]
 === Esporre il volume FlexCache a Domino
 
 Successivamente, è necessario esporre il volume FlexCache alla piattaforma Domino MLOps.  Per esporre il volume FlexCache a Domino, seguire le istruzioni descritte nella sottosezione "Esporre volumi NFS esistenti che non sono stati forniti da Trident" dellink:ai-hybrid-ddlnexus-vols.html["Sezione "Esponi volumi NetApp esistenti a Domino""] di questa soluzione.
@@ -73,12 +76,14 @@ image:ddlnexus-005.png["Figura che mostra il dialogo di input/output o che rappr
 
 
 
+[[option-2-replicate-a-volume-that-resides-in-a-different-data-plane]]
 == Opzione 2: replicare un volume che risiede in un piano dati diverso
 
 Conlink:https://www.netapp.com/cyber-resilience/data-protection/data-backup-recovery/snapmirror-data-replication/["Tecnologia di replicazione dei dati NetApp SnapMirror"] , è possibile creare una copia di un volume NetApp che risiede in un piano dati diverso.  Ad esempio, se hai un volume NetApp nel tuo piano dati locale e devi accedere a quel volume nel tuo piano dati AWS, puoi creare una copia del volume in AWS.  In questa sezione vengono descritte le attività che devono essere eseguite per creare una copia di un volume NetApp che risiede in un piano dati diverso.
 
 
 
+[[create-snapmirror-relationship]]
 === Crea relazione SnapMirror
 
 Per prima cosa, devi creare una relazione SnapMirror tra il volume di origine e un nuovo volume di destinazione nell'ambiente di destinazione.  Si noti che il volume di destinazione verrà creato come parte del processo di creazione della relazione SnapMirror .
@@ -94,6 +99,7 @@ NOTE: System Manager non è disponibile in Amazon FSx ONTAP.
 
 
 
+[[break-snapmirror-relationship]]
 === Interrompi la relazione SnapMirror
 
 Successivamente, è necessario interrompere la relazione SnapMirror per attivare il volume di destinazione per l'accesso ai dati.  Attendere il completamento della replica iniziale prima di eseguire questo passaggio.
@@ -109,6 +115,7 @@ Se desideri automatizzare questo processo, puoi utilizzare illink:https://docs.n
 
 
 
+[[expose-destination-volume-to-domino]]
 === Esporre il volume di destinazione a Domino
 
 Successivamente, è necessario esporre il volume di destinazione alla piattaforma Domino MLOps.  Per esporre il volume di destinazione a Domino, seguire le istruzioni descritte nella sottosezione "Esporre volumi NFS esistenti che non sono stati forniti da Trident" dellink:ai-hybrid-ddlnexus-vols.html["Sezione "Esponi volumi NetApp esistenti a Domino""] di questa soluzione.

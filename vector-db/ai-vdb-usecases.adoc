@@ -18,12 +18,14 @@ Questa sezione fornisce una panoramica dei casi d'uso per la soluzione di databa
 
 
 
+[[vector-database-use-cases]]
 == Casi d'uso del database vettoriale
 
 In questa sezione, discuteremo di due casi d'uso quali Retrieval Augmented Generation con modelli linguistici di grandi dimensioni e NetApp IT chatbot.
 
 
 
+[[retrieval-augmented-generation-rag-with-large-language-models-llms]]
 === Generazione aumentata del recupero (RAG) con modelli linguistici di grandi dimensioni (LLM)
 
 ....
@@ -40,6 +42,7 @@ image:rag-nvidia-nemo.png["Figura che mostra il dialogo di input/output o che ra
 
 
 
+[[netapp-it-chatbot-use-case]]
 === Caso d'uso del chatbot IT NetApp
 
 Il chatbot di NetApp rappresenta un ulteriore caso d'uso in tempo reale per il database vettoriale.  In questo caso, NetApp Private OpenAI Sandbox fornisce una piattaforma efficace, sicura ed efficiente per la gestione delle query degli utenti interni di NetApp.  Integrando rigorosi protocolli di sicurezza, efficienti sistemi di gestione dei dati e sofisticate capacità di elaborazione dell'intelligenza artificiale, garantisce risposte precise e di alta qualità agli utenti in base ai loro ruoli e responsabilità nell'organizzazione tramite autenticazione SSO.  Questa architettura mette in luce il potenziale dell'unione di tecnologie avanzate per creare sistemi intelligenti e incentrati sull'utente.

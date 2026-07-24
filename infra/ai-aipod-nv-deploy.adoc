@@ -85,6 +85,7 @@ Nella tabella seguente sono riportate le versioni software dei vari componenti u
 |===
 
 
+[[storage-network-configuration]]
 == Configurazione della rete di archiviazione
 
 Questa sezione descrive i dettagli chiave per la configurazione della rete di archiviazione Ethernet.  Per informazioni sulla configurazione della rete di elaborazione InfiniBand, consultarelink:https://nvdam.widen.net/s/nfnjflmzlj/nvidia-dgx-basepod-reference-architecture["Documentazione NVIDIA BasePOD"] .  Per maggiori dettagli sulla configurazione dello switch fare riferimento alink:https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-59/["Documentazione NVIDIA Cumulus Linux"] .
@@ -183,6 +184,7 @@ Di seguito sono descritti i passaggi di base utilizzati per configurare gli swit
 
 
 
+[[storage-system-configuration]]
 == Configurazione del sistema di archiviazione
 
 In questa sezione vengono descritti i dettagli chiave per la configurazione del sistema di archiviazione A90 per questa soluzione.  Per maggiori dettagli sulla configurazione dei sistemi ONTAP fare riferimento alink:https://docs.netapp.com/us-en/ontap/index.html["Documentazione ONTAP"] .  Il diagramma seguente mostra la configurazione logica del sistema di archiviazione.
@@ -305,6 +307,7 @@ Di seguito sono descritti i passaggi di base utilizzati per configurare il siste
 
 
 
+[[dgx-h100-configuration-for-roce-storage-access]]
 === Configurazione DGX H100 per l'accesso allo storage RoCE
 
 Questa sezione descrive i dettagli chiave per la configurazione dei sistemi DGX H100.  Molti di questi elementi di configurazione possono essere inclusi nell'immagine del sistema operativo distribuita sui sistemi DGX o implementati da Base Command Manager al momento dell'avvio.  Sono elencati qui per riferimento, per maggiori informazioni sulla configurazione dei nodi e delle immagini software in BCM consultarelink:https://docs.nvidia.com/base-command-manager/index.html#overview["Documentazione BCM"] .

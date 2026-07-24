@@ -20,12 +20,14 @@ Questo documento descrive un'architettura di elaborazione e storage per implemen
 
 
 
+[[summary]]
 == Riepilogo
 
 Diversi scenari applicativi emergenti, come i sistemi avanzati di assistenza alla guida (ADAS), l'Industria 4.0, le città intelligenti e l'Internet delle cose (IoT), richiedono l'elaborazione di flussi di dati continui con una latenza prossima allo zero.  Questo documento descrive un'architettura di elaborazione e storage per implementare l'inferenza dell'intelligenza artificiale (AI) basata su GPU sui controller di storage NetApp e sui server Lenovo ThinkSystem in un ambiente edge che soddisfa questi requisiti.  Questo documento fornisce anche dati sulle prestazioni per il benchmark standard del settore MLPerf Inference, valutando varie attività di inferenza su server edge dotati di GPU NVIDIA T4.  Esaminiamo le prestazioni di scenari di inferenza offline, a flusso singolo e multi-flusso e dimostriamo che l'architettura con un sistema di archiviazione di rete condiviso ed economico è altamente performante e fornisce un punto centrale per la gestione di dati e modelli per più server edge.
 
 
 
+[[introduction]]
 == Introduzione
 
 Le aziende generano volumi sempre più ingenti di dati ai margini della rete.  Per ottenere il massimo valore dai sensori intelligenti e dai dati IoT, le organizzazioni sono alla ricerca di una soluzione di streaming di eventi in tempo reale che consenta l'edge computing.  Per questo motivo, i lavori più impegnativi dal punto di vista computazionale vengono sempre più svolti ai margini, al di fuori dei data center.  L'inferenza dell'intelligenza artificiale è uno dei motori di questa tendenza.  I server edge forniscono una potenza di calcolo sufficiente per questi carichi di lavoro, soprattutto quando si utilizzano acceleratori, ma lo spazio di archiviazione limitato rappresenta spesso un problema, soprattutto negli ambienti multiserver.  In questo documento mostriamo come implementare un sistema di storage condiviso nell'ambiente edge e come ciò possa apportare vantaggi ai carichi di lavoro di inferenza dell'IA senza imporre una penalizzazione delle prestazioni.
@@ -36,6 +38,7 @@ Questo documento riguarda i test e la convalida di una configurazione di elabora
 
 
 
+[[target-audience]]
 === Pubblico di destinazione
 
 Il presente documento è destinato ai seguenti destinatari:
@@ -49,6 +52,7 @@ Il presente documento è destinato ai seguenti destinatari:
 
 
 
+[[solution-architecture]]
 === Architettura della soluzione
 
 Questa soluzione di server Lenovo ThinkSystem e storage NetApp ONTAP o NetApp SANtricity è progettata per gestire l'inferenza AI su grandi set di dati utilizzando la potenza di elaborazione delle GPU insieme alle CPU tradizionali.  Questa convalida dimostra elevate prestazioni e una gestione ottimale dei dati con un'architettura che utilizza uno o più server edge Lenovo SR350 interconnessi con un singolo sistema di storage NetApp AFF , come mostrato nelle due figure seguenti.
@@ -92,6 +96,7 @@ Questa soluzione NetApp e Lenovo offre i seguenti vantaggi chiave:
 
 
 
+[[how-to-use-this-architecture]]
 === Come utilizzare questa architettura
 
 Questo documento convalida la progettazione e le prestazioni dell'architettura proposta.  Tuttavia, non abbiamo testato determinati componenti a livello di software, come la gestione di container, carichi di lavoro o modelli e la sincronizzazione dei dati con il cloud o il data center in locale, perché sono specifici di uno scenario di distribuzione.  Qui le scelte sono molteplici.
@@ -100,6 +105,7 @@ A livello di gestione dei container, la gestione dei container Kubernetes è una
 
 
 
+[[solution-areas]]
 === Aree di soluzione
 
 Il vantaggio principale dell'inferenza AI e dell'edge computing è la capacità dei dispositivi di calcolare, elaborare e analizzare i dati con un elevato livello di qualità e senza latenza.  Gli esempi di casi d'uso dell'edge computing sono davvero troppi per essere descritti in questo documento, ma eccone alcuni tra i più importanti:

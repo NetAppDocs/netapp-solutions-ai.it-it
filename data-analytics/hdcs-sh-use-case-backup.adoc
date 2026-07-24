@@ -18,6 +18,7 @@ In questo scenario, il cliente dispone di un ampio repository Hadoop in sede e d
 
 
 
+[[requirements-and-challenges]]
 == Requisiti e sfide
 
 I principali requisiti e sfide per questo caso d'uso includono:
@@ -35,6 +36,7 @@ I principali requisiti e sfide per questo caso d'uso includono:
 
 
 
+[[customers-existing-backup-solutionx]]
 == Soluzione di backup esistente del clientex
 
 La figura seguente mostra la soluzione di backup nativa originale di Hadoop.
@@ -63,12 +65,14 @@ Gli svantaggi della soluzione di backup nativa Hadoop originale includono:
 
 
 
+[[backup-solutions]]
 == Soluzioni di backup
 
 Sulla base di queste sfide e requisiti, e tenendo in considerazione il sistema di backup esistente, sono state suggerite tre possibili soluzioni di backup.  Le seguenti sottosezioni descrivono ciascuna di queste tre diverse soluzioni di backup, denominate dalla soluzione A alla soluzione C.
 
 
 
+[[solution-a]]
 === Soluzione A
 
 Nella soluzione A, il cluster Hadoop di backup invia i backup secondari ai sistemi di archiviazione NFS NetApp , eliminando il requisito del nastro, come mostrato nella figura seguente.
@@ -114,6 +118,7 @@ In questa soluzione è possibile utilizzare dischi SAN di ONTAP al posto di JBOD
 
 
 
+[[solution-b]]
 === Soluzione B
 
 La soluzione B aggiunge un volume NFS al cluster Hadoop di produzione, eliminando la necessità del cluster Hadoop di backup, come mostrato nella figura seguente.
@@ -141,6 +146,7 @@ Lo svantaggio di questa soluzione è che viene implementata nel cluster di produ
 
 
 
+[[solution-c]]
 === Soluzione C
 
 Nella soluzione C, i volumi SAN NetApp vengono forniti direttamente al cluster di produzione Hadoop per l'archiviazione HDFS, come mostrato nella figura seguente.

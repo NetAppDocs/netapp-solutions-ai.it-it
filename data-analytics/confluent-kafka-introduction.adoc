@@ -27,6 +27,7 @@ Questo documento descrive le linee guida sulle best practice per l'utilizzo di C
 
 
 
+[[why-confluent-tiered-storage]]
 == Perché Confluent Tiered Storage?
 
 Confluent è diventata la piattaforma di streaming in tempo reale predefinita per molte applicazioni, in particolare per i carichi di lavoro di big data, analisi e streaming.  Tiered Storage consente agli utenti di separare l'elaborazione dall'archiviazione nella piattaforma Confluent.  Rende l'archiviazione dei dati più conveniente, consente di archiviare quantità di dati praticamente infinite e di aumentare (o diminuire) i carichi di lavoro su richiesta, semplificando inoltre le attività amministrative come il ribilanciamento dei dati e dei tenant.  I sistemi di archiviazione compatibili con S3 possono sfruttare tutte queste funzionalità per democratizzare i dati con tutti gli eventi in un unico posto, eliminando la necessità di una complessa ingegneria dei dati.  Per maggiori informazioni sul motivo per cui dovresti utilizzare l'archiviazione a livelli per Kafka, controllalink:https://docs.confluent.io/platform/current/kafka/tiered-storage.html#netapp-object-storage["questo articolo di Confluent"^] .
@@ -35,6 +36,7 @@ NetApp instaclustr supporta anche Kafka con storage a livelli dalla versione 3.8
 
 
 
+[[why-netapp-storagegrid-for-tiered-storage]]
 == Perché NetApp StorageGRID per l'archiviazione a livelli?
 
 StorageGRID è una piattaforma di archiviazione di oggetti leader del settore di NetApp.  StorageGRID è una soluzione di archiviazione basata su oggetti e definita dal software che supporta le API di oggetti standard del settore, tra cui l'API Amazon Simple Storage Service (S3).  StorageGRID archivia e gestisce dati non strutturati su larga scala per fornire un archivio di oggetti sicuro e durevole.  I contenuti vengono posizionati nel posto giusto, al momento giusto e sul livello di archiviazione corretto, ottimizzando i flussi di lavoro e riducendo i costi per i rich media distribuiti a livello globale.
@@ -43,6 +45,7 @@ Il principale elemento di differenziazione di StorageGRID è il suo motore di po
 
 
 
+[[enabling-confluent-tiered-storage]]
 == Abilitazione dell'archiviazione a livelli confluenti
 
 L'idea di base dell'archiviazione a livelli è quella di separare le attività di archiviazione dei dati da quelle di elaborazione degli stessi.  Grazie a questa separazione, diventa molto più semplice per il livello di archiviazione dei dati e per il livello di elaborazione dei dati scalare in modo indipendente.

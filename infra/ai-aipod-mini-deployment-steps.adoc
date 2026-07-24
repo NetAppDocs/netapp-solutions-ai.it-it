@@ -22,6 +22,7 @@ Sathish Thyagarajan, Michael Oglesby, Arpita Mahajan NetApp
 
 
 
+[[assumptions]]
 == Ipotesi:
 
 * L'utente di distribuzione dispone di autorizzazioni sufficienti per creare namespace e installare Helm charts.
@@ -34,6 +35,7 @@ Sathish Thyagarajan, Michael Oglesby, Arpita Mahajan NetApp
 
 
 
+[[prerequisites]]
 == Prerequisiti
 
 Installa Git, Python3.11 e pip per Python3.11
@@ -52,10 +54,12 @@ python3.11 -m pip --version
 ----
 
 
+[[erag-2-02-0-1-deployment-steps]]
 == ERAG 2.0/2.0.1 Fasi di distribuzione
 
 
 
+[[1-pull-enterprise-rag-2-0-release-from-github]]
 === 1. Estrarre la versione Enterprise RAG 2.0 da GitHub
 
 [source, cli]
@@ -72,6 +76,7 @@ git checkout tags/release-2.0.1
 ----
 
 
+[[2-install-prerequisites]]
 === 2. Installare i prerequisiti
 
 [source, cli]
@@ -86,6 +91,7 @@ ansible-galaxy collection install -r requirements.yaml --upgrade
 ----
 
 
+[[3-create-inventory-file]]
 === 3. Crea file di inventario
 
 [source, cli]
@@ -124,6 +130,7 @@ ansible_connection=ssh
 ----
 
 
+[[4-set-up-passwordless-ssh-to-each-node]]
 === 4. Imposta SSH senza password su ogni nodo
 
 [source, cli]
@@ -134,6 +141,7 @@ Nota: se si utilizza un nodo di deploy per distribuire l'ERAG, assicurarsi che a
 
 
 
+[[5-verify-connectivity]]
 === 5. Verificare la connettività
 
 [source, cli]
@@ -144,6 +152,7 @@ Nota: se non hai configurato sudo senza password sui tuoi nodi, dovrai aggiunger
 
 
 
+[[6-edit-config-yaml-file]]
 === 6. Modifica  `config.yaml` file
 
 Prepara la distribuzione modificando  `inventory/<cluster-name>/config.yaml` per riflettere le specifiche del tuo ambiente.
@@ -182,6 +191,7 @@ kubeconfig: "<repository path>/deployment/inventory/<cluster-name>/artifacts/adm
 ----
 
 
+[[7-deploy-the-k8s-cluster-with-trident]]
 === 7. Distribuire il cluster (con Trident)
 
 Esegui ansible-playbook playbooks/infrastructure.yaml con i tag configure e install per distribuire il cluster e Trident CSI.
@@ -194,18 +204,21 @@ Nota: - Se non hai configurato sudo senza password sui tuoi nodi, dovrai aggiung
 
 
 
+[[8-change-the-number-of-iwatch-open-descriptors]]
 === 8. Modificare il numero di descrittori aperti di iwatch
 
 Fare riferimento a https://github.com/opea-project/Enterprise-RAG/blob/release-2.0.0/docs/application_deployment_guide.md#change-number-of-iwatch-open-descriptors["iwatch open descriptors"^] per i dettagli.
 
 
 
+[[9-install-kubectl]]
 === 9. Installa kubectl
 
 Fare riferimento a https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/["Installa Kubectl"] se non è già installato. Recuperare il file kubeconfig da `<repository path>/deployment/inventory/<cluster-name>/artifacts/admin.conf`.
 
 
 
+[[10-install-metallb-in-kubernetes-cluster]]
 === 10. Installa MetalLB nel cluster Kubernetes
 
 Installa MetalLB utilizzando helm sul tuo cluster Kubernetes.
@@ -219,6 +232,7 @@ Fare riferimento a https://metallb.io/installation/["Installazione di MetalLB"] 
 
 
 
+[[11-configure-metallb]]
 === 11. Configura MetalLB
 
 MetalLB è stato configurato in modalità Layer 2 e le risorse IPAddressPool e L2Advertisement richieste sono state create in conformità con le linee guida di configurazione documentate.
@@ -255,6 +269,7 @@ Nota: - Utilizzare  `metallb-system` come namespace per MetalLB IPAddressPool e 
 
 
 
+[[12-update-config-yaml-with-fqdn-volume-access-mode-ingress-and-s3-details]]
 === 12. Aggiorna config.yaml con FQDN, modalità di accesso al volume, ingress e dettagli S3.
 
 Modificare il file config.yaml situato in  `inventory/<cluster-name>/config.yaml` per definire il deployment FQDN, impostare le modalità di accesso al volume, configurare l'esposizione ingress e integrare ONTAP S3.
@@ -316,6 +331,7 @@ Nota: - Per impostazione predefinita, l® applicazione Intel® AI for Enterprise
 
 
 
+[[13-configure-scheduled-synchronization-settings]]
 === 13. Configurare le impostazioni di sincronizzazione pianificata
 
 Quando si installa l'applicazione OPEA per Intel® AI for Enterprise RAG, abilitare  `scheduledSync` in modo che l'applicazione acquisisca automaticamente file nuovi o aggiornati dai bucket S3.
@@ -341,6 +357,7 @@ celery:
 ----
 
 
+[[14-deploy-enterprise-rag-2-02-0-1]]
 === 14. Distribuire Enterprise RAG 2.0/2.0.1
 
 Prima dell'installazione, convalidare la disponibilità dell'infrastruttura seguendo le procedure descritte nel link:https://github.com/opea-project/Enterprise-RAG/blob/main/docs/application_deployment_guide.md["Guida alla distribuzione dell'applicazione RAG Intel® AI for Enterprise"]. Questo passaggio garantisce che l'infrastruttura sottostante sia configurata correttamente e soddisfi tutti i prerequisiti richiesti per una riuscita installazione di Enterprise RAG Application.
@@ -355,6 +372,7 @@ Nota: se non hai configurato sudo senza password sul tuo nodo di distribuzione (
 
 
 
+[[15-create-a-dns-entry]]
 === 15. Crea una voce DNS
 
 Crea una voce DNS per la dashboard web di Enterprise RAG nel tuo DNS server. Per procedere, recupera l'indirizzo IP esterno assegnato all'ingress di Enterprise RAG LoadBalancer:
@@ -369,16 +387,19 @@ Nota: - Il fully qualified domain utilizzato per la voce DNS DEVE corrispondere 
 
 
 
+[[16-access-enterprise-rag-ui]]
 === 16. Accedi all'interfaccia utente Enterprise RAG
 
 Accedi all'interfaccia utente Enterprise RAG navigando fino a quel fully qualified domain (FQDN) nel tuo browser. Nota: puoi recuperare le credenziali predefinite dell'interfaccia utente da cat ansible-logs/default_credentials.txt
 
 
 
+[[troubleshooting-guide]]
 == Guida alla risoluzione dei problemi
 
 
 
+[[1-issue-keycloak-helm-installation-conflict]]
 === 1. Problema: conflitto di installazione di Keycloak Helm
 
 Scenario: durante la distribuzione di ERAG, l'installazione di Keycloak potrebbe non riuscire con il seguente errore:
@@ -404,6 +425,7 @@ Nota: uno stato di rilascio Helm obsoleto può bloccare le successive operazioni
 
 
 
+[[2-issue-trident-operator-helm-chart-version-not-found]]
 === 2. Problema: versione della Helm Chart di Trident Operator non trovata
 
 Scenario: durante l'implementazione di ERAG, l'installazione dell'operatore Trident potrebbe non riuscire a causa di una mancata corrispondenza della versione della Helm chart. Potrebbe essere osservato il seguente errore:

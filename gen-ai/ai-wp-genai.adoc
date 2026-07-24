@@ -13,18 +13,21 @@ La domanda di intelligenza artificiale (IA) generativa sta determinando cambiame
 
 
 
+[[abstract]]
 == Astratto
 
 Molte organizzazioni utilizzano l'intelligenza artificiale generativa per sviluppare nuove funzionalità di prodotto, migliorare la produttività ingegneristica e prototipare applicazioni basate sull'intelligenza artificiale che offrono risultati ed esperienze migliori per i consumatori.  L'intelligenza artificiale generativa, come i Generative Pre-trained Transformers (GPT), utilizza reti neurali per creare nuovi contenuti, tra cui testo, audio e video.  Considerata l'estrema scala e gli enormi set di dati coinvolti nei modelli linguistici di grandi dimensioni (LLM), è fondamentale progettare un'infrastruttura di intelligenza artificiale solida che sfrutti le interessanti funzionalità di archiviazione dei dati delle opzioni di distribuzione on-premise, ibride e multicloud e riduca i rischi associati alla mobilità dei dati, alla protezione dei dati e alla governance prima che le aziende possano progettare soluzioni di intelligenza artificiale.  In questo documento vengono descritte queste considerazioni e le corrispondenti funzionalità di intelligenza artificiale NetApp che consentono una gestione e uno spostamento dei dati senza interruzioni lungo la pipeline dei dati di intelligenza artificiale per l'addestramento, il riaddestramento, la messa a punto e l'inferenza dei modelli di intelligenza artificiale generativa.
 
 
 
+[[executive-summary]]
 == Sintesi
 
 Più di recente, dopo il lancio di ChatGPT, uno spin-off di GPT-3 nel novembre 2022, i nuovi strumenti di intelligenza artificiale utilizzati per generare testo, codice, immagini o persino proteine terapeutiche in risposta alle richieste degli utenti hanno acquisito notevole fama.  Ciò indica che gli utenti possono effettuare una richiesta utilizzando il linguaggio naturale e l'intelligenza artificiale interpreterà e genererà testo, come articoli di giornale o descrizioni di prodotti che riflettono la richiesta dell'utente o produrranno codice, musica, parlato, effetti visivi e risorse 3D utilizzando algoritmi addestrati su dati già esistenti.  Di conseguenza, espressioni come Diffusione stabile, Allucinazioni, Ingegneria rapida e Allineamento del valore stanno emergendo rapidamente nella progettazione dei sistemi di intelligenza artificiale.  Questi modelli di apprendimento automatico (ML) auto-supervisionati o semi-supervisionati stanno diventando ampiamente disponibili come modelli di base pre-addestrati (FM) tramite fornitori di servizi cloud e altri fornitori di aziende di intelligenza artificiale, e vengono adottati da varie aziende in tutti i settori per un'ampia gamma di attività NLP (elaborazione del linguaggio naturale) a valle.  Come affermato da società di analisi di ricerca come McKinsey: "L'impatto dell'intelligenza artificiale generativa sulla produttività potrebbe aggiungere migliaia di miliardi di dollari di valore all'economia globale".  Mentre le aziende stanno ripensando l'intelligenza artificiale come partner intellettuale degli esseri umani e i gestori di gestione stanno ampliando contemporaneamente ciò che aziende e istituzioni possono fare con l'intelligenza artificiale generativa, le opportunità di gestire enormi volumi di dati continueranno a crescere.  Questo documento presenta informazioni introduttive sull'intelligenza artificiale generativa e sui concetti di progettazione in relazione alle funzionalità NetApp che apportano valore ai clienti NetApp , sia in ambienti locali che ibridi o multicloud.
 
 
 
+[[so-whats-in-it-for-customers-to-use-netapp-in-their-ai-environments]]
 === *Quindi, cosa ci guadagnano i clienti utilizzando NetApp nei loro ambienti di intelligenza artificiale?*
 
 NetApp aiuta le organizzazioni a far fronte alle complessità create dalla rapida crescita dei dati e del cloud, dalla gestione multi-cloud e dall'adozione di tecnologie di nuova generazione, come l'intelligenza artificiale. NetApp ha combinato diverse funzionalità in un software di gestione dati intelligente e in un'infrastruttura di storage ben bilanciata con prestazioni elevate ottimizzate per i carichi di lavoro di intelligenza artificiale. Le soluzioni di intelligenza artificiale generativa come gli LLM devono leggere ed elaborare i set di dati sorgente dall'archiviazione alla memoria numerose volte per promuovere l'intelligenza.
@@ -35,12 +38,14 @@ In qualità di autorità in materia di dati su cloud ibrido e multi-cloud, NetAp
 
 
 
+[[what-is-generative-ai]]
 == Cos'è l'intelligenza artificiale generativa?
 
 L'intelligenza artificiale generativa sta cambiando il modo in cui creiamo contenuti, generiamo nuovi concetti di design ed esploriamo composizioni innovative.  Illustra framework di reti neurali come Generative Adversarial Network (GAN), Variational Autoencoders (VAE) e Generative Pre-Trained Transformers (GPT), che possono generare nuovi contenuti come testo, codice, immagini, audio, video e dati sintetici.  Modelli basati su trasformatori come Chat-GPT di OpenAI, Bard di Google, BLOOM di Hugging Face e LLaMA di Meta sono emersi come tecnologie fondamentali alla base di molti progressi nei modelli linguistici di grandi dimensioni.  Allo stesso modo, Dall-E di OpenAI, CM3leon di Meta e Imagen di Google sono esempi di modelli di diffusione testo-immagine che offrono ai clienti un livello di fotorealismo senza precedenti per creare nuove immagini complesse da zero o modificare immagini esistenti per generare immagini contestuali di alta qualità utilizzando l'aumento del set di dati e la sintesi testo-immagine che collega la semantica testuale e visiva.  Gli artisti digitali stanno iniziando ad applicare una combinazione di tecnologie di rendering come NeRF (Neural Radiance Field) con l'intelligenza artificiale generativa per convertire immagini 2D statiche in scene 3D immersive.  In generale, gli LLM sono ampiamente caratterizzati da quattro parametri: (1) Dimensione del modello (tipicamente in miliardi di parametri); (2) Dimensione del set di dati di addestramento; (3) Costo dell'addestramento e (4) Prestazioni del modello dopo l'addestramento.  Anche gli LLM rientrano principalmente in tre architetture di trasformatori.  (i) Modelli solo con encoder.  Ad esempio BERT (Google, 2018); (ii) modelli Encoder-Decoder, ad esempio BART (Meta, 2020) e (iii) modelli solo Decoder.  Ad esempio LLaMA (Meta, 2023), PaLM-E (Google, 2023).  A seconda dei requisiti aziendali, indipendentemente dall'architettura scelta dall'azienda, il numero di parametri del modello (N) e il numero di token (D) nel set di dati di addestramento determinano generalmente il costo di base dell'addestramento (pre-addestramento) o della messa a punto di un LLM.
 
 
 
+[[enterprise-use-cases-and-downstream-nlp-tasks]]
 === Casi d'uso aziendali e attività NLP a valle
 
 Le aziende di tutti i settori stanno scoprendo sempre più il potenziale dell'intelligenza artificiale nell'estrarre e produrre nuove forme di valore dai dati esistenti per le operazioni aziendali, le vendite, il marketing e i servizi legali.  Secondo le informazioni di mercato di IDC (International Data Corporation) sui casi d'uso e gli investimenti globali nell'intelligenza artificiale generativa, la gestione della conoscenza nello sviluppo del software e nella progettazione dei prodotti sarà quella maggiormente interessata, seguita dalla creazione di storyline per il marketing e dalla generazione di codice per gli sviluppatori.  Nel settore sanitario, le organizzazioni di ricerca clinica stanno aprendo nuove strade alla medicina.  I modelli preaddestrati come ProteinBERT incorporano annotazioni Gene Ontology (GO) per progettare rapidamente strutture proteiche per farmaci, rappresentando una pietra miliare significativa nella scoperta di farmaci, nella bioinformatica e nella biologia molecolare.  Le aziende biotecnologiche hanno avviato sperimentazioni sull'uomo per la medicina generativa scoperta dall'intelligenza artificiale, che mira a curare malattie come la fibrosi polmonare (IPF), una malattia polmonare che provoca cicatrici irreversibili nel tessuto polmonare.
@@ -57,12 +62,14 @@ image:gen-ai-003.png["Figura 2: Fonte: McKinsey  Company"]
 
 
 
+[[role-of-storage-in-generative-ai]]
 === Il ruolo dello storage nell'intelligenza artificiale generativa
 
 Gli LLM si basano in larga parte su apprendimento profondo, GPU e calcolo.  Tuttavia, quando il buffer della GPU si riempie, i dati devono essere scritti rapidamente nella memoria.  Mentre alcuni modelli di intelligenza artificiale sono sufficientemente piccoli da poter essere eseguiti in memoria, gli LLM richiedono IOPS elevati e un'archiviazione ad alta velocità per fornire un accesso rapido a grandi set di dati, soprattutto se si tratta di miliardi di token o milioni di immagini.  Per un tipico requisito di memoria GPU di un LLM, la memoria necessaria per addestrare un modello con 1 miliardo di parametri potrebbe arrivare fino a 80 GB a 32 bit di precisione completa.  In tal caso, LLaMA 2 di Meta, una famiglia di LLM con una scala che va da 7 miliardi a 70 miliardi di parametri, potrebbe richiedere 70x80, ovvero circa 5600 GB o 5,6 TB di RAM GPU.  Inoltre, la quantità di memoria necessaria è direttamente proporzionale al numero massimo di token che si desidera generare.  Ad esempio, se si desidera generare output fino a 512 token (circa 380 parole), è necessariolink:https://github.com/ray-project/llm-numbers#1-mb-gpu-memory-required-for-1-token-of-output-with-a-13b-parameter-model["512 MB"] .  Potrebbe sembrare irrilevante, ma se si vogliono produrre lotti più grandi, la cosa inizia a farsi sentire.  Ciò rende molto costoso per le organizzazioni addestrare o perfezionare gli LLM in memoria, rendendo così l'archiviazione un elemento fondamentale per l'intelligenza artificiale generativa.
 
 
 
+[[three-primary-approaches-to-llms]]
 === Tre approcci principali agli LLM
 
 Per la maggior parte delle aziende, in base alle tendenze attuali, l'approccio all'implementazione degli LLM può essere condensato in 3 scenari di base.  Come descritto in un recentelink:https://hbr.org/2023/07/how-to-train-generative-ai-using-your-companys-data["Harvard Business Review"] articolo: (1) Formazione (pre-formazione) di un LLM da zero: costosa e richiede competenze specialistiche in AI/ML; (2) Perfezionamento di un modello di base con dati aziendali: complesso, ma fattibile; (3) Utilizzo della generazione aumentata dal recupero (RAG) per interrogare repository di documenti, API e database vettoriali che contengono dati aziendali.  Ciascuno di questi presenta dei compromessi tra impegno, velocità di iterazione, efficienza dei costi e accuratezza del modello nelle loro implementazioni, utilizzati per risolvere diversi tipi di problemi (diagramma seguente).
@@ -73,12 +80,14 @@ image:gen-ai-004.png["Figura 3: Tipi di problemi"]
 
 
 
+[[foundation-models]]
 === Modelli di fondazione
 
 Un modello di base (FM), noto anche come modello di base, è un modello di intelligenza artificiale (LLM) di grandi dimensioni addestrato su grandi quantità di dati non etichettati, utilizzando l'autosupervisione su larga scala, generalmente adattato per un'ampia gamma di attività NLP a valle.  Poiché i dati di addestramento non sono etichettati dagli esseri umani, il modello emerge anziché essere codificato in modo esplicito.  Ciò significa che il modello può generare storie o una narrazione propria senza essere programmato esplicitamente per farlo.  Pertanto una caratteristica importante della FM è l'omogeneizzazione, ovvero lo stesso metodo viene utilizzato in molti domini.  Tuttavia, grazie alle tecniche di personalizzazione e di messa a punto, i FM integrati nei prodotti che compaiono oggigiorno non solo sono efficaci nella generazione di testo, nella conversione di testo in immagini e nella conversione di testo in codice, ma anche nella spiegazione di attività specifiche di un dominio o nel debug del codice.  Ad esempio, FM come Codex di OpenAI o Code Llama di Meta possono generare codice in più linguaggi di programmazione basandosi su descrizioni in linguaggio naturale di un'attività di programmazione.  Questi modelli sono competenti in oltre una dozzina di linguaggi di programmazione, tra cui Python, C#, JavaScript, Perl, Ruby e SQL.  Comprendono l'intento dell'utente e generano codice specifico che realizza l'attività desiderata, utile per lo sviluppo del software, l'ottimizzazione del codice e l'automazione delle attività di programmazione.
 
 
 
+[[fine-tuning-domain-specificity-and-retraining]]
 === Ottimizzazione, specificità del dominio e riaddestramento
 
 Una delle pratiche più comuni nell'implementazione di LLM dopo la preparazione e la pre-elaborazione dei dati è quella di selezionare un modello pre-addestrato, ovvero addestrato su un set di dati ampio e diversificato. Nel contesto della messa a punto, questo può essere un modello di linguaggio di grandi dimensioni open source comelink:https://ai.meta.com/llama/["Meta's Llama 2"] addestrato su 70 miliardi di parametri e 2 trilioni di token. Una volta selezionato il modello pre-addestrato, il passo successivo è perfezionarlo sui dati specifici del dominio. Ciò comporta la regolazione dei parametri del modello e l'addestramento sui nuovi dati per adattarlo a un dominio e a un'attività specifici. Ad esempio, BloombergGPT, un LLM proprietario formato su un'ampia gamma di dati finanziari al servizio del settore finanziario.
@@ -95,24 +104,28 @@ image:gen-ai-005.png["Fonte: Microsoft Azure"]
 
 
 
+[[prompt-engineering-and-inferencing]]
 === Ingegneria e inferenza rapide
 
 Con "prompt engineering" si intendono i metodi efficaci per comunicare con gli LLM per eseguire le attività desiderate senza aggiornare i pesi del modello.  Per quanto l'addestramento e la messa a punto dei modelli di intelligenza artificiale siano importanti per le applicazioni NLP, altrettanto importante è l'inferenza, in cui i modelli addestrati rispondono alle richieste dell'utente.  I requisiti di sistema per l'inferenza sono generalmente molto più orientati alle prestazioni di lettura del sistema di archiviazione AI che invia i dati dagli LLM alle GPU, poiché deve essere in grado di applicare miliardi di parametri del modello archiviati per produrre la risposta migliore.
 
 
 
+[[llmops-model-monitoring-and-vectorstores]]
 === LLMOps, monitoraggio dei modelli e Vectorstores
 
 Analogamente alle tradizionali operazioni di Machine Learning Ops (MLOps), anche le operazioni su modelli di linguaggio di grandi dimensioni (LLMOps) richiedono la collaborazione di data scientist e ingegneri DevOps con strumenti e best practice per la gestione degli LLM negli ambienti di produzione.  Tuttavia, il flusso di lavoro e lo stack tecnologico per gli LLM potrebbero variare in alcuni aspetti.  Ad esempio, le pipeline LLM create utilizzando framework come LangChain uniscono più chiamate API LLM a endpoint di incorporamento esterni come vectorstore o database vettoriali.  L'utilizzo di un endpoint di incorporamento e di un vectorstore per i connettori downstream (come per un database vettoriale) rappresenta uno sviluppo significativo nel modo in cui i dati vengono archiviati e accessibili.  A differenza dei tradizionali modelli ML sviluppati da zero, gli LLM spesso si basano sull'apprendimento per trasferimento, poiché questi modelli partono da modelli di apprendimento automatico (FM) che vengono perfezionati con nuovi dati per migliorare le prestazioni in un dominio più specifico.  Pertanto, è fondamentale che gli LLMOps forniscano le capacità di gestione del rischio e di monitoraggio del decadimento del modello.
 
 
 
+[[risks-and-ethics-in-the-age-of-generative-ai]]
 === Rischi ed etica nell'era dell'intelligenza artificiale generativa
 
 "ChatGPT: è ingegnoso ma continua a vomitare assurdità." – MIT Tech Review.  Il problema dell'intrusione e dell'eliminazione dei rifiuti è sempre stato il problema più spinoso dell'informatica.  L'unica differenza con l'intelligenza artificiale generativa è che quest'ultima è in grado di rendere i dati estremamente credibili, il che porta a risultati imprecisi.  Gli LLM tendono a inventare fatti per adattarli alla narrazione che stanno costruendo.  Pertanto, le aziende che vedono nell'intelligenza artificiale generativa una grande opportunità per ridurre i costi con equivalenti di intelligenza artificiale devono individuare in modo efficiente i deep fake, ridurre i pregiudizi e i rischi per mantenere i sistemi onesti ed etici.  Un flusso di dati libero con una solida infrastruttura di intelligenza artificiale che supporti la mobilità dei dati, la qualità dei dati, la governance dei dati e la protezione dei dati tramite crittografia end-to-end e protezioni di intelligenza artificiale è fondamentale nella progettazione di modelli di intelligenza artificiale generativa responsabili e spiegabili.
 
 
 
+[[customer-scenario-and-netapp]]
 == Scenario del cliente e NetApp
 
 Figura 3: Flusso di lavoro del modello di apprendimento automatico/linguaggio di grandi dimensioni
@@ -125,6 +138,7 @@ NetApp , in quanto azienda, abbraccia l'intelligenza artificiale internamente, n
 
 
 
+[[netapp-capabilities]]
 == Capacità NetApp
 
 Lo spostamento e la gestione dei dati nelle applicazioni di intelligenza artificiale generativa, come chatbot, generazione di codice, generazione di immagini o espressione di modelli genomici, possono estendersi all'edge, al data center privato e all'ecosistema multicloud ibrido.  Ad esempio, un bot di intelligenza artificiale in tempo reale che aiuta un passeggero ad aggiornare il suo biglietto aereo alla classe business tramite un'app per utenti finali esposta tramite API di modelli pre-addestrati come ChatGPT non può svolgere tale compito da solo, poiché le informazioni sul passeggero non sono disponibili pubblicamente su Internet.  L'API richiede l'accesso alle informazioni personali del passeggero e alle informazioni sul biglietto della compagnia aerea, che può esistere in un ecosistema ibrido o multicloud.  Uno scenario simile potrebbe applicarsi agli scienziati che condividono una molecola di farmaco e i dati dei pazienti tramite un'applicazione per l'utente finale che utilizza LLM per realizzare sperimentazioni cliniche nell'ambito della scoperta di farmaci che coinvolgono istituti di ricerca biomedica one-to-many.  I dati sensibili trasmessi ai FM o agli LLM possono includere informazioni personali identificabili (PII), informazioni finanziarie, informazioni sanitarie, dati biometrici, dati sulla posizione, dati sulle comunicazioni, comportamento online e informazioni legali.  In un evento di rendering in tempo reale, esecuzione rapida e inferenza edge, si verifica uno spostamento di dati dall'app dell'utente finale agli endpoint di archiviazione tramite modelli LLM open source o proprietari a un data center in sede o a piattaforme cloud pubbliche.  In tutti questi scenari, la mobilità e la protezione dei dati sono fondamentali per le operazioni di intelligenza artificiale che coinvolgono LLM, che si basano su grandi set di dati di formazione e sullo spostamento di tali dati.
@@ -163,24 +177,28 @@ Il servizio * NetApp Cloud Sync* offre un modo semplice e sicuro per migrare i d
 
 
 
+[[ontap-ai-with-dgx-basepod]]
 === * ONTAP AI con DGX BasePOD*
 
 L'architettura di riferimento NetApp ONTAP AI con NVIDIA DGX BasePOD è un'architettura scalabile per carichi di lavoro di machine learning (ML) e intelligenza artificiale (AI).  Per la fase di formazione critica degli LLM, i dati vengono solitamente copiati dall'archivio dati al cluster di formazione a intervalli regolari.  I server utilizzati in questa fase sfruttano le GPU per parallelizzare i calcoli, creando un'enorme richiesta di dati.  Soddisfare le esigenze di larghezza di banda I/O grezza è fondamentale per mantenere un elevato utilizzo della GPU.
 
 
 
+[[ontap-ai-with-nvidia-ai-enterprise]]
 === * ONTAP AI con NVIDIA AI Enterprise*
 
 NVIDIA AI Enterprise è una suite end-to-end e cloud-native di software di analisi dei dati e intelligenza artificiale, ottimizzata, certificata e supportata da NVIDIA per l'esecuzione su VMware vSphere con sistemi certificati NVIDIA.  Questo software semplifica e velocizza l'implementazione, la gestione e il ridimensionamento dei carichi di lavoro di intelligenza artificiale nel moderno ambiente cloud ibrido.  NVIDIA AI Enterprise, basato su NetApp e VMware, offre una gestione dei dati e dei carichi di lavoro di intelligenza artificiale di livello aziendale in un pacchetto semplificato e familiare.
 
 
 
+[[1p-cloud-platforms]]
 === *Piattaforme cloud 1P*
 
 Le offerte di archiviazione cloud completamente gestite sono disponibili in modo nativo su Microsoft Azure come Azure NetApp Files (ANF), su AWS come Amazon FSx for NetApp ONTAP (FSx ONTAP) e su Google come Google Cloud NetApp Volumes (GNCV).  1P è un file system gestito ad alte prestazioni che consente ai clienti di eseguire carichi di lavoro di intelligenza artificiale ad alta disponibilità con maggiore sicurezza dei dati nei cloud pubblici, per ottimizzare LLM/FM con piattaforme ML native del cloud come AWS SageMaker, Azure-OpenAI Services e Vertex AI di Google.
 
 
 
+[[netapp-partner-solution-suite]]
 == Suite di soluzioni per i partner NetApp
 
 Oltre ai suoi principali prodotti, tecnologie e capacità di dati, NetApp collabora a stretto contatto anche con una solida rete di partner di intelligenza artificiale per offrire valore aggiunto ai clienti.
@@ -195,6 +213,7 @@ Oltre ai suoi principali prodotti, tecnologie e capacità di dati, NetApp collab
 
 
 
+[[conclusion]]
 == Conclusione
 
 L'intelligenza artificiale generativa può produrre risultati efficaci solo quando il modello viene addestrato su grandi quantità di dati di qualità.  Sebbene gli LLM abbiano raggiunto traguardi notevoli, è fondamentale riconoscerne i limiti, le sfide progettuali e i rischi associati alla mobilità e alla qualità dei dati.  Gli LLM si basano su set di dati di formazione ampi e eterogenei provenienti da fonti di dati eterogenee.  Risultati imprecisi o distorti generati dai modelli possono mettere a repentaglio sia le aziende che i consumatori.  Questi rischi possono corrispondere a vincoli per gli LLM che emergono potenzialmente dalle sfide di gestione dei dati associate alla qualità dei dati, alla sicurezza dei dati e alla mobilità dei dati.  NetApp aiuta le organizzazioni a far fronte alle complessità create dalla rapida crescita dei dati, dalla mobilità dei dati, dalla gestione multi-cloud e dall'adozione dell'intelligenza artificiale.  Su larga scala, l'infrastruttura di intelligenza artificiale e la gestione efficiente dei dati sono fondamentali per definire il successo delle applicazioni di intelligenza artificiale come l'intelligenza artificiale generativa.  È fondamentale che i clienti coprano tutti gli scenari di implementazione senza compromettere la capacità di espandersi in base alle esigenze aziendali, mantenendo al contempo il controllo sull'efficienza dei costi, sulla governance dei dati e sulle pratiche etiche di intelligenza artificiale.  NetApp lavora costantemente per aiutare i clienti a semplificare e accelerare le implementazioni dell'intelligenza artificiale.

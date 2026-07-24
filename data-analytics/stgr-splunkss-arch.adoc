@@ -18,6 +18,7 @@ Questa sezione descrive l'architettura di Splunk, comprese le definizioni chiave
 
 
 
+[[key-definitions]]
 == Definizioni chiave
 
 Le due tabelle successive elencano i componenti Splunk e NetApp utilizzati nella distribuzione di Splunk.
@@ -76,6 +77,7 @@ Questa tabella elenca i componenti dell'architettura di archiviazione Splunk.
 |===
 
 
+[[splunk-distributed-deployments]]
 == Distribuzioni distribuite di Splunk
 
 Per supportare ambienti più grandi in cui i dati provengono da numerose macchine, è necessario elaborare grandi volumi di dati.  Se molti utenti devono effettuare ricerche nei dati, è possibile scalare la distribuzione distribuendo le istanze di Splunk Enterprise su più macchine.  Questo è noto come distribuzione distribuita.
@@ -125,6 +127,7 @@ Scopri i seguenti vantaggi delle distribuzioni distribuite di Splunk Enterprise:
 
 
 
+[[splunk-smartstore]]
 == Splunk SmartStore
 
 SmartStore è una funzionalità di indicizzazione che consente agli archivi di oggetti remoti, come Amazon S3, di archiviare dati indicizzati.  Con l'aumento del volume di dati di un'implementazione, la domanda di storage in genere supera la domanda di risorse di elaborazione.  SmartStore consente di gestire in modo conveniente le risorse di archiviazione e di elaborazione dell'indicizzatore, ridimensionando tali risorse separatamente.
@@ -135,6 +138,7 @@ Con SmartStore puoi ridurre al minimo l'ingombro di archiviazione dell'indicizza
 
 
 
+[[splunk-smartstore-data-flow]]
 == Flusso di dati di Splunk SmartStore
 
 Quando i dati provenienti da varie fonti raggiungono gli indicizzatori, vengono indicizzati e salvati localmente in un hot bucket.  L'indicizzatore replica anche i dati hot bucket sugli indicizzatori di destinazione.  Finora, il flusso di dati è identico al flusso di dati per gli indici non SmartStore.
@@ -151,6 +155,7 @@ Il compito del gestore della cache è ottimizzare l'uso della cache disponibile,
 
 
 
+[[software-requirements]]
 == Requisiti software
 
 Nella tabella seguente sono elencati i componenti software necessari per implementare la soluzione.  I componenti software utilizzati in qualsiasi implementazione della soluzione potrebbero variare in base alle esigenze del cliente.
@@ -169,6 +174,7 @@ Nella tabella seguente sono elencati i componenti software necessari per impleme
 |===
 
 
+[[single-and-multisite-requirements]]
 == Requisiti per siti singoli e multisito
 
 In un ambiente Splunk Enterprise (distribuzioni di medie e grandi dimensioni) in cui i dati hanno origine su più macchine e in cui molti utenti devono effettuare ricerche nei dati, è possibile scalare la distribuzione distribuendo le istanze di Splunk Enterprise su uno o più siti.
@@ -210,6 +216,7 @@ image:stgr-splunkss-007.png["Figura che mostra il dialogo di input/output o che 
 
 
 
+[[hardware-requirements]]
 == Requisiti hardware
 
 Le tabelle seguenti elencano il numero minimo di componenti hardware necessari per implementare la soluzione.  I componenti hardware utilizzati in specifiche implementazioni della soluzione potrebbero variare in base alle esigenze del cliente.
@@ -241,6 +248,7 @@ Questa tabella elenca l'hardware utilizzato per una configurazione multisito (pe
 |===
 
 
+[[netapp-storagegrid-load-balancer-sg1000]]
 === Bilanciatore del carico NetApp StorageGRID : SG1000
 
 L'archiviazione di oggetti richiede l'uso di un bilanciatore del carico per presentare lo spazio dei nomi dell'archiviazione cloud.  StorageGRID supporta bilanciatori di carico di terze parti di fornitori leader come F5 e Citrix, ma molti clienti scelgono il bilanciatore StorageGRID di livello aziendale per semplicità, resilienza e prestazioni elevate.  Il bilanciatore del carico StorageGRID è disponibile come VM, container o appliance appositamente progettata.
@@ -262,6 +270,7 @@ image:stgr-splunkss-008.png["Figura che mostra il dialogo di input/output o che 
 
 
 
+[[sg6060]]
 === SG6060
 
 L'appliance StorageGRID SG6060 include un controller di elaborazione (SG6060) e uno scaffale per controller di archiviazione (E-Series E2860) che contiene due controller di archiviazione e 60 unità.  Questo apparecchio offre le seguenti caratteristiche:
@@ -280,6 +289,7 @@ image:stgr-splunkss-009.png["Figura che mostra il dialogo di input/output o che 
 
 
 
+[[splunk-design]]
 == Progettazione Splunk
 
 Nella tabella seguente è elencata la configurazione di Splunk per un singolo sito.

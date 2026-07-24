@@ -18,6 +18,7 @@ Splunk Enterprise è la soluzione SIEM (Security Information and Event Managemen
 
 
 
+[[overview]]
 == Panoramica
 
 I volumi di dati continuano a crescere a ritmi esponenziali, creando enormi opportunità per le aziende che riescono a sfruttare questa vasta risorsa.  Splunk Enterprise continua a essere adottato in una più ampia gamma di casi d'uso.  Con l'aumentare dei casi d'uso, aumenta anche la quantità di dati che Splunk Enterprise acquisisce ed elabora.  L'architettura tradizionale di Splunk Enterprise è un progetto distribuito e scalabile che garantisce un accesso e una disponibilità eccellenti dei dati.  Tuttavia, le aziende che utilizzano questa architettura devono far fronte a costi crescenti associati alla scalabilità per soddisfare il volume di dati in rapida crescita.
@@ -33,6 +34,7 @@ NOTE: Splunk SmartStore definisce l'archiviazione di oggetti come archivi remoti
 
 
 
+[[about-netapp-storagegrid]]
 == Informazioni su NetApp StorageGRID
 
 NetApp StorageGRID è una soluzione di archiviazione di oggetti definita dal software per archivi di grandi dimensioni, repository multimediali e archivi di dati Web.  Con StorageGRID, NetApp sfrutta due decenni di esperienza nella fornitura di soluzioni di innovazione e gestione dei dati leader del settore, aiutando al contempo le organizzazioni a gestire e massimizzare il valore delle loro informazioni sia in sede che in distribuzioni cloud pubbliche, private o ibride.
@@ -58,12 +60,14 @@ Per ulteriori informazioni su come StorageGRID può aiutarti a risolvere i probl
 
 
 
+[[about-splunk-enterprise]]
 == Informazioni su Splunk Enterprise
 
 Splunk Enterprise è una piattaforma che trasforma i dati in azioni concrete.  I dati generati da varie fonti, come file di registro, siti Web, dispositivi, sensori e applicazioni, vengono inviati e analizzati dagli indicizzatori Splunk, consentendo di ricavare informazioni dettagliate dai dati.  Potrebbe identificare violazioni dei dati, evidenziare tendenze di clienti e prodotti, trovare opportunità per ottimizzare l'infrastruttura o creare informazioni fruibili in un'ampia gamma di casi d'uso.
 
 
 
+[[about-splunk-smartstore]]
 == Informazioni su Splunk SmartStore
 
 Splunk SmartStore amplia i vantaggi dell'architettura Splunk semplificandone al contempo la scalabilità in modo economicamente vantaggioso.  La separazione delle risorse di elaborazione e di archiviazione si traduce in nodi indicizzatori ottimizzati per l'I/O con esigenze di archiviazione notevolmente ridotte, poiché memorizzano solo un sottoinsieme di dati nella cache.  Non è necessario aggiungere ulteriore capacità di elaborazione o di archiviazione quando è necessaria solo una di queste risorse, il che consente di ottenere notevoli risparmi sui costi.  È possibile utilizzare un archivio di oggetti basato su S3, conveniente e facilmente scalabile, che semplifica ulteriormente l'ambiente, riduce i costi e consente di gestire un set di dati più ampio.

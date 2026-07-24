@@ -18,6 +18,7 @@ Questa sezione descrive le attività che devi completare per distribuire Kubeflo
 
 
 
+[[prerequisites]]
 == Prerequisiti
 
 Prima di eseguire l'esercizio di distribuzione descritto in questa sezione, diamo per scontato che tu abbia già eseguito le seguenti attività:
@@ -28,6 +29,7 @@ Prima di eseguire l'esercizio di distribuzione descritto in questa sezione, diam
 
 
 
+[[set-default-kubernetes-storageclass]]
 == Imposta la classe di archiviazione Kubernetes predefinita
 
 Prima di distribuire Kubeflow, ti consigliamo di designare una StorageClass predefinita all'interno del tuo cluster Kubernetes.  Il processo di distribuzione di Kubeflow potrebbe tentare di effettuare il provisioning di nuovi volumi persistenti utilizzando la StorageClass predefinita.  Se non viene designata alcuna StorageClass come StorageClass predefinita, la distribuzione potrebbe non riuscire.  Per designare una StorageClass predefinita all'interno del cluster, eseguire la seguente attività dall'host di jump di distribuzione.  Se hai già designato una StorageClass predefinita all'interno del tuo cluster, puoi saltare questo passaggio.
@@ -56,6 +58,7 @@ ontap-ai-flexvols-retain (default)   csi.trident.netapp.io   54s
 ....
 
 
+[[kubeflow-deployment-options]]
 == Opzioni di distribuzione di Kubeflow
 
 Esistono molte opzioni diverse per distribuire Kubeflow.  Fare riferimento allink:https://www.kubeflow.org/docs/started/installing-kubeflow/["documentazione ufficiale di Kubeflow"] per un elenco delle opzioni di distribuzione e scegli l'opzione più adatta alle tue esigenze.

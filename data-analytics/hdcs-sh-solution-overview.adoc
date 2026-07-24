@@ -33,6 +33,7 @@ Questo documento descrive le soluzioni di dati cloud ibride che utilizzano i sis
 
 
 
+[[why-hadoop-data-protection]]
 == Perché la protezione dei dati Hadoop?
 
 In un ambiente Hadoop e Spark, è necessario affrontare le seguenti problematiche:
@@ -44,6 +45,7 @@ In un ambiente Hadoop e Spark, è necessario affrontare le seguenti problematich
 
 
 
+[[data-protection-challenges-for-hadoop-and-spark-customers]]
 == Sfide di protezione dei dati per i clienti Hadoop e Spark
 
 Una sfida comune per i clienti Hadoop e Spark è quella di ridurre i tempi di backup e aumentare l'affidabilità del backup senza influire negativamente sulle prestazioni del cluster di produzione durante la protezione dei dati.

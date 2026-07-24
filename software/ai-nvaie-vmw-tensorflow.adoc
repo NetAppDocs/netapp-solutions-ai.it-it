@@ -18,12 +18,14 @@ Questa sezione descrive le attività che devono essere eseguite per eseguire un 
 
 
 
+[[prerequisites]]
 == Prerequisiti
 
 Prima di eseguire i passaggi descritti in questa sezione, si presume che sia già stato creato un modello di VM guest seguendo le istruzioni descritte inlink:ai-nvaie-vmw-ngcsetup.html["Impostare"] pagina.
 
 
 
+[[create-guest-vm-from-template]]
 == Crea una VM guest dal modello
 
 Per prima cosa, devi creare una nuova VM guest dal modello creato nella sezione precedente.  Per creare una nuova VM guest dal tuo modello, accedi a VMware vSphere, fai clic con il pulsante destro del mouse sul nome del modello, scegli "Nuova VM da questo modello..." e segui la procedura guidata.
@@ -32,6 +34,7 @@ image:nvaie-004.png["Figura che mostra il dialogo di input/output o che rapprese
 
 
 
+[[create-and-mount-data-volume]]
 == Crea e monta il volume dati
 
 Successivamente, è necessario creare un nuovo volume di dati su cui archiviare il set di dati di addestramento.  È possibile creare rapidamente un nuovo volume di dati utilizzando NetApp DataOps Toolkit.  Il comando di esempio che segue mostra la creazione di un volume denominato 'imagenet' con una capacità di 2 TB.
@@ -46,12 +49,14 @@ $ sudo -E netapp_dataops_cli.py mount vol -n imagenet -m ~/imagenet
 ....
 
 
+[[populate-data-volume]]
 == Popola il volume dei dati
 
 Dopo aver eseguito il provisioning e il montaggio del nuovo volume, il set di dati di training può essere recuperato dalla posizione di origine e posizionato sul nuovo volume.  In genere, ciò comporta l'estrazione dei dati da un data lake S3 o Hadoop e talvolta richiede l'aiuto di un data engineer.
 
 
 
+[[execute-tensorflow-training-job]]
 == Esegui il job di training di TensorFlow
 
 Ora sei pronto per eseguire il tuo job di training TensorFlow.  Per eseguire il processo di addestramento TensorFlow, eseguire le seguenti attività.

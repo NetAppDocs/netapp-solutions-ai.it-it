@@ -18,6 +18,7 @@ I principali casi d'uso e la metodologia di intelligenza artificiale, apprendime
 
 
 
+[[spark-nlp-pipelines-and-tensorflow-distributed-inferencing]]
 == Pipeline Spark NLP e inferenza distribuita TensorFlow
 
 L'elenco seguente contiene le librerie NLP open source più diffuse, adottate dalla comunità della scienza dei dati a diversi livelli di sviluppo:
@@ -40,6 +41,7 @@ Il motore di apprendimento profondo alla base di Spark NLP è TensorFlow, una pi
 
 
 
+[[horovod-distributed-training]]
 == Formazione distribuita Horovod
 
 La convalida principale di Hadoop per le prestazioni correlate a MapReduce viene eseguita con TeraGen, TeraSort, TeraValidate e DFSIO (lettura e scrittura).  I risultati della convalida TeraGen e TeraSort sono presentati in https://www.netapp.com/pdf.html?item=/media/16420-tr-3969pdf.pdf["Soluzione NetApp E-Series per Hadoop"] e nella sezione "Storage Tiering" per AFF.
@@ -61,6 +63,7 @@ Vedi la sezionelink:apache-spark-use-cases-summary.html#machine-learning["Appren
 
 
 
+[[multi-worker-deep-learning-using-keras-for-ctr-prediction]]
 == Apprendimento approfondito multi-worker con Keras per la previsione del CTR
 
 Grazie ai recenti progressi nelle piattaforme e nelle applicazioni di apprendimento automatico, molta attenzione è ora rivolta all'apprendimento su larga scala.  Il tasso di clic (CTR) è definito come il numero medio di clic per cento impressioni di annunci online (espresso in percentuale).  È ampiamente adottato come metrica chiave in vari settori verticali e casi d'uso, tra cui marketing digitale, vendita al dettaglio, e-commerce e fornitori di servizi.  Per maggiori dettagli sulle applicazioni di CTR e sui risultati delle prestazioni di formazione distribuita, vederelink:apache-spark-testing-results.html#deep-learning-models-for-ctr-prediction-performance["Modelli di apprendimento profondo per le prestazioni di previsione del CTR"] sezione.
@@ -89,6 +92,7 @@ Oltre a DCN, abbiamo testato anche altri modelli di deep learning popolari per l
 
 
 
+[[architectures-used-for-validation]]
 == Architetture utilizzate per la convalida
 
 Per questa convalida, abbiamo utilizzato quattro nodi worker e un nodo master con una coppia AFF-A800 HA.  Tutti i membri del cluster erano connessi tramite switch di rete 10GbE.

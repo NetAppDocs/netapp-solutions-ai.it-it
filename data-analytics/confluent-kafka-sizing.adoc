@@ -18,6 +18,7 @@ Il dimensionamento Kafka può essere eseguito con quattro modalità di configura
 
 
 
+[[simple]]
 == Semplice
 
 La modalità semplice è adatta ai nuovi utenti di Apache Kafka o ai casi d'uso iniziali.  Per questa modalità, è necessario specificare requisiti quali velocità effettiva in MBps, fanout di lettura, conservazione e percentuale di utilizzo delle risorse (il 60% è l'impostazione predefinita).  Si accede anche all'ambiente, ad esempio on-premise (bare-metal, VMware, Kubernetes o OpenStack) o cloud.  Sulla base di queste informazioni, il dimensionamento di un cluster Kafka fornisce il numero di server necessari per il broker, lo zookeeper, i worker di connessione Apache Kafka, il registro degli schemi, un proxy REST, ksqlDB e il centro di controllo Confluent.
@@ -26,6 +27,7 @@ Per l'archiviazione a livelli, prendere in considerazione la modalità di config
 
 
 
+[[producers]]
 === Produttori
 
 Per descrivere i produttori per Apache Kafka (ad esempio un client nativo, un proxy REST o un connettore Kafka), fornire le seguenti informazioni:
@@ -81,6 +83,7 @@ Gli Stream Processor devono descrivere le loro applicazioni o servizi che consum
 
 
 
+[[consumers]]
 === Consumatori
 
 Descrivi le tue applicazioni o i tuoi servizi che consumano dati da Apache Kafka e non li restituiscono in Apache Kafka; ad esempio, un client nativo o Kafka Connector.
@@ -117,6 +120,7 @@ Oltre ai requisiti per produttori, processori di streaming e consumatori, è nec
 
 
 
+[[describe-your-environment]]
 === Descrivi il tuo ambiente
 
 * *In quale ambiente verrà eseguito il tuo cluster?*  Amazon Web Services, Microsoft Azure, Google Cloud Platform, bare-metal on premises, VMware on premises, OpenStack on premises o Kubernates on premises?

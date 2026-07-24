@@ -15,6 +15,7 @@ summary: 'Questa sezione illustra i dettagli del caso d"uso del cliente di Dremi
 
 
 
+[[netapp-activeiq-use-case]]
 == Caso d'uso di NetApp ActiveIQ
 
 image:activeiqold.png["Vecchia architettura ActiveIQ"]
@@ -31,6 +32,7 @@ In sostituzione dell'infrastruttura Hadoop/Hive, Dremio offriva funzionalità pe
 
 
 
+[[auto-parts-sales-customer-use-case]]
 == Caso d'uso del cliente nella vendita di ricambi auto.
 
 *Sfide*: all'interno di questa azienda globale di vendita di ricambi auto, i gruppi di pianificazione e analisi finanziaria aziendale e dirigenziale non sono riusciti a ottenere una visione consolidata dei report sulle vendite e sono stati costretti a leggere i report sulle metriche di vendita delle singole linee di business e a tentare di consolidarli.  Ciò ha portato i clienti a prendere decisioni sulla base di dati risalenti ad almeno un giorno prima.  I tempi di elaborazione per ottenere nuove informazioni analitiche normalmente superano le quattro settimane.  La risoluzione dei problemi relativi alle pipeline di dati richiederebbe ancora più tempo, aggiungendo altri tre giorni o più alla già lunga tempistica.  Il lento processo di sviluppo dei report e le relative prestazioni hanno costretto la comunità degli analisti ad attendere continuamente che i dati venissero elaborati o caricati, anziché consentire loro di trovare nuove informazioni aziendali e di promuovere nuovi comportamenti aziendali.  Questi ambienti problematici erano composti da numerosi database diversi per diverse linee di business, con il risultato di creare numerosi silos di dati.  L'ambiente lento e frammentato complicava la governance dei dati, poiché gli analisti avevano troppi modi per elaborare la propria versione della verità anziché ricorrere a un'unica fonte di verità.  L'approccio è costato oltre 1,9 milioni di dollari in costi di piattaforma dati e personale.  Per mantenere la piattaforma legacy e soddisfare le richieste di dati erano necessari sette Field Technical Engineer (FTE) all'anno.  Con l'aumento delle richieste di dati, il team di data intelligence non è riuscito a ridimensionare l'ambiente legacy per soddisfare le esigenze future

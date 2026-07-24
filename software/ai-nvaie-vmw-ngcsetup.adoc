@@ -18,18 +18,21 @@ In questa sezione vengono descritte le attività di configurazione iniziale che 
 
 
 
+[[prerequisites]]
 == Prerequisiti
 
 Prima di eseguire i passaggi descritti in questa sezione, si presume che sia già stato distribuito il software host NVIDIA AI Entrprise seguendo le istruzioni descritte nellink:ai-nvaie-vmw-setup.html["Configurazione iniziale"] pagina.
 
 
 
+[[create-an-ubuntu-guest-vm-with-vgpu]]
 == Creare una VM guest Ubuntu con vGPU
 
 Per prima cosa, devi creare una VM guest Ubuntu 20.04 con vGPU.  Per creare una VM guest Ubuntu 20.04 con vGPU, seguire le istruzioni descritte inlink:https://docs.nvidia.com/ai-enterprise/deployment-guide-vmware/0.1.0/first-vm.html["Guida all'implementazione aziendale NVIDIA AI"] .
 
 
 
+[[download-and-install-nvidia-guest-software]]
 == Scarica e installa il software guest NVIDIA
 
 Successivamente, è necessario installare il software guest NVIDIA richiesto nella VM guest creata nel passaggio precedente.  Per scaricare e installare il software guest NVIDIA richiesto all'interno della VM guest, seguire le istruzioni descritte nelle sezioni 5.1-5.4 nellalink:https://docs.nvidia.com/ai-enterprise/latest/quick-start-guide/index.html["Guida rapida all'avvio di NVIDIA AI Enterprise"] .
@@ -39,12 +42,14 @@ NOTE: Quando si eseguono le attività di verifica descritte nella sezione 5.4, p
 
 
 
+[[download-aianalytics-framework-containers]]
 == Scarica i contenitori del framework AI/Analytics
 
 Successivamente, è necessario scaricare le immagini dei container del framework di analisi o di intelligenza artificiale necessarie da NVIDIA NGC, in modo che siano disponibili nella VM guest.  Per scaricare i contenitori del framework all'interno della VM guest, seguire le istruzioni descritte inlink:https://docs.nvidia.com/ai-enterprise/deployment-guide-vmware/0.1.0/installing-ai.html["Guida all'implementazione aziendale NVIDIA AI"] .
 
 
 
+[[install-and-configure-the-netapp-dataops-toolkit]]
 == Installa e configura NetApp DataOps Toolkit
 
 Successivamente, è necessario installare NetApp DataOps Toolkit for Traditional Environemnts nella VM guest.  NetApp DataOps Toolkit può essere utilizzato per gestire volumi di dati scalabili sul sistema ONTAP direttamente dal terminale all'interno della VM guest.  Per installare NetApp DataOps Toolkit nella VM guest, eseguire le seguenti attività.
@@ -83,6 +88,7 @@ Created config file: '/home/user/.netapp_dataops/config.json'.
 
 
 
+[[create-a-guest-vm-template]]
 == Creare un modello di VM guest
 
 Infine, è necessario creare un modello di VM basato sulla VM guest.  Sarà possibile utilizzare questo modello per creare rapidamente VM guest per l'utilizzo del software NVIDIA NGC.

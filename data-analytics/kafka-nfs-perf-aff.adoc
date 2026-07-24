@@ -22,12 +22,14 @@ image:kafka-nfs-032.png["Figura che mostra il dialogo di input/output o che rapp
 
 
 
+[[storage-configuration]]
 == Configurazione di archiviazione
 
 Abbiamo utilizzato istanze NetApp FlexGroups per fornire un singolo namespace per le directory di registro, semplificando il ripristino e la configurazione.  Abbiamo utilizzato NFSv4.1 e pNFS per fornire un accesso diretto al percorso dei dati del segmento di registro.
 
 
 
+[[client-tuning]]
 == Ottimizzazione del cliente
 
 Ogni client ha montato l'istanza FlexGroup con il seguente comando.
@@ -39,6 +41,7 @@ Inoltre, abbiamo aumentato il `max_session_slots`` dal valore predefinito `64` A
 
 
 
+[[kafka-broker-tuning]]
 == Ottimizzazione del broker Kafka
 
 Per massimizzare la produttività nel sistema sottoposto a test, abbiamo aumentato significativamente i parametri predefiniti per alcuni pool di thread chiave.  Consigliamo di seguire le best practice di Confluent Kafka per la maggior parte delle configurazioni.  Questa ottimizzazione è stata utilizzata per massimizzare la concorrenza di I/O in sospeso sullo storage.  Questi parametri possono essere modificati in base alle risorse di calcolo e agli attributi di archiviazione del tuo broker.
@@ -53,6 +56,7 @@ queued.max.requests=2000
 ....
 
 
+[[workload-generator-testing-methodology]]
 == Metodologia di test del generatore di carico di lavoro
 
 Abbiamo utilizzato le stesse configurazioni OMB utilizzate per i test cloud per la configurazione del driver Throughput e dell'argomento.
@@ -115,6 +119,7 @@ sudo bin/benchmark --drivers driver-kafka/kafka-throughput.yaml workloads/1-topi
 
 
 
+[[steady-state-performance]]
 === Prestazioni in stato stazionario
 
 Abbiamo valutato l' AFF A900 utilizzando OpenMessaging Benchmark per fornire un confronto simile a quello tra Cloud Volumes ONTAP in AWS e DAS in AWS.  Tutti i valori delle prestazioni rappresentano la produttività del cluster Kafka a livello di produttore e consumatore.
@@ -129,6 +134,7 @@ image:kafka-nfs-034.png["Questo grafico mostra la produttività della rete Broke
 
 
 
+[[extreme-performance-and-exploring-storage-limits]]
 == Prestazioni estreme ed esplorazione dei limiti di archiviazione
 
 Per AFF, abbiamo anche effettuato test con OMB utilizzando la funzionalità backlog.  La funzionalità di backlog sospende gli abbonamenti dei consumatori mentre viene creato un backlog di eventi nel cluster Kafka.  Durante questa fase si verifica solo il traffico del produttore, che genera eventi che vengono salvati nei log.  Questa emula più fedelmente i flussi di lavoro di elaborazione batch o di analisi offline; in questi flussi di lavoro, gli abbonamenti dei consumatori vengono avviati e devono leggere i dati storici che sono già stati rimossi dalla cache del broker.
@@ -155,6 +161,7 @@ Dopo che OMB ha completato il popolamento dell'eventbacklog, il traffico dei con
 
 
 
+[[sizing-guidance]]
 == Guida alle taglie
 
 Amazon Web Services offre un https://aws.amazon.com/blogs/big-data/best-practices-for-right-sizing-your-apache-kafka-clusters-to-optimize-performance-and-cost/["guida alle taglie"^] per il dimensionamento e la scalabilità dei cluster Kafka.

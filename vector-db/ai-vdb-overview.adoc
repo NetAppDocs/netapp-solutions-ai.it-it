@@ -18,12 +18,14 @@ Questa sezione fornisce una panoramica della soluzione di database vettoriale Ne
 
 
 
+[[solution-overview]]
 == Panoramica della soluzione
 
 Questa soluzione mette in mostra i vantaggi e le capacità distintive che NetApp offre per affrontare le sfide che i clienti dei database vettoriali si trovano ad affrontare.  Sfruttando NetApp ONTAP, StorageGRID, le soluzioni cloud di NetApp e SnapCenter, i clienti possono aggiungere un valore significativo alle loro operazioni aziendali.  Questi strumenti non solo risolvono i problemi esistenti, ma migliorano anche l'efficienza e la produttività, contribuendo così alla crescita aziendale complessiva.
 
 
 
+[[why-netapp]]
 === Perché NetApp?
 
 * Le offerte di NetApp, come ONTAP e StorageGRID, consentono la separazione tra storage ed elaborazione, consentendo un utilizzo ottimale delle risorse in base a requisiti specifici.  Questa flessibilità consente ai clienti di scalare in modo indipendente il proprio storage utilizzando le soluzioni di storage NetApp .

@@ -18,6 +18,7 @@ Questa sezione illustra il DR (disaster recovery) con SnapMirror per la soluzion
 
 
 
+[[disaster-recovery-using-netapp-snapmirror]]
 == Ripristino di emergenza tramite NetApp SnapMirror
 
 image:vector-database-dr-fsxn-gcnv.png["Figura che mostra il dialogo di input/output o che rappresenta il contenuto scritto"]

@@ -26,12 +26,14 @@ David Arnette, NetApp
 
 
 
+[[executive-summary]]
 == Sintesi
 
 Grazie alle comprovate prestazioni di elaborazione di NVIDIA DGX SuperPOD, unite alle funzionalità di sicurezza dei dati, governance dei dati e multi-tenancy leader del settore di NetApp, i clienti possono implementare l'infrastruttura più efficiente e agile per i carichi di lavoro di nuova generazione.  Questo documento descrive l'architettura di alto livello e le funzionalità principali che aiutano i clienti a ridurre i tempi di commercializzazione e il ritorno sull'investimento per le iniziative di intelligenza artificiale e apprendimento automatico.
 
 
 
+[[program-summary]]
 == Riepilogo del programma
 
 NVIDIA DGX SuperPOD offre una soluzione di data center AI chiavi in ​​mano per le organizzazioni, offrendo senza soluzione di continuità elaborazione di livello mondiale, strumenti software, competenze e innovazione continua.  DGX SuperPOD offre ai clienti tutto ciò di cui hanno bisogno per distribuire carichi di lavoro AI/ML e HPC con tempi di configurazione minimi e massima produttività.  La figura 1 mostra i componenti di alto livello di DGX SuperPOD.
@@ -49,6 +51,7 @@ DGX SuperPOD offre i seguenti vantaggi:
 
 
 
+[[solution-overview]]
 == Panoramica della soluzione
 
 Con l'adozione da parte delle organizzazioni di iniziative di intelligenza artificiale (IA) e apprendimento automatico (ML), la domanda di soluzioni infrastrutturali solide, scalabili ed efficienti non è mai stata così elevata.  Al centro di queste iniziative c'è la sfida di gestire e addestrare modelli di intelligenza artificiale sempre più complessi, garantendo al contempo la sicurezza dei dati, l'accessibilità e l'ottimizzazione delle risorse.  L'evoluzione dell'intelligenza artificiale agentiva e i requisiti di addestramento dei modelli sofisticati hanno creato richieste senza precedenti in termini di infrastrutture di calcolo e di archiviazione.  Le organizzazioni devono ora gestire enormi set di dati, supportare più carichi di lavoro di formazione simultanei e mantenere ambienti di elaborazione ad alte prestazioni, garantendo al contempo la protezione dei dati e la conformità alle normative.  Le soluzioni infrastrutturali tradizionali spesso faticano a soddisfare queste esigenze, causando inefficienze operative e ritardi nel time-to-value dei progetti di intelligenza artificiale.  Questa soluzione offre i seguenti vantaggi chiave:
@@ -60,6 +63,7 @@ Con l'adozione da parte delle organizzazioni di iniziative di intelligenza artif
 
 
 
+[[target-audience]]
 === Pubblico di destinazione
 
 Questa soluzione è pensata per le organizzazioni con carichi di lavoro HPC e AI/ML che richiedono una maggiore integrazione in ampi patrimoni di dati e strumenti e processi di infrastrutture IT tradizionali.
@@ -73,6 +77,7 @@ Il pubblico di riferimento della soluzione comprende i seguenti gruppi:
 
 
 
+[[solution-technology]]
 === Tecnologia delle soluzioni
 
 NVIDIA DGX SuperPOD include i server, la rete e lo storage necessari per garantire prestazioni comprovate per carichi di lavoro di intelligenza artificiale impegnativi.  I sistemi NVIDIA DGX™ H200 e NVIDIA DGX B200 offrono una potenza di elaborazione di livello mondiale, mentre gli switch di rete NVIDIA Quantum e Spectrum™ InfiniBand garantiscono una latenza estremamente bassa e prestazioni di rete leader del settore.  Grazie all'aggiunta delle funzionalità di gestione dei dati e delle prestazioni leader del settore dello storage NetApp ONTAP , i clienti possono realizzare iniziative di intelligenza artificiale/apprendimento automatico più rapidamente e con meno migrazione dei dati e spese amministrative.  Le sezioni seguenti descrivono i componenti di archiviazione del DGX SuperPOD con sistemi di archiviazione AFF A90 .
@@ -120,6 +125,7 @@ NVIDIA Base Command Manager offre una distribuzione rapida e una gestione end-to
 
 
 
+[[use-case-summary]]
 === Riepilogo del caso d'uso
 
 NVIDIA DGX SuperPOD è progettato per soddisfare i requisiti prestazionali dei carichi di lavoro più impegnativi su larga scala.
@@ -133,6 +139,7 @@ Questa soluzione si applica ai seguenti casi d'uso:
 
 
 
+[[solution-architecture]]
 == Architettura della soluzione
 
 DGX SuperPOD si basa sul concetto di unità scalabile (SU) che comprende 32 sistemi DGX B200 e tutti gli altri componenti necessari per fornire la connettività richiesta ed eliminare eventuali colli di bottiglia nelle prestazioni dell'infrastruttura.  I clienti possono iniziare con una o più SU e aggiungerne altre in base alle proprie esigenze.  Questo documento descrive la configurazione di archiviazione per una singola SU e la Tabella 1 mostra i componenti necessari per configurazioni più grandi.
@@ -161,6 +168,7 @@ Questa soluzione sfrutta più Storage Virtual Machine (SVM) per ospitare volumi 
 
 
 
+[[solution-hardware-requirements]]
 === Requisiti hardware della soluzione
 
 Nella tabella 1 sono elencati i componenti hardware di archiviazione necessari per implementare una, due, quattro o otto unità scalabili.  Per i requisiti hardware dettagliati per server e reti, consultare https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-b200/latest/abstract.html["+++ Architettura di riferimento NVIDIA DGX SuperPOD +++"] .
@@ -191,6 +199,7 @@ ____
 
 
 
+[[software-requirements]]
 === Requisiti software
 
 Nella tabella 2 sono elencati i componenti software e le versioni necessarie per integrare il sistema di archiviazione AFF A90 con DGX SuperPOD.  DGX SuperPOD comprende anche altri componenti software non elencati qui.  Si prega di fare riferimento alhttps://docs.nvidia.com/dgx-superpod/release-notes/latest/10-24-11.html["+++Note di rilascio DGX SuperPOD+++"] per maggiori dettagli.
@@ -218,6 +227,7 @@ Tabella 2) Requisiti software.
 |===
 
 
+[[solution-verification]]
 == Verifica della soluzione
 
 Questa soluzione di storage è stata convalidata in più fasi da NetApp e NVIDIA per garantire che prestazioni e scalabilità soddisfino i requisiti di NVIDIA DGX SuperPOD.  La configurazione è stata convalidata utilizzando una combinazione di carichi di lavoro sintetici e carichi di lavoro ML/DL reali per verificare sia le massime prestazioni sia l'interoperabilità delle applicazioni.  Nella tabella 3 sottostante sono riportati esempi di carichi di lavoro tipici e dei relativi requisiti di dati comunemente riscontrabili nelle distribuzioni DGX SuperPOD.
@@ -256,12 +266,14 @@ Tabella 4) Linee guida sulle prestazioni del DGX SuperPOD.
 |===
 
 
+[[conclusion]]
 == Conclusione
 
 NVIDIA DGX SuperPOD con i sistemi di storage NetApp * AFF A90 * rappresenta un significativo progresso nelle soluzioni infrastrutturali AI.  Affrontando le principali sfide legate a sicurezza, gestione dei dati, utilizzo delle risorse e scalabilità, consente alle organizzazioni di accelerare le proprie iniziative di intelligenza artificiale mantenendo al contempo efficienza operativa, protezione dei dati e collaborazione.  L'approccio integrato della soluzione elimina i comuni colli di bottiglia nelle pipeline di sviluppo dell'intelligenza artificiale, consentendo a data scientist e ingegneri di concentrarsi sull'innovazione anziché sulla gestione dell'infrastruttura.
 
 
 
+[[where-to-find-additional-information]]
 == Dove trovare ulteriori informazioni
 
 Per saperne di più sulle informazioni descritte nel presente documento, consultare i seguenti documenti e/o siti web:

@@ -18,6 +18,7 @@ Questa sezione si concentra sull'architettura per NetApp AIPod con sistemi NVIDI
 
 
 
+[[netapp-aipod-with-dgx-systems]]
 == NetApp AIPod con sistemi DGX
 
 Questa architettura di riferimento sfrutta strutture separate per l'interconnessione dei cluster di elaborazione e l'accesso allo storage, con connettività InfiniBand (IB) da 400 Gb/s tra i nodi di elaborazione.  Il disegno seguente mostra la topologia complessiva della soluzione NetApp AIPod con sistemi DGX H100.
@@ -28,6 +29,7 @@ image:aipod-nv-a90-topo.png["Figura che mostra il dialogo di input/output o che 
 
 
 
+[[network-design]]
 == Progettazione di rete
 
 In questa configurazione, il cluster di elaborazione utilizza una coppia di switch IB QM9700 da 400 Gb/s, collegati tra loro per garantire un'elevata disponibilità.  Ogni sistema DGX H100 è collegato agli switch tramite otto connessioni, con le porte con numero pari collegate a uno switch e le porte con numero dispari collegate all'altro switch.
@@ -38,6 +40,7 @@ Oltre all'interconnessione di elaborazione e alle reti Ethernet ad alta velocit�
 
 
 
+[[storage-access-overview-for-dgx-h100-systems]]
 == Panoramica dell'accesso all'archiviazione per i sistemi DGX H100
 
 Ogni sistema DGX H100 è dotato di due adattatori ConnectX-7 a doppia porta per la gestione e il traffico di archiviazione e, per questa soluzione, entrambe le porte su ciascuna scheda sono collegate allo stesso switch.  Una porta di ogni scheda viene quindi configurata in un bond LACP MLAG con una porta collegata a ogni switch e le VLAN per la gestione in banda, l'accesso client e l'accesso allo storage a livello utente sono ospitate su questo bond.
@@ -48,6 +51,7 @@ Per maggiori dettagli sulla connettività del sistema DGX H100 fare riferimento 
 
 
 
+[[storage-system-design]]
 == Progettazione del sistema di archiviazione
 
 Ogni sistema di storage AFF A90 è connesso tramite sei porte da 200 GbE da ciascun controller.  Quattro porte di ciascun controller vengono utilizzate per l'accesso ai dati del carico di lavoro dai sistemi DGX e due porte di ciascun controller sono configurate come gruppo di interfacce LACP per supportare l'accesso dai server del piano di gestione per gli artefatti di gestione del cluster e le directory home degli utenti.  L'accesso ai dati dal sistema di storage avviene tramite NFS, con una macchina virtuale di storage (SVM) dedicata all'accesso al carico di lavoro dell'intelligenza artificiale e una SVM separata dedicata agli utilizzi di gestione del cluster.
@@ -60,6 +64,7 @@ image:aipod-nv-a90-logical.png["Figura che mostra il dialogo di input/output o c
 
 
 
+[[management-plane-servers]]
 == Server del piano di gestione
 
 Questa architettura di riferimento include anche cinque server basati su CPU per l'utilizzo nel piano di gestione.  Due di questi sistemi vengono utilizzati come nodi principali per NVIDIA Base Command Manager per la distribuzione e la gestione dei cluster.  Gli altri tre sistemi vengono utilizzati per fornire servizi cluster aggiuntivi, come nodi master Kubernetes o nodi di accesso per distribuzioni che utilizzano Slurm per la pianificazione dei lavori.  Le distribuzioni che utilizzano Kubernetes possono sfruttare il driver NetApp Trident CSI per fornire provisioning automatizzato e servizi dati con storage persistente sia per i carichi di lavoro di gestione che di intelligenza artificiale sul sistema di storage AFF A900 .

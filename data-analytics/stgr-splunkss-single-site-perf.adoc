@@ -24,6 +24,7 @@ image:stgr-splunkss-011.png["Figura che mostra il dialogo di input/output o che 
 
 
 
+[[configuration]]
 == Configurazione
 
 Questa tabella elenca l'hardware utilizzato per la convalida delle prestazioni di SmartStorage.
@@ -51,6 +52,7 @@ Questa tabella elenca l'hardware utilizzato per la convalida delle prestazioni d
 |===
 
 
+[[smartstore-remote-store-performance-validation]]
 == Convalida delle prestazioni del negozio remoto SmartStore
 
 In questa convalida delle prestazioni, abbiamo configurato la cache SmartStore nell'archiviazione locale su tutti gli indicizzatori per 10 giorni di dati.  Abbiamo abilitato il `maxDataSize=auto` (dimensione bucket da 750 MB) nel gestore cluster Splunk e ho inviato le modifiche a tutti gli indicizzatori.  Per misurare le prestazioni di caricamento, abbiamo acquisito 10 TB al giorno per 10 giorni e abbiamo trasferito tutti i bucket attivi in modalità riscaldamento contemporaneamente, catturando il picco e la velocità effettiva media per istanza e per l'intera distribuzione dalla dashboard della SmartStore Monitoring Console.
@@ -152,6 +154,7 @@ image:stgr-splunkss-015.png["Figura che mostra il dialogo di input/output o che 
 
 
 
+[[storagegrid-performance]]
 == Prestazioni StorageGRID
 
 Le prestazioni di SmartStore si basano sulla ricerca di modelli e stringhe specifici da grandi quantità di dati.  In questa convalida, gli eventi vengono generati utilizzando https://github.com/splunk/eventgen["Eventgen"^] su uno specifico indice Splunk (eventgen-test) tramite la testina di ricerca e la richiesta viene inviata a StorageGRID per la maggior parte delle query.  L'immagine seguente mostra i risultati positivi e negativi dei dati della query.  I dati relativi agli hit provengono dal disco locale, mentre i dati relativi agli miss provengono dal controller StorageGRID .
@@ -167,6 +170,7 @@ image:stgr-splunkss-017.png["Figura che mostra il dialogo di input/output o che 
 
 
 
+[[storagegrid-hardware-usage]]
 == Utilizzo dell'hardware StorageGRID
 
 L'istanza StorageGRID ha un bilanciatore del carico e tre controller StorageGRID .  L'utilizzo della CPU per tutti e tre i controller è compreso tra il 75% e il 100%.
@@ -175,6 +179,7 @@ image:stgr-splunkss-018.png["Figura che mostra il dialogo di input/output o che 
 
 
 
+[[smartstore-with-netapp-storage-controller-benefits-for-the-customer]]
 == SmartStore con controller di archiviazione NetApp : vantaggi per il cliente
 
 * *Disaccoppiamento tra elaborazione e archiviazione.*  Splunk SmartStore separa elaborazione e archiviazione, consentendoti di scalarli in modo indipendente.

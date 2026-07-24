@@ -18,6 +18,7 @@ Questa sezione illustra la configurazione del cluster Milvus per la soluzione di
 
 
 
+[[milvus-cluster-setup-with-kubernetes-in-on-premises]]
 == Configurazione del cluster Milvus con Kubernetes in locale
 
 Le sfide dei clienti per scalare in modo indipendente su storage e calcolo, una gestione efficace dell'infrastruttura e la gestione dei dati, Kubernetes e i database vettoriali insieme formano una soluzione potente e scalabile per la gestione di operazioni su grandi quantità di dati.  Kubernetes ottimizza le risorse e gestisce i container, mentre i database vettoriali gestiscono in modo efficiente i dati ad alta dimensionalità e le ricerche di similarità.  Questa combinazione consente l'elaborazione rapida di query complesse su grandi set di dati e si adatta perfettamente ai crescenti volumi di dati, rendendola ideale per applicazioni big data e carichi di lavoro di intelligenza artificiale.

@@ -18,6 +18,7 @@ Questo test di verifica ha raggiunto 31,74 GBps di throughput di tiering su Conf
 
 
 
+[[where-to-find-additional-information]]
 == Dove trovare ulteriori informazioni
 
 Per saperne di più sulle informazioni descritte nel presente documento, consultare i seguenti documenti e/o siti web:

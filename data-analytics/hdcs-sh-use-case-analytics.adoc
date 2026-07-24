@@ -18,18 +18,21 @@ In questo scenario, la piattaforma di analisi di una grande banca di servizi fin
 
 
 
+[[scenario]]
 == Scenario
 
 Nell'ambiente esistente del cliente, l'infrastruttura Hadoop utilizzata per la piattaforma di analisi sfruttava l'archiviazione interna dei server Hadoop.  A causa della natura proprietaria dell'ambiente JBOD, molti clienti interni all'organizzazione non sono stati in grado di sfruttare il loro modello quantitativo Monte Carlo, una simulazione che si basa su campioni ricorrenti di dati in tempo reale.  La scarsa capacità di comprendere gli effetti dell'incertezza sui movimenti del mercato stava giocando un ruolo sfavorevole per la business unit di gestione patrimoniale quantitativa.
 
 
 
+[[requirements-and-challenges]]
 == Requisiti e sfide
 
 L'unità aziendale quantitativa della banca desiderava un metodo di previsione efficiente per ottenere previsioni accurate e tempestive.  Per fare ciò, il team ha riconosciuto la necessità di modernizzare l'infrastruttura, ridurre i tempi di attesa I/O esistenti e migliorare le prestazioni delle applicazioni analitiche come Hadoop e Spark per simulare in modo efficiente i modelli di investimento, misurare i potenziali guadagni e analizzare i rischi.
 
 
 
+[[solution]]
 == Soluzione
 
 Il cliente aveva JBOD per la sua soluzione Spark esistente.  NetApp ONTAP, NetApp StorageGRID e MinIO Gateway to NFS sono stati quindi sfruttati per ridurre i tempi di attesa I/O per il gruppo finanziario quantitativo della banca che esegue simulazioni e analisi sui modelli di investimento che valutano potenziali guadagni e rischi.  Questa immagine mostra la soluzione Spark con storage NetApp .

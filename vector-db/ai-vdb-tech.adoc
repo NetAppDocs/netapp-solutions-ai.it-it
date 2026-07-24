@@ -18,12 +18,14 @@ Questa sezione fornisce una panoramica dei requisiti per la soluzione di databas
 
 
 
+[[technology-requirement]]
 == Requisiti tecnologici
 
 Le configurazioni hardware e software descritte di seguito sono state utilizzate per la maggior parte delle convalide eseguite in questo documento, ad eccezione delle prestazioni.  Queste configurazioni servono come linee guida per aiutarti a configurare il tuo ambiente.  Tuttavia, si prega di notare che i componenti specifici possono variare a seconda delle esigenze individuali del cliente.
 
 
 
+[[hardware-requirements]]
 == Requisiti hardware
 
 |===
@@ -43,6 +45,7 @@ Le configurazioni hardware e software descritte di seguito sono state utilizzate
 |===
 
 
+[[software-requirements]]
 == Requisiti software
 
 |===

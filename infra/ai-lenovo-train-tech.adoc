@@ -18,6 +18,7 @@ In questa sezione vengono presentati in modo più dettagliato i componenti princ
 
 
 
+[[netapp-aff-systems]]
 == Sistemi NetApp AFF
 
 I sistemi di storage NetApp AFF consentono alle aziende di soddisfare i requisiti di storage aziendale con prestazioni leader del settore, flessibilità superiore, integrazione cloud e la migliore gestione dei dati della categoria.  Progettati specificamente per flash, i sistemi AFF aiutano ad accelerare, gestire e proteggere i dati critici per l'azienda.
@@ -56,12 +57,14 @@ NetApp offre anche altri sistemi di storage, come AFF A800 e AFF A700, che garan
 
 
 
+[[netapp-ontap]]
 == NetApp ONTAP
 
 ONTAP 9, l'ultima generazione di software di gestione dello storage di NetApp, consente alle aziende di modernizzare l'infrastruttura e passare a un data center pronto per il cloud.  Sfruttando le funzionalità di gestione dei dati leader del settore, ONTAP consente la gestione e la protezione dei dati con un unico set di strumenti, indipendentemente da dove risiedano.  I dati possono anche essere spostati liberamente ovunque siano necessari: edge, core o cloud.  ONTAP 9 include numerose funzionalità che semplificano la gestione dei dati, accelerano e proteggono i dati critici e rendono l'infrastruttura a prova di futuro nelle architetture cloud ibride.
 
 
 
+[[simplify-data-management]]
 === Semplificare la gestione dei dati
 
 La gestione dei dati è fondamentale per le operazioni IT aziendali, in modo da utilizzare le risorse appropriate per le applicazioni e i set di dati.  ONTAP include le seguenti funzionalità per semplificare e snellire le operazioni e ridurre il costo totale di esercizio:
@@ -73,6 +76,7 @@ La gestione dei dati è fondamentale per le operazioni IT aziendali, in modo da 
 
 
 
+[[accelerate-and-protect-data]]
 === Accelerare e proteggere i dati
 
 ONTAP garantisce livelli superiori di prestazioni e protezione dei dati ed estende queste capacità nei seguenti modi:
@@ -84,6 +88,7 @@ ONTAP garantisce livelli superiori di prestazioni e protezione dei dati ed esten
 
 
 
+[[future-proof-infrastructure]]
 === Infrastruttura a prova di futuro
 
 ONTAP 9 aiuta a soddisfare le esigenze aziendali più esigenti e in continua evoluzione:
@@ -95,6 +100,7 @@ ONTAP 9 aiuta a soddisfare le esigenze aziendali più esigenti e in continua evo
 
 
 
+[[netapp-flexgroup-volumes]]
 == Volumi NetApp FlexGroup
 
 I set di dati di addestramento sono in genere una raccolta di potenzialmente miliardi di file.  I file possono contenere testo, audio, video e altre forme di dati non strutturati che devono essere archiviati ed elaborati per poter essere letti in parallelo.  Il sistema di archiviazione deve memorizzare molti file di piccole dimensioni e deve leggere tali file in parallelo per l'I/O sequenziale e casuale.
@@ -110,6 +116,7 @@ image:a400-thinksystem-005.png["Questa immagine mostra una coppia HA di controll
 
 
 
+[[lenovo-thinksystem-portfolio]]
 == Portafoglio Lenovo ThinkSystem
 
 I server Lenovo ThinkSystem sono dotati di hardware, software e servizi innovativi che risolvono le sfide odierne dei clienti e offrono un approccio progettuale modulare, evolutivo e su misura per affrontare le sfide di domani.  Questi server sfruttano le migliori tecnologie standard del settore, abbinate alle innovazioni differenziate di Lenovo, per offrire la massima flessibilità possibile nei server x86.
@@ -125,6 +132,7 @@ Nell'ambito dell'intelligenza artificiale, Lenovo sta adottando un approccio pra
 
 
 
+[[lenovo-sr670-v2]]
 === Lenovo SR670 V2
 
 Il server rack Lenovo ThinkSystem SR670 V2 offre prestazioni ottimali per l'intelligenza artificiale accelerata e l'elaborazione ad alte prestazioni (HPC).  Grazie al supporto fino a otto GPU, l'SR670 V2 è adatto ai requisiti di carico di lavoro computazionale intensivo di ML, DL e inferenza.
@@ -145,6 +153,7 @@ Altre caratteristiche includono:
 
 
 
+[[mlperf]]
 == MLPerf
 
 MLPerf è la suite di benchmark leader del settore per la valutazione delle prestazioni dell'intelligenza artificiale.  In questa convalida, abbiamo utilizzato il benchmark di classificazione delle immagini con MXNet, uno dei framework di intelligenza artificiale più diffusi.  Per guidare l'addestramento dell'IA è stato utilizzato lo script di addestramento MXNet_benchmarks.  Lo script contiene implementazioni di diversi modelli convenzionali diffusi ed è progettato per essere il più veloce possibile.  Può essere eseguito su una singola macchina oppure in modalità distribuita su più host.

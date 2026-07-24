@@ -18,6 +18,7 @@ Questo documento delinea una checklist completa per la preparazione dell'infrast
 
 
 
+[[business-use-case-readiness]]
 == Prontezza aziendale e dei casi d'uso
 
 * La soluzione è allineata ai risultati aziendali (ad esempio, produttività, servizio clienti, aspetti legali, assistenza sanitaria, produzione, settore pubblico)?
@@ -29,6 +30,7 @@ Questo documento delinea una checklist completa per la preparazione dell'infrast
 
 
 
+[[technical-infrastructure-requirements]]
 == Requisiti tecnici e infrastrutturali
 
 * La tua pipeline di dati è pronta (preparazione dei dati, ETL, inserimento sicuro nel vector DB)?
@@ -41,6 +43,7 @@ Questo documento delinea una checklist completa per la preparazione dell'infrast
 
 
 
+[[software-ecosystem-alignment]]
 == Allineamento tra software ed ecosistema
 
 * Le tue app containerizzate sono compatibili con Kubernetes e i grafici Helm forniti?
@@ -52,6 +55,7 @@ Questo documento delinea una checklist completa per la preparazione dell'infrast
 
 
 
+[[data-governance-security]]
 == Governance e sicurezza dei dati
 
 * Hai abilitato il controllo degli accessi in base al ruolo (RBAC) in Kubernetes?
@@ -62,6 +66,7 @@ Questo documento delinea una checklist completa per la preparazione dell'infrast
 
 
 
+[[operational-support-considerations]]
 == Considerazioni operative e di supporto
 
 * Gli amministratori sono formati/abilitati su Kubernetes, Trident CSI e sull'implementazione dello stack OPEA?
@@ -72,6 +77,7 @@ Questo documento delinea una checklist completa per la preparazione dell'infrast
 
 
 
+[[commercial-gtm-alignment]]
 == Allineamento commerciale e GTM
 
 * Esiste una roadmap (espansione dell’IA da livello dipartimentale a livello enterprise)?

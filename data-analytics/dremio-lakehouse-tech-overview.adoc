@@ -18,6 +18,7 @@ Per le convalide eseguite in questo documento sono state utilizzate le configura
 
 
 
+[[hardware-requirements]]
 === Requisiti hardware
 
 |===
@@ -52,6 +53,7 @@ Per le convalide eseguite in questo documento sono state utilizzate le configura
 |===
 
 
+[[software-requirements]]
 === Requisiti software
 
 |===

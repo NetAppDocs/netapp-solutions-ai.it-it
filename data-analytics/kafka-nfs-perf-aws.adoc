@@ -18,12 +18,14 @@ Un cluster Kafka con il livello di archiviazione montato su NetApp NFS è stato 
 
 
 
+[[kafka-in-aws-cloud-with-netapp-cloud-volumes-ontap-high-availability-pair-and-single-node]]
 == Kafka nel cloud AWS con NetApp Cloud Volumes ONTAP (coppia ad alta disponibilità e nodo singolo)
 
 Un cluster Kafka con NetApp Cloud Volumes ONTAP (coppia HA) è stato sottoposto a benchmark per le prestazioni nel cloud AWS.  Questo benchmarking è descritto nelle sezioni seguenti.
 
 
 
+[[architectural-setup]]
 === Configurazione architettonica
 
 La tabella seguente mostra la configurazione ambientale per un cluster Kafka che utilizza NAS.
@@ -48,6 +50,7 @@ La tabella seguente mostra la configurazione ambientale per un cluster Kafka che
 |===
 
 
+[[netapp-cluster-volume-ontap-setup]]
 === Configurazione ONTAP del volume del cluster NetApp
 
 . Per la coppia Cloud Volumes ONTAP HA, abbiamo creato due aggregati con tre volumi su ciascun aggregato su ciascun controller di storage.  Per il singolo nodo Cloud Volumes ONTAP , creiamo sei volumi in un aggregato.
@@ -103,6 +106,7 @@ image:kafka-nfs-029.png["Questa figura illustra l'architettura di un cluster Kaf
 
 
 
+[[openmessage-benchmarking-configurations]]
 === Configurazioni di benchmarking di OpenMessage
 
 . Per migliorare le prestazioni NFS, abbiamo bisogno di più connessioni di rete tra il server NFS e il client NFS, che possono essere create utilizzando nconnect.  Montare i volumi NFS sui nodi broker con l'opzione nconnect eseguendo il seguente comando:
@@ -325,6 +329,7 @@ consumerConfig: |
 
 
 
+[[methodology-of-testing]]
 == Metodologia di test
 
 . Un cluster Kafka è stato predisposto secondo le specifiche descritte sopra utilizzando Terraform e Ansible.  Terraform viene utilizzato per creare l'infrastruttura utilizzando istanze AWS per il cluster Kafka, mentre Ansible crea il cluster Kafka su di esse.
@@ -342,6 +347,7 @@ sudo bin/benchmark –drivers driver-kafka/kafka-throughput.yaml workloads/1-top
 
 
 
+[[observation]]
 == Osservazione
 
 Sono stati utilizzati due diversi tipi di driver per generare carichi di lavoro per confrontare le prestazioni di un'istanza Kafka in esecuzione su NFS.  La differenza tra i driver è la proprietà di svuotamento del registro.

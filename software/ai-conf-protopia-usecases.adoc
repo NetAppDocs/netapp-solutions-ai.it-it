@@ -18,30 +18,35 @@ L'elaborazione digitale delle immagini offre numerosi vantaggi, consentendo a mo
 
 
 
+[[environmental-intelligence]]
 == Intelligenza ambientale
 
 Esistono molti modi in cui le industrie possono trarre vantaggio dall'analisi geospaziale nei settori dei rischi ambientali.  I governi e il dipartimento dei lavori pubblici possono ricavare informazioni utili sulla salute pubblica e sulle condizioni meteorologiche per fornire migliori consigli al pubblico durante una pandemia o un disastro naturale come gli incendi boschivi.  Ad esempio, è possibile identificare un paziente positivo al COVID in spazi pubblici, come aeroporti o ospedali, senza compromettere la privacy della persona interessata e avvisare le autorità competenti e il pubblico nelle vicinanze per le necessarie misure di sicurezza.
 
 
 
+[[edge-device-wearables]]
 == Dispositivi indossabili Edge
 
 In ambito militare e sui campi di battaglia, è possibile utilizzare l'inferenza dell'intelligenza artificiale sui dispositivi indossabili per monitorare la salute dei soldati, monitorare il comportamento dei conducenti e avvisare le autorità sulla sicurezza e sui rischi associati all'avvicinamento di veicoli militari, preservando e proteggendo al contempo la privacy dei soldati.  Il futuro dell'esercito è all'insegna dell'alta tecnologia con l'Internet of Battlefield Things (IoBT) e l'Internet of Military Things (IoMT) per equipaggiamenti da combattimento indossabili che aiutano i soldati a identificare i nemici e a ottenere prestazioni migliori in battaglia utilizzando il rapid edge computing.  Proteggere e preservare i dati visivi raccolti da dispositivi edge come droni e dispositivi indossabili è fondamentale per tenere a bada hacker e nemici.
 
 
 
+[[noncombatant-evacuation-operations]]
 == Operazioni di evacuazione non combattenti
 
 Le operazioni di evacuazione dei non combattenti (NEO) sono condotte dal Dipartimento della Difesa per aiutare a evacuare cittadini e cittadini statunitensi, personale civile del Dipartimento della Difesa e persone designate (cittadini della nazione ospitante (HN) e cittadini di paesi terzi (TCN)) la cui vita è in pericolo verso un rifugio sicuro appropriato.  I controlli amministrativi in atto utilizzano in larga parte processi manuali di selezione degli sfollati.  Tuttavia, l'accuratezza, la sicurezza e la velocità dell'identificazione degli sfollati, del loro tracciamento e dello screening delle minacce potrebbero essere potenzialmente migliorate utilizzando strumenti di intelligenza artificiale/apprendimento automatico altamente automatizzati combinati con tecnologie di offuscamento video basate su intelligenza artificiale/apprendimento automatico.
 
 
 
+[[healthcare-and-biomedical-research]]
 == Assistenza sanitaria e ricerca biomedica
 
 L'elaborazione delle immagini viene utilizzata per diagnosticare patologie ai fini della pianificazione chirurgica a partire da immagini 3D ottenute tramite tomografia computerizzata (TC) o risonanza magnetica (RM).  Le norme sulla privacy HIPAA disciplinano il modo in cui le organizzazioni devono raccogliere, elaborare e cancellare i dati di tutte le informazioni personali e le immagini digitali, come le fotografie.  Affinché i dati possano essere considerati condivisibili ai sensi delle normative HIPAA Safe Harbor, è necessario rimuovere le immagini fotografiche a viso intero e qualsiasi immagine comparabile.  Tecniche automatizzate come gli algoritmi di deidentificazione o di estrazione del cranio, utilizzati per oscurare i tratti del viso di un individuo dalle immagini strutturali TC/RM, sono diventate una parte essenziale del processo di condivisione dei dati per gli istituti di ricerca biomedica.
 
 
 
+[[cloud-migration-of-aiml-analytics]]
 == Migrazione cloud dell'analisi AI/ML
 
 Tradizionalmente i clienti aziendali hanno formato e distribuito modelli di intelligenza artificiale/apprendimento automatico in sede.  Per ragioni di economie di scala ed efficienza, questi clienti si stanno espandendo per spostare le funzioni di intelligenza artificiale/apprendimento automatico in implementazioni cloud pubbliche, ibride o multi-cloud.  Tuttavia, sono vincolati dai dati che possono essere esposti ad altre infrastrutture.  Le soluzioni NetApp affrontano una gamma completa di minacce alla sicurezza informatica richieste per https://www.netapp.com/data-protection/?internal_promo=mdw_aiml_ww_all_awareness-coas_blog["protezione dei dati"^] e valutazione della sicurezza e, se combinati con la trasformazione dei dati di Protopia, riducono al minimo i rischi associati alla migrazione dei carichi di lavoro di elaborazione delle immagini AI/ML sul cloud.
