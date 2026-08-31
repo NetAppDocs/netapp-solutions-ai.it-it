@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-deploy-hardware.html 
+keywords: Lustre, NetApp E-Series, EF80, hardware deployment, NVMe-oF, LNet 
+summary: Racca e cabla i server, gli array EF80, il backend NVMe-oF network e il frontend LNet fabric per un building block Lustre. 
+---
+= Hardware Lustre per rack e cavi
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Installa nei rack i server Lustre e gli array NetApp EF80, poi collega i fabric NVMe-oF di backend e i fabric LNet di frontend per ciascun building block.
+
+
+
+[[before-you-begin]]
+== Prima di iniziare
+
+Esamina i conteggi HCA, i requisiti degli slot PCIe, i requisiti del percorso e le linee guida MTU in link:ai-eseries-lustre-hw.html["Componenti hardware"].
+
+.Passaggi
+. Racca e collega tutti i server Lustre e gli storage E-Series secondo la topologia del building block.
++
+image:eseries-lustre-building-block-labeled.png["Building block Lustre etichettato, impilato con due server OSS/MDS e due array EF80"]
+
+. Per ciascun array EF80, collega la porta 4a del controller A alla porta 4a del controller B e la porta 4b del controller A alla porta 4b del controller B. Queste connessioni dedicate forniscono il mirroring tra controller e non vengono utilizzate per il traffico host. Vedi link:https://docs.netapp.com/us-en/e-series/install-hw-ef50-ef80/install-cable.html#step-1-cable-the-inter-controller-mirroring-connections["Collega i cavi di mirroring tra i controller EF50 ed EF80"^].
+. Collega la rete NVMe-oF di backend tra server e array secondo la topologia EF80 six-HCA.
++
+.Cablaggio backend EF80 a sei HCA (RoCE o InfiniBand)
+image:eseries-lustre-ef80-6hca-cabling.png["Cablaggio NVMe-oF backend EF80 six-HCA tra due nodi server OSS/MDS e due array EF80"]
+
+. Collega le quattro interfacce frontend LNet (gli HCA i1 e i4) su ciascun server Lustre e sui client Lustre al fabric di switch dedicato InfiniBand o RoCE.
+. Quando usi RoCE, configura il fabric per il funzionamento lossless con il priority flow control (PFC). I playbook Ansible configurano RoCE lossless su tutte le interfacce nel building block.
+
+
+
+
+[[after-you-finish]]
+== Dopo aver finito
+
+link:ai-eseries-lustre-deploy-prepare.html["Prepara i server, gli array e il nodo di controllo Ansible"].

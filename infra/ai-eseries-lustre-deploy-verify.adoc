@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-deploy-verify.html 
+keywords: Lustre, NetApp E-Series, deployment verification, Pacemaker, scaling 
+summary: Verifica lo stato di salute del cluster Lustre, i mount e la capacità, ed espandi il file system con building block aggiuntivi. 
+---
+= Verifica ed espandi la distribuzione di Lustre
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Conferma l'integrità del cluster, i mount di Lustre e la capacità del file system prima dell'uso in produzione, poi usa lo stesso inventario per aggiungere building block quando necessario.
+
+
+
+[[verify-the-deployment]]
+== Verifica l'implementazione
+
+.Passaggi
+. Da un server Lustre, verifica che tutte le risorse Pacemaker siano avviate sui nodi previsti:
++
+[source, cli]
+----
+pcs status
+----
+. Da un client Lustre, verifica che il file system Lustre sia montato:
++
+[source, cli]
+----
+mount -t lustre
+----
+. Da un client Lustre, controlla la capacità del file system e che i target MDT e OST siano visibili:
++
+[source, cli]
+----
+lfs df -h
+----
+
+
+Per la convalida delle prestazioni con IOR, mdtest e fio, vedi link:ai-eseries-lustre-sizing.html["Guida alle taglie"].
+
+Per la migrazione controllata della destinazione o per i test di failover HA, segui le procedure nel link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/roles/lustre/docs/ha_user_guide.md["Guida utente all'amministrazione HA"^].
+
+
+
+[[expand-the-file-system]]
+== Espandi il file system
+
+Per aggiungere capacità o prestazioni dei metadati, estendi il tuo inventario esistente con un ulteriore building block. Non creare un inventario separato per il nuovo building block. Il playbook assegna automaticamente indici MDT e OST univoci e registra i nuovi target sull'MGS esistente.
+
+.Passaggi
+. Aggiungi i nuovi building block host, array e gruppi di risorse (MDT+OST o solo OST) allo stesso inventario e `host_vars` e `group_vars` file che hai usato per la distribuzione originale.
+. Esegui di nuovo il playbook di distribuzione principale sull'inventario aggiornato.
+
+
+Vedi link:ai-eseries-lustre-architecture.html["Architettura della soluzione"] per le regole di scaling e link:ai-eseries-lustre-sizing.html["Guida alle taglie"] per indicazioni su quando aggiungere ciascun tipo di building block.

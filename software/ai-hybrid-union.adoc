@@ -121,7 +121,7 @@ Utilizzo di ONTAP System Manager
 
 Installare Trident su entrambi i cluster:
 
-🔗 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["+++ Guida all'installazione Trident +++"]
+🔗 https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-operator.html["+++ Guida all'installazione Trident +++"]
 
 Crea Trident Backend
 

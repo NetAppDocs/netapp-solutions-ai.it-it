@@ -33,6 +33,35 @@ entries:
 - title: BeeGFS su NetApp con storage E-Series
   pdf-filename: BeeGFS su NetApp con storage E-Series
   url: "/infra/ai-eseries-beegfs.html"
+- title: Lustre con NetApp storage E-Series
+  pdf-filename: Lustre con NetApp storage E-Series
+  entries:
+  - title: Introduzione
+    url: "/infra/ai-eseries-lustre-intro.html"
+  - title: Architettura della soluzione
+    url: "/infra/ai-eseries-lustre-architecture.html"
+  - title: Componenti hardware
+    url: "/infra/ai-eseries-lustre-hw.html"
+  - title: Componenti software
+    url: "/infra/ai-eseries-lustre-sw.html"
+  - title: Guida alle taglie
+    url: "/infra/ai-eseries-lustre-sizing.html"
+  - title: Distribuisci la soluzione
+    entries:
+    - title: Flusso di lavoro di distribuzione
+      url: "/infra/ai-eseries-lustre-deploy.html"
+    - title: Hardware per rack e cavi
+      url: "/infra/ai-eseries-lustre-deploy-hardware.html"
+    - title: Prepara l'ambiente di distribuzione
+      url: "/infra/ai-eseries-lustre-deploy-prepare.html"
+    - title: Personalizza l'inventario di Ansible
+      url: "/infra/ai-eseries-lustre-deploy-inventory.html"
+    - title: Distribuisci il cluster HA e i client
+      url: "/infra/ai-eseries-lustre-deploy-cluster.html"
+    - title: Verifica ed espandi la distribuzione
+      url: "/infra/ai-eseries-lustre-deploy-verify.html"
+  - title: Risorse correlate
+    url: "/infra/ai-eseries-lustre-resources.html"
 - title: Distribuisci IBM Spectrum Scale con storage E-Series
   pdf-filename: Distribuisci IBM Spectrum Scale con storage E-Series
   url: "/infra/ai-eseries-spectrumscale.html"

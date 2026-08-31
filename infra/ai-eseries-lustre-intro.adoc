@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-intro.html 
+keywords: Lustre, NetApp E-Series, EF80, HPC, AI, parallel file system, NVMe-oF, high-performance storage 
+summary: 'Lustre con NetApp E-Series Storage offre un file system parallelo validato e scalabile per carichi di lavoro AI e HPC, utilizzando un"architettura building block ripetibile con array all-flash NetApp E-Series.' 
+---
+= Lustre con NetApp E-Series Storage - Introduzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Lustre con NetApp E-Series Storage è una soluzione di file system parallelo validata per carichi di lavoro AI e HPC, costruita a partire da building block ripetibili composti da coppie di server HA e array all-flash E-Series.
+
+
+
+[[solution-overview]]
+== Panoramica della soluzione
+
+Lustre con NetApp E-Series Storage combina il file system parallelo open-source Lustre con lo storage a blocchi NetApp E-Series per offrire una base scalabile e dalle performance elevate per carichi di lavoro ad alta intensità di dati. Ogni building block abbina due nodi server OSS/MDS configurati per l'alta disponibilità (HA) con due array all-flash E-Series. La connettività NVMe-oF di backend trasporta l'I/O a blocchi verso gli array e una rete LNet separata collega i client e i nodi server OSS/MDS per l'accesso parallelo al file system.
+
+Un building block di base ospita il server di gestione (MGS) e i target di metadati iniziali (MDT) e i target di storage a oggetti (OST). Ulteriori building block si registrano rispetto all'MGS di base per scalare la capacità dei metadati, la capacità dei dati e il throughput man mano che aumentano le esigenze di carico di lavoro.
+
+La figura seguente mostra un esempio di implementazione con più building block e client Lustre connessi tramite LNet.
+
+.Panoramica della soluzione di storage Lustre con NetApp E-Series
+image:eseries-lustre-overview-diagram.png["Panoramica della soluzione di storage Lustre con NetApp E-Series, building block e client"]

@@ -1,0 +1,111 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-architecture.html 
+keywords: Lustre, NetApp E-Series, EF80, building block, NVMe-oF, LNet, Pacemaker, HA, scaling, clients 
+summary: 'Comprendi il design del building block, le regole di scaling, il modello HA, la topologia di rete e l"integrazione dei client di Lustre con lo storage NetApp E-Series.' 
+---
+= Lustre con storage NetApp E-Series - Architettura della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Scopri come Lustre con NetApp E-Series storage utilizza building block, alta disponibilità, topologia di rete e client così puoi pianificare capacità, prestazioni e failover.
+
+
+
+[[building-block-design]]
+== Design del building block
+
+Un building block è l'unità scalabile fondamentale della soluzione NetApp E-Series Lustre. Ogni building block è costituito da due nodi server configurati come una coppia ad alta disponibilità (HA) che forniscono le funzioni di Lustre object storage server (OSS) e metadata server (MDS), due NetApp E-Series all-flash array, connettività backend NVMe over Fabrics (NVMe-oF) dedicata tra server e array, e connettività frontend di rete Lustre (LNet) dedicata per i client e la comunicazione tra nodi. Un cluster HA Pacemaker e Corosync può contenere la coppia di server di uno o più building block. La raccolta NetApp `ansible-lustre` utilizza l'automazione Ansible per distribuire e configurare i servizi Lustre.
+
+.building block Lustre
+image:eseries-lustre-building-block.png["Building block Lustre HA con due nodi server OSS/MDS e due array E-Series EF80"]
+
+I building block si adattano ai requisiti di crescita del file system. Ogni file system richiede un building block di base. Il building block di base ospita il management server (MGS) su un management target (MGT) e fornisce la capacità iniziale di metadata target (MDT) e object storage target (OST). I building block aggiuntivi estendono il file system e registrano i loro target MDT e OST sull’MGS del building block di base. L’approccio modulare consente di scalare capacità e prestazioni in modo indipendente in base alle esigenze del carico di lavoro.
+
+NetApp consiglia i seguenti profili di configurazione dei building block per la maggior parte delle implementazioni. I conteggi di MGS, MDT e OST elencati sono valori predefiniti consigliati, ottimizzati per massimizzare le prestazioni e la capacità degli storage E-Series. Regola il numero di target, le dimensioni dei volumi e l'allocazione dei drive E-Series nell'inventario Ansible in base alle esigenze del carico di lavoro. Ad esempio, le implementazioni che richiedono una maggiore capacità di storage dei metadati possono prevedere più MDT e meno OST all'interno dello stesso hardware building block.
+
+La tabella seguente riassume i tipi di building block e le quantità target consigliate.
+
+|===
+| Tipo | MGS | MDTs | OST | Usa 
+
+
+| Base | 1 | 8 | 32 | Primo building block di un file system. Ospita l'MGS e la capacità iniziale di MDT e OST. 
+
+
+| MDT+OST | 0 | 8 | 32 | Aggiunge metadati e capacità dati. Registra rispetto al building block di base MGS. 
+
+
+| Solo OST | 0 | 0 | 32 | Aggiunge solo capacità dati. Registrati rispetto al building block MGS. 
+|===
+* *Tipo di unità e configurazione del pool:* E-Series supporta i tradizionali gruppi di volumi RAID e i Dynamic Disk Pools (DDP). Per le unità NVMe TLC, usa gruppi di volumi RAID 6 per lo storage OST e gruppi di volumi RAID 1 per lo storage MGS e MDT. Per le unità NVMe QLC, usa DDP per il pool di unità condiviso.
+* *Distribuzione dei target:* I target Lustre in ogni building block sono bilanciati tra entrambi i nodi server OSS/MDS e entrambi gli array E-Series. Il layout distribuisce l'I/O tra le CPU dei server e i controller degli array per migliorare le prestazioni del percorso NVMe-oF e mantenere la ridondanza. Vedi link:ai-eseries-lustre-hw.html#_primary_building_block_volume_distribution["distribuzione dei target e connettività NVMe-oF"] in link:ai-eseries-lustre-hw.html["Componenti hardware"].
+
+
+I sistemi operativi supportati, le versioni di Lustre, il firmware dell'array e i relativi building block sono elencati in link:https://imt.netapp.com/imt/#welcome["NetApp Interoperability Matrix Tool (IMT)"^] sotto *E-Series Lustre*. Per dettagli sul numero di volumi, la disposizione dei dischi e le linee guida per il dimensionamento, vedi link:ai-eseries-lustre-hw.html["Componenti hardware"]. Per i componenti software, vedi link:ai-eseries-lustre-sw.html["Componenti software"].
+
+
+
+[[scaling-recommendations]]
+== Raccomandazioni di scaling
+
+Il file system Lustre si adatta aggiungendo building block quando la capacità dei metadati, la capacità dei dati o entrambe diventano limitanti. Scala gli MDT in base al numero di file e alle IOPS dei metadati; scala gli OST in base alla capacità e ai requisiti aggregati di throughput.
+
+. *Un building block per ogni file system:* Distribuisci esattamente un building block; esso ospita l'MGS e i target MDT e OST iniziali.
+. *Profilo building block aggiuntivo:* Aggiungi un building block solo OST quando la capacità MDT esistente è sufficiente e la capacità dati o il throughput devono aumentare. Aggiungi un building block MDT+OST quando le prestazioni dei metadati o la capacità dello spazio dei nomi diventano il collo di bottiglia.
+. *Limite del cluster HA:* Limita ciascun cluster Pacemaker e Corosync HA a cinque building block (dieci nodi server Lustre). Suddividi equamente le implementazioni più grandi in più cluster HA per evitare limitazioni di risorse in configurazioni di grandi dimensioni.
+
+
+La figura seguente mostra fino a cinque building block impilati in un rack da 42U (un cluster Pacemaker HA per rack). Più rack possono partecipare a un singolo file system Lustre; solo il building block di base ospita l'MGS.
+
+.Scalabilità rack del file system parallelo Lustre
+image:eseries-lustre-2x2-rack-scaling.png["Scalabilità del file system parallelo Lustre su più rack da 42U, ciascuno con un massimo di cinque building block in un cluster Pacemaker HA"]
+
+Per esempi di dimensionamento, vedi link:ai-eseries-lustre-sizing.html["Guida alle taglie"].
+
+
+
+[[ha-architecture]]
+== Architettura HA
+
+Lustre con NetApp E-Series storage utilizza un'architettura ad alta disponibilità (HA) con dischi condivisi integrata con NetApp E-Series storage. Pacemaker gestisce le risorse HA e Corosync fornisce appartenenza al cluster e messaggistica. Insieme, gestiscono il failover del target Lustre tra i due nodi server OSS/MDS in ciascun building block. Multipath NVMe-oF collega entrambi i nodi server OSS/MDS agli stessi volumi E-Series, così che ciascun nodo possa assumere il controllo dei servizi target quando necessario.
+
+Ogni MGS, MDT e OST è configurato come risorsa HA con le sue dipendenze in un gruppo di risorse Pacemaker. Pacemaker garantisce che le risorse si avviino e si arrestino nell'ordine corretto, rimangano collocate sullo stesso nodo e vengano eseguite su un solo nodo alla volta. L'accesso simultaneo alla stessa destinazione da entrambi i nodi potrebbe danneggiare il file system.
+
+* *Failover del target:* Entrambi i nodi server OSS/MDS sono peer nel cluster, ma ogni target Lustre è attivo su un solo nodo alla volta. Una risorsa di monitoraggio Pacemaker controlla lo stato di salute di ciascun target e delle sue dipendenze e attiva un failover quando un target diventa non disponibile sul nodo corrente. In caso di errore, Pacemaker riavvia il gruppo di risorse interessato sul nodo partner nell'ordine corretto e i client si riconnettono in modo trasparente al target nella sua nuova posizione una volta che i servizi riprendono. Poiché ogni target si attiva su un singolo nodo, il file system non è mai esposto a scritture simultanee da entrambi i nodi.
+* *Accesso allo storage condiviso:* I percorsi NVMe-oF multipath collegano ciascun nodo server OSS/MDS a tutti i controller E-Series nel building block, così ogni volume di destinazione è raggiungibile da entrambi i nodi. Se un nodo server si guasta, il nodo partner ha già percorsi attivi verso gli stessi volumi e può assumere la proprietà delle destinazioni senza dover riconfigurare la connettività di storage. Se un controller dell'array o un percorso si guasta, il multipath reindirizza l'I/O a un controller funzionante. Questa doppia ridondanza permette ai target Lustre di effettuare il failover tra i nodi server OSS/MDS o i controller dell'array senza perdere l'accesso ai volumi di supporto.
+* *STONITH fencing:* Quando si verifica un errore, Pacemaker a volte non riesce a comunicare con il nodo difettoso per confermare che i suoi target siano stati arrestati. Prima di riavviare tali target altrove, Pacemaker isola il nodo difettoso, idealmente interrompendo l'alimentazione, per assicurarsi che sia spento. Il fencing impedisce uno scenario di split-brain in cui entrambi i nodi accedono contemporaneamente allo stesso target e corrompono il file system sottostante, preservando l'integrità dei dati durante il failover. NetApp consiglia  `fence_redfish` per server con controller di gestione della scheda madre (BMC) compatibili con Redfish. Sono supportati anche altri agenti di fencing, come  `fence_apc`.
+
+
+Per l'amministrazione del cluster e la configurazione del fencing, vedi il link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/roles/lustre/docs/ha_user_guide.md["Guida utente HA"^] nel link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0["collezione ansible-lustre"^].
+
+
+
+[[network-architecture]]
+== Architettura di rete
+
+La soluzione utilizza percorsi di rete separati per il traffico di backend dello storage e per il traffico di frontend LNet.
+
+* *Backend (NVMe-oF):* I nodi server OSS/MDS si connettono agli array E-Series tramite NVMe-oF utilizzando NVMe/InfiniBand o NVMe/RoCE. Il percorso NVMe-oF trasporta l'I/O a blocchi tra i servizi target Lustre e i volumi E-Series. Per il cablaggio backend EF80 six-HCA, vedi link:ai-eseries-lustre-deploy-hardware.html["Hardware Lustre rack e cavi"]. Per il posizionamento preferito dei target tra nodi e array, vedi link:ai-eseries-lustre-hw.html#_primary_building_block_volume_distribution["distribuzione target"] in link:ai-eseries-lustre-hw.html["Componenti hardware"].
+* *Frontend (LNet):* I client Lustre e i nodi server OSS/MDS comunicano tramite LNet utilizzando il  `@o2ib` tipo di rete con lo stack NVIDIA OFED. InfiniBand e RoCE sono entrambi trasporti frontend validati. La raccolta ansible-lustre configura tutte le interfacce frontend per LNet multi-rail, che aggrega più porte per aumentare la larghezza di banda e fornire ridondanza di percorso per il traffico client e tra nodi.
+* *Gestione e cluster:* Una rete di out-of-band management fornisce la gestione dei server, l'accesso BMC e la gestione degli array. Gli agenti di fencing STONITH, come  `fence_redfish`, utilizzano questa rete per raggiungere i BMC dei server e togliere alimentazione a un nodo guasto. Corosync può anche eseguire la comunicazione del cluster su questa rete come anello aggiuntivo insieme al fabric frontend. Configurare Corosync con più anelli aggiunge ridondanza per la messaggistica del cluster e riduce il rischio che un singolo guasto di rete interrompa il quorum.
+
+
+
+
+[[lustre-clients]]
+== Client Lustre
+
+Un client Lustre carica il modulo del kernel client, stabilisce la connettività LNet ai nodi server OSS/MDS e monta il file system per presentare alle applicazioni un singolo namespace coerente e conforme a POSIX. L'I/O è distribuito in parallelo tra gli OST attivi. I nodi client sono esterni a un building block e utilizzano il file system tramite il fabric frontend LNet. I sistemi operativi client non sono elencati in IMT per questa soluzione; usa la link:https://wiki.whamcloud.com/display/PUB/Lustre+Support+Matrix["Matrice di supporto Lustre"^] per le distribuzioni client testate e le versioni del kernel supportate dalla release di Lustre distribuita (ad esempio, Red Hat Enterprise Linux 9, SUSE Linux Enterprise Server 15 e Ubuntu 24.04).
+
+I nodi client richiedono la connettività alla stessa LNet fabric e allo stesso tipo di rete dei nodi server OSS/MDS. Se necessario, un router LNet può collegare subnet o fabric LNet separate.
+
+NetApp fornisce pacchetti RPM precompilati per il server Lustre per Rocky Linux 9.8 e Red Hat Enterprise Linux 9.8. NetApp non fornisce pacchetti client precompilati. Compila i pacchetti client per il sistema operativo e il kernel client dal codice sorgente di Lustre in link:https://github.com/NetApp/netapp-lustre["repository netapp-lustre"^].
+
+Dopo l'installazione dei pacchetti client, il ruolo opzionale  `lustre_client` nella link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0["collezione ansible-lustre"^] configura le interfacce di rete client e LNet, abilita LNet multi-rail quando selezionato, convalida la connettività e gestisce un'unità di mount systemd persistente. Il ruolo non compila Lustre. Installa i pacchetti client solo quando  `lustre_client_packages` è popolato. Se vuoi, puoi configurare manualmente i client. Per le procedure dettagliate, vedi link:ai-eseries-lustre-deploy.html["Distribuisci la soluzione"] e link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/roles/lustre_client/README.md["documentazione del ruolo lustre_client"^].

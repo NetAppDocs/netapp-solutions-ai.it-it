@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: infra/ai-lenovo-edge-results.html 
 keywords: test, results, aff, offline, single-stream, ef 
-summary: 'Sono stati eseguiti numerosi test per valutare le prestazioni dell"architettura proposta.  Sono disponibili sei diversi carichi di lavoro (classificazione delle immagini, rilevamento di oggetti [piccolo], rilevamento di oggetti [grande], imaging medico, conversione di parlato in testo ed elaborazione del linguaggio naturale [NLP]), che è possibile eseguire in tre scenari diversi: offline, flusso singolo e multiflusso.' 
+summary: 'Sono stati eseguiti numerosi test per valutare le prestazioni dell"architettura proposta. Ci sono sei diversi carichi di lavoro come classificazione di immagini, rilevamento di oggetti piccoli, rilevamento di oggetti grandi, imaging medico, speech-to-text ed elaborazione del linguaggio naturale (NLP), che puoi eseguire in tre diversi scenari: offline, single stream e multistream.' 
 ---
 = Risultati dei test
 :hardbreaks:

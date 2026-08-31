@@ -42,15 +42,15 @@ Per saperne di più sulle informazioni descritte nel presente documento, fare ri
 
 * Pagina del prodotto NetApp All Flash Arrays
 +
-https://www.netapp.com/us/products/storage-systems/all-flash-array/aff-a-series.aspx["https://www.netapp.com/us/products/storage-systems/all-flash-array/aff-a-series.aspx"^]
+https://www.netapp.com/aff-a-series/["https://www.netapp.com/aff-a-series/"^]
 
 * Pagina NetApp AFF A400
 +
-https://docs.netapp.com/us-en/ontap-systems/a400/index.html["https://docs.netapp.com/us-en/ontap-systems/a400/index.html"]
+https://docs.netapp.com/us-en/ontap-systems/a400/overview.html["https://docs.netapp.com/us-en/ontap-systems/a400/overview.html"^]
 
 * Pagina del prodotto del software di gestione dati NetApp ONTAP
 +
-http://www.netapp.com/us/products/data-management-software/ontap.aspx["http://www.netapp.com/us/products/data-management-software/ontap.aspx"^]
+https://www.netapp.com/ontap-data-management-software/["https://www.netapp.com/ontap-data-management-software/"^]
 
 * MLPerf
 +

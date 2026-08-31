@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: data-analytics/spark-solutions-overview.html 
 keywords: fas, aff, e-series, cloud volumes ontap, nfs, direct access, snapmirror, paas, 
-summary: 'NetApp dispone di tre portafogli di storage: FAS/ AFF, E-Series e Cloud Volumes ONTAP.  Abbiamo convalidato AFF e la serie E con il sistema di archiviazione ONTAP per le soluzioni Hadoop con Apache Spark.  Il data fabric basato su NetApp integra servizi e applicazioni di gestione dei dati (elementi costitutivi) per l"accesso, il controllo, la protezione e la sicurezza dei dati.' 
+summary: 'NetApp ha tre portfolio di storage. FAS e AFF, E-Series e Cloud Volumes ONTAP. Abbiamo validato AFF e lo storage E-Series con il sistema storage ONTAP per soluzioni Hadoop con Apache Spark. La data fabric alimentata da NetApp integra servizi e applicazioni di gestione dei dati (building block) per l"accesso, il controllo, la protezione e la sicurezza dei dati.' 
 ---
 = Panoramica delle soluzioni NetApp Spark
 :hardbreaks:

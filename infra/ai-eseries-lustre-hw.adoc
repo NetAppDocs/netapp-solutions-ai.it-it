@@ -1,0 +1,282 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-hw.html 
+keywords: Lustre, NetApp E-Series, EF80, hardware, servers, storage, network, NVMe-oF, BYOS 
+summary: Esamina i requisiti relativi a server, array E-Series, layout dello storage e networking per Lustre con NetApp E-Series Storage. 
+---
+= Lustre con NetApp E-Series Storage - Componenti hardware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Usa questi requisiti hardware per server, array NetApp E-Series, layout dello storage e networking quando dimensioni e ordini Lustre con NetApp E-Series Storage. Per i componenti software, vedi link:ai-eseries-lustre-sw.html["Componenti software"].
+
+
+
+[[server-requirements]]
+== Requisiti del server
+
+La soluzione utilizza un modello bring-your-own-server (BYOS). Ogni building block richiede due nodi server OSS/MDS che soddisfano o superano le seguenti specifiche.
+
+
+
+[[node-specifications]]
+=== Specifiche del nodo
+
+La tabella seguente elenca i requisiti minimi del server per ciascun nodo OSS/MDS.
+
+|===
+| Componente | Requisito 
+
+
+| Quantità | 2 nodi per building block 
+
+
+| CPU | AMD EPYC o Intel Xeon, 32 core o superiore 
+
+
+| Memoria | 256 GB DDR5 (minimo) 
+
+
+| HCA di rete | 6 HCA a doppia porta da 200 Gb (vedi <<platform-connectivity,Connettività HCA>>) 
+
+
+| Slot PCIe | 2× PCIe Gen5 x16 e 4× PCIe Gen5 x8 (vedi <<pcie-slots,Requisiti dello slot PCIe>>) 
+
+
+| Unità di avvio | 2× unità in RAID 1 (si consiglia RAID software o hardware) 
+|===
+NetApp ha validato la soluzione utilizzando server Lenovo ThinkSystem SR665 V3. Server equivalenti di altri produttori sono supportati se soddisfano questi requisiti.
+
+
+
+[[hca-connectivity]]
+[[platform-connectivity]]
+=== Connettività HCA
+
+La tabella seguente elenca i requisiti HCA, la porta frontend LNet e i requisiti del percorso NVMe-oF per ciascun nodo server OSS/MDS.
+
+|===
+| HCA per nodo | Porte LNet per nodo Lustre | Percorsi NVMe-oF per nodo Lustre | Esempio HCA 
+
+
+| 6 (12 porte) | 4 | 8 in totale (4 per ogni array) | MCX755106AS-HEAT (scheda PCIe gen5 dual port 200Gb) 
+|===
+NetApp consiglia sei HCA per nodo per massimizzare la larghezza di banda degli array di storage EF80.
+
+
+
+[[pcie-slot-requirements]]
+[[pcie-slots]]
+=== Requisiti dello slot PCIe
+
+Ogni nodo server OSS/MDS in un building block EF80 contiene sei HCA a doppia porta: due per LNet e quattro per NVMe-oF. La larghezza dello slot determina la larghezza di banda disponibile per ogni HCA, quindi controlla la larghezza elettrica di ogni slot e riser invece che solo la larghezza della scheda. Una scheda Gen5 x16 installata in uno slot Gen5 x8 funziona a x8.
+
+* *LNet HCA:* Installa negli slot PCIe Gen5 x16 per raggiungere il massimo throughput.
+* *Schede HCA NVMe-oF:* Installa negli slot PCIe Gen5 x8 o PCIe Gen5 x16.
+* *Bilanciamento NUMA:* Dividi gli HCA in modo uniforme tra le due zone NUMA così che ciascuna zona ospiti due interfacce LNet e quattro interfacce NVMe-oF.
+
+
+La tabella seguente elenca il numero minimo di slot per ciascun nodo server OSS/MDS in un building block EF80.
+
+|===
+| tipo di traffico | HCA per nodo | Larghezza minima dello slot | Slot per zona NUMA 
+
+
+| LNet | 2 | PCIe Gen5 x16 | 1 
+
+
+| NVMe-oF | 4 | PCIe Gen5 x8 | 2 
+|===
+Facoltativamente, puoi suddividere le porte su un HCA a doppia porta in modo che una porta gestisca il traffico LNet e l'altra il traffico NVMe-oF. Installa tutti e quattro questi HCA in slot PCIe Gen5 x16 così che ogni porta LNet raggiunga il throughput massimo, poi aggiungi altri due HCA in slot Gen5 x8 o Gen5 x16 per le restanti porte NVMe-oF.
+
+.Esempi di configurazioni riser per Lenovo ThinkSystem SR665 V3
+[%collapsible]
+====
+Entrambe le seguenti combinazioni di montanti soddisfano i requisiti di slot per un building block EF80.
+
+*Larghezze minime degli slot*
+
+Installa un riser BPQU nelle posizioni riser 1 e 2. Ogni riser BPQU fornisce uno slot PCIe Gen5 x16 e due slot PCIe Gen5 x8. Insieme, i riser forniscono due slot Gen5 x16 per LNet e quattro slot Gen5 x8 per NVMe-oF, equamente suddivisi tra le zone NUMA.
+
+image:eseries-lustre-sr665v3-bpqu-6hca-layout.png["Vista posteriore del Lenovo ThinkSystem SR665 V3 con riser BPQU nelle posizioni 1 e 2, che mostra uno slot PCIe Gen5 x16 e due slot PCIe Gen5 x8 per zona NUMA"]
+
+*Tutti gli slot Gen5 x16*
+
+Installa un riser BPQV nelle posizioni 1 e 2 e un riser BLL9 nella posizione 3. Ogni riser BPQV fornisce due slot PCIe Gen5 x16. Il riser BLL9 fornisce lo slot 7 nella zona NUMA 0 e lo slot 8 nella zona NUMA 1, entrambi PCIe Gen5 x16. Questa combinazione fornisce sei slot Gen5 x16, tre per zona NUMA, e supporta la suddivisione del traffico LNet e NVMe-oF tra le porte dello stesso HCA.
+
+image:eseries-lustre-sr665v3-bpqv-6hca-layout.png["Vista posteriore del Lenovo ThinkSystem SR665 V3 con riser BPQV nelle posizioni 1 e 2 e un riser BLL9 nella posizione 3, che mostra sei slot PCIe Gen5 x16 bilanciati su due zone NUMA"]
+
+====
+
+
+[[ef80-standard-building-block]]
+== building block standard EF80
+
+L'EF80 è la piattaforma standard convalidata per questa release della soluzione.
+
+
+
+[[array-specifications]]
+=== Specifiche dell'array
+
+La tabella seguente elenca le specifiche dell'array EF80 per un building block (due array).
+
+|===
+| Componente | Specifiche 
+
+
+| Modello | NetApp EF80 
+
+
+| Fattore di forma | chassis base 2U, 24 slot SSD NVMe interni 
+
+
+| Controllori | Doppio controller (A e B) 
+
+
+| Dischi | 24× SSD NVMe per array 
+
+
+| Connettività I/O | 8 porte host NVMe/IB o NVMe/RoCE da 200 Gb per array nel design Lustre convalidato 
+|===
+La piattaforma EF80 supporta fino a dodici porte host per array quando in ogni controller sono installati tre moduli I/O host a due porte. Il design Lustre validato utilizza moduli I/O host negli slot 1 e 2 per otto porte host per array.
+
+Ogni array EF80 utilizza anche il modulo I/O dedicato dello slot 4 per il mirroring tra controller. Collega la porta 4a del controller A alla porta 4a del controller B e la porta 4b del controller A alla porta 4b del controller B. Queste connessioni forniscono il mirroring della cache e il trasferimento I/O e non vengono utilizzate per il traffico NVMe-oF dell'host. Vedi link:https://docs.netapp.com/us-en/e-series/install-hw-ef50-ef80/install-cable.html#step-1-cable-the-inter-controller-mirroring-connections["Collega i cavi di mirroring tra i controller EF50 ed EF80"^].
+
+Per le specifiche complete di EF-Series per tutti i modelli, consulta il link:https://www.netapp.com/pdf.html?item=/media/14036-ds-4082.pdf["NetApp EF-Series array all-flash datasheet"^].
+
+
+
+[[drive-layout-24-drives-per-array]]
+=== Layout dei drive (24 drive per array)
+
+Ogni array EF80 in un building block utilizza tutti i ventiquattro slot per unità NVMe:
+
+* 4 unità in RAID 1 per l'archiviazione MGS/MDT (gruppo di volumi condivisi o allocazione DDP)
+* 10 unità in RAID 6 per l'archiviazione OST (primo pool OST)
+* 10 unità in RAID 6 per l'archiviazione OST (secondo pool OST)
+
+
+Questa configurazione si applica quando usi unità da 3,84 TB, 7,68 TB o 15,3 TB con gruppi di volumi tradizionali. Quando usi unità Capacity Flash (QLC) da 30,7 TB o 61,4 TB, crea un singolo Dynamic Disk Pool su tutte e ventiquattro le unità e crea volumi RAID 1 all'interno del pool per i volumi MGS e MDT, mentre usi i volumi RAID 6 predefiniti per gli OST.
+
+
+NOTE: Le unità da 1,92 TB non sono attualmente consigliate per questa soluzione. Usa una delle capacità di unità validate elencate sopra.
+
+image:eseries-lustre-ef80-driveslots.png["Layout dei drive Lustre con 24 unità NVMe per array EF80"]
+
+
+
+[[volume-and-target-counts-base-building-block]]
+=== Conteggi di volume e target (building block di base)
+
+La tabella seguente elenca i conteggi MGS, MDT e OST per un building block di base.
+
+|===
+| Tipo di destinazione | Conteggio per BB | RAID / pool | Note 
+
+
+| MGS | 1 | RAID 1 | Solo building block di base; array 1 
+
+
+| MDT | 8 | RAID 1 | 4 per array 
+
+
+| OST | 32 | RAID 6 (TLC) o DDP (QLC) | 16 per array 
+|===
+Utilizza le seguenti linee guida per il dimensionamento dei volumi come punto di partenza nell'inventario Ansible.
+
+|===
+| Volume | Taglia consigliata | Note 
+
+
+| MGS | 5–10 GiB | Solo dati di configurazione 
+
+
+| MDT | Capacità RAID 1 ÷ conteggio MDT | Circa 1–2 TiB ciascuno (tipico) 
+
+
+| OST | Capacità RAID 6 o DDP ÷ numero di OST per pool | Scala con la capacità del disco; vedi link:ai-eseries-lustre-sizing.html["Guida alle taglie"] 
+|===
+
+
+[[primary-building-block-volume-distribution]]
+=== Distribuzione del volume del building block primario
+
+La figura seguente mostra il posizionamento preferito dei target Lustre e la connettività NVMe-oF tra i nodi server OSS/MDS e gli array E-Series in un building block EF80 di base. Il diagramma etichetta il management target come *MGT* (management target); un MGT ospita il servizio MGS (management server) a cui si fa riferimento altrove in questo documento.
+
+.Distribuzione dei target dei building block di base (EF80)
+image:eseries-lustre-target-distribution.png["Distribuzione dei target Lustre e dei percorsi NVMe-oF tra i nodi server OSS/MDS e gli array NetApp E-Series in un building block EF80 di base"]
+
+La tabella seguente elenca come i volumi sono distribuiti tra i due array e quale server preferisce ciascuna destinazione.
+
+[cols="1,1,1,1,1,2"]
+|===
+| Tipo di destinazione | Array 1 | Array 2 | Server 1 | Server 2 | Note 
+
+
+| MGS | 1 | 0 | 1 | 0 | Solo building block di base 
+
+
+| MDT | 4 | 4 | 4 | 4 | Ogni server preferisce 2 MDT da ogni array 
+
+
+| OST | 16 | 16 | 16 | 16 | 8 per pool RAID 6 × 2 pool per array, o allocazione DDP equivalente 
+
+
+| *Volumi totali* | *21* | *20* | *21* | *20* |  
+|===
+
+
+[[storage-pool-selection-tlc-vs-qlc]]
+== Selezione del pool di storage: TLC vs QLC
+
+Scegli il tipo di pool E-Series in base alla capacità delle unità NVMe presenti negli array:
+
+* *Unità da 3,84 TB, 7,68 TB e 15,3 TB:* Usa *gruppi di volumi RAID 6* per i volumi OST e *gruppi di volumi RAID 1* per i volumi MGS e MDT, oppure usa DDP per il pool di unità condivise.
+* *Unità flash da 30,7 TB e 61,4 TB di capacità (QLC):* Usa solo *Dynamic Disk Pools (DDP)*. Crea volumi RAID 1 all'interno del DDP per lo storage MGS e MDT. Crea volumi RAID 6 per lo storage OST dal DDP.
+
+
+Per le stime della capacità utilizzabile per building block in base alle dimensioni e alla disposizione dei drive, vedi link:ai-eseries-lustre-sizing.html["Guida alle taglie"].
+
+
+
+[[network-requirements]]
+== Requisiti di rete
+
+
+
+[[backend-nvme-of]]
+=== Backend (NVMe-oF)
+
+* NVMe/InfiniBand o NVMe/RoCE tra ciascun nodo OSS/MDS e ciascun array E-Series
+* MTU 9000 su interfacce backend NVMe/RoCE (tipico)
+* Otto percorsi da ciascun nodo Lustre verso gli array di storage (quattro per ciascun array)
+* EF80 utilizza sei HCA per nodo (i2, i3, i5 e i6 per NVMe-oF; i1 e i4 per LNet). Collega il nodo A alle porte del controller le cui etichette terminano con  `a`, come  `1a` e  `2a`. Collega il nodo B alle porte del controller le cui etichette terminano con  `b`, come  `1b` e  `2b`. Vedi link:ai-eseries-lustre-deploy-hardware.html["Cablaggio backend EF80 a sei HCA"].
+
+
+
+
+[[frontend-lnet]]
+=== Frontend (LNet)
+
+* IPoIB o RoCE per il tipo di rete (`@o2ib` LNet)
+* MTU 9000 sulle interfacce frontend RoCE (tipico)
+* Si consiglia la configurazione multi-rail LNet quando sono disponibili quattro porte frontend (EF80: i1 e i4 HCA, entrambe le porte)
+* Rete di commutazione dedicata InfiniBand o RoCE che collega i nodi server OSS/MDS e i client Lustre
+* Si consiglia RoCE lossless (PFC) su fabric RoCE.
+
+
+
+
+[[management]]
+=== Gestione
+
+* Rete di gestione fuori banda per BMC dei server e porte di gestione degli array
+* Rete Corosync dedicata o infrastruttura frontend condivisa (a seconda del sito)
+
