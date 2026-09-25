@@ -1,0 +1,106 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-solution-overview.html 
+keywords:  
+summary:  
+---
+= 2. Panoramica della soluzione, valore aziendale e vantaggi per il cliente
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam, NetApp
+
+
+
+[[2-1-solution-description]]
+== 2.1 Descrizione della soluzione
+
+La pipeline è implementata come DAG di Airflow `example++_++ai++_++pipeline++_++sklearn`, composta dalle attività `ingestion`, `data++_++prep`, `xcp++_++preflight++_++source`, `xcp++_++copy++_++prep++_++to++_++training`, `model++_++training`, `fine++_++tuning`, `inferencing`, `checkpoint++_++model++_++training`, `route++_++manual++_++archive++_++stage` e `manual++_++archive`.
+
+
+
+[[2-2-use-case-and-problem-statement]]
+== 2.2 Caso d'uso e descrizione del problema
+
+I clienti devono addestrare e aggiornare periodicamente i modelli di regressione tabellare e di classificazione del testo utilizzando dati raw provenienti da StorageGRID. La pipeline prepara questi dati in un bucket NAS ONTAP, quindi utilizza NetApp XCP per trasferirli a ONTAP S3 o LustreFS per l'addestramento, in base alla destinazione selezionata per ogni esecuzione.
+
+
+
+[[2-3-target-customer-profile-and-industry-applicability]]
+== 2.3 Profilo del cliente target e applicabilità settoriale
+
+Servizi finanziari (modelli di rischio/frode), produzione (manutenzione predittiva), sanità (classificazione/triage), vendita al dettaglio (previsione della domanda) — qualsiasi azienda che richieda un addestramento ML governato e ripetibile sull'infrastruttura NetApp.
+
+
+
+[[2-4-solution-scope-and-boundaries]]
+== 2.4 Ambito e limiti della soluzione
+
+*Incluso nell'ambito:* controllo dell'ingestione, preparazione dei dati (Python/Spark), mobilità dei dati XCP (S3/LustreFS), addestramento con scikit-learn e fine-tuning incrementale, inferenza, checkpointing, archiviazione manuale. *Escluso dall'ambito:* API per il serving dei modelli real-time, ingestione in streaming, framework di deep learning basati su GPU.
+
+
+
+[[2-5-assumptions-and-prerequisites]]
+== 2.5 Presupposti e prerequisiti
+
+* Endpoint StorageGRID compatibile con S3, raggiungibile da Airflow per l'accesso ai dati raw e la relativa archiviazione.
+* Bucket NAS ONTAP raggiungibile da Airflow per la scrittura dei dati preparati ed esposto tramite NFS all'host XCP.
+* NetApp endpoint compatibile con ONTAP S3 raggiungibile da Airflow e XCP quando ONTAP S3 è selezionato come destinazione di training.
+* NetApp XCP installato e raggiungibile tramite SSH (connessione Airflow `ssh++_++default`).
+* Client LustreFS montato sull'host XCP quando selezioni LustreFS.
+* Airflow 2.x con `boto3`, `scikit-learn`; pacchetti Delta/Iceberg opzionali &#43; PySpark.
+
+
+
+
+[[2-6-business-drivers]]
+== 2.6 Fattori trainanti del business
+
+Riduci il time-to-model, abbassi i costi dell'infrastruttura tramite l'addestramento incrementale ed elimini il rischio di script una tantum.
+
+
+
+[[2-7-value-proposition-summary]]
+== 2.7 Sintesi della proposta di valore
+
+StorageGRID, ONTAP NAS, ONTAP S3, LustreFS e XCP combinati con l'orchestrazione Airflow offrono una pipeline AI consapevole dei tier di storage, osservabile e resiliente.
+
+
+
+[[2-8-stakeholder-benefits]]
+== 2.8 Vantaggi per gli stakeholder
+
+[cols="50%,50%"]
+|===
+| Stakeholder | Vantaggio 
+
+
+| Ingegneria dei dati | Preparazione dichiarativa basata su parametri; rilevamento automatico dei file; supporto per Spark/Delta/Iceberg 
+
+
+| Data Science/ML | Messa a punto incrementale; origine degli artefatti coerente in tutte le fasi; suddivisioni riproducibili 
+
+
+| Operazioni IT | Selezione dello storage in fase di esecuzione; log guard/effective-config; ripristino basato su checkpoint 
+
+
+| Compliance/Governance | I manifesti e i record di archiviazione forniscono una tracciabilità verificabile; fase di conservazione configurabile 
+|===
+
+
+[[2-9-tco-considerations]]
+== 2.9 Considerazioni sul TCO
+
+La messa a punto incrementale e la ripresa del checkpoint riducono i costi di elaborazione ricorrenti; la flessibilità del livello di storage evita il sovradimensionamento dello storage dalle performance elevate per tutti i carichi di lavoro.
+
+
+
+[[2-10-roi-considerations]]
+== 2.10 Considerazioni sul ritorno sull'investimento (ROI)
+
+Cicli di aggiornamento dei modelli più rapidi, minore manutenzione manuale, tempi di ripristino ridotti per ogni evento di guasto.

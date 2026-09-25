@@ -1,0 +1,128 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-solution-design-and-storage-architecture.html 
+keywords:  
+summary:  
+---
+= 5. Progettazione della soluzione e dettagli dell'architettura di storage
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam, NetApp
+
+
+
+[[5-1-design-principles]]
+== 5.1 Principi di progettazione
+
+Configurazione al posto delle modifiche al codice; confini di fase espliciti con contratti tipizzati; instradamento coerente degli artefatti; convalida fail-fast con errori utilizzabili; neutralità del livello di storage.
+
+
+
+[[5-2-stage-design-summary]]
+== 5.2 Riepilogo della progettazione della fase
+
+[cols="50%,50%"]
+|===
+| Fase | Riepilogo della progettazione 
+
+
+| Ingestione | `ingestion++_++tool`seleziona `s3++_++direct`, `none`, `airbyte`, o `nifi`; restituisce metadati normalizzati 
+
+
+| Preparazione dei dati | Rileva/accetta chiavi tabulari raw di StorageGRID; normalizza Airbyte/CSV semplice; produce suddivisioni di training/validazione/inferenza deterministiche; scrive un prefisso di dati preparati con timestamp di esecuzione e un manifest nel bucket NAS ONTAP 
+
+
+| Mobilità dei dati (XCP) | Copia i dati preparati dall'esportazione NFS NAS di ONTAP; `xcp++_++copy++_++destination` gestisce il target XCP e il percorso di lettura per il training 
+
+
+| Formazione del modello | Esegue il training in locale o dalla destinazione XCP (S3/LustreFS); rilevamento multi-formato (CSV/Parquet/JSON) 
+
+
+| Ottimizzazione | Materializza il modello base dalla destinazione `partial++_++fit`; con set di classi espanso; ripubblica il modello ottimizzato 
+
+
+| Inferenza | Materializza artefatti ottimizzati dalla stessa destinazione XCP; ambito di suddivisione/testo configurabile 
+
+
+| Checkpoint/Resume | `write++_++stage++_++checkpoint` memorizza il record di completamento; `++_++small++_++resume++_++guard` convalida/riutilizza nelle esecuzioni successive 
+
+
+| Archiviazione | `model++_++training`archivia immediatamente i modelli core addestrati; `inferencing` attende le previsioni e archivia l'intero set di risultati; inclusione opzionale dell'input XCP e pulizia della cartella raw 
+|===
+
+
+[[5-3-configuration-driven-philosophy]]
+== 5.3 Filosofia basata sulla configurazione
+
+Tutte le selezioni relative a storage non segreto, motore e comportamento sono `dag++_++run.conf` parametri: il passaggio tra S3 e LustreFS, o tra Python e Spark, non richiede alcuna modifica al codice, mentre lo storage segreto gestito da Airflow risolve le credenziali necessarie.
+
+
+
+[[5-4-storage-architecture-detail]]
+== 5.4 Dettagli dell'architettura dello storage
+
+L'architettura dello storage separa il ciclo di vita dell'AI in livelli costruiti ad hoc: StorageGRID contiene oggetti raw e di archivio, il bucket NAS ONTAP contiene set di dati preparati e contrassegnati con l'esecuzione, e ONTAP S3 o LustreFS fornisce il livello di addestramento attivo selezionato. Questa separazione mantiene i dati di origine, i dati preparati, gli artefatti del modello e le evidenze archiviate gestibili in modo indipendente, preservando al contempo la tracciabilità condivisa `run++_++stamp`.
+
+
+
+[[5-4-1-storage-layout-diagrams]]
+=== 5.4.1 Diagrammi del layout dello storage
+
+[cols="34%,33%,33%"]
+|===
+| Livello | Percorso di storage logico | Contenuti / Artefatti memorizzati 
+
+
+| StorageGRID Raw Tier | `s3://raw++_++bucket/raw++_++prefix/` | Parti CSV tabulari (`tabular++_++part++_*++.csv`), input di testo (`text++_++base.json`, `text++_++finetune.json`, `text++_++infer.json`) 
+
+
+| Tier Prepared ONTAP NAS | `s3://prepared++_++bucket/prepared++_++prefix/run++_++stamp/` | Divisioni formattate (`data/tabular++_*++.csv`), file di testo, `data++_++prep++_++manifest.json`, tabelle Lakehouse (`tables/` Delta/Iceberg) 
+
+
+| Livello di addestramento attivo (XCP Dest) | `++<++xcp++_++prefix++>++/formatted/run++_++stamp/` | Suddivisioni dei dati copiati, binari del modello addestrato (`artifacts/++*++.bin`), metriche di valutazione (`artifacts/++*_++metrics.json`) 
+
+
+| Tier di archiviazione StorageGRID | `s3://archive++_++bucket/archive++_++prefix/stage/run++_++stamp/` | Artefatti del modello di base o del modello completo a livello di fase, evidenze di previsione (`tabular++_++predictions.csv`, `text++_++predictions.json`) 
+
+
+| Lineage e flusso tra livelli | Raw → Preparato → Active Tier → Archival | Spostamento dei dati end-to-end e tracciabilità degli artefatti collegati in tutti i tier di storage tramite la condivisione `run++_++stamp` 
+|===
+Questo diagramma illustra la struttura logica dei bucket e dei prefissi per una singola esecuzione della pipeline in tutti i livelli di storage:
+
+image::ai-pipeline-storage-layout.png[Layout logico dello storage per una singola esecuzione della pipeline]
+
+
+
+[[5-4-2-storage-sizing-guidance]]
+=== 5.4.2 Guida al dimensionamento dello storage
+
+Dimensiona ciascun livello in modo indipendente in base al suo ruolo e alla policy di conservazione. L'ONTAP NAS e la destinazione XCP selezionata devono supportare esecuzioni attive simultanee, mentre la capacità di StorageGRID è determinata principalmente dalla conservazione dei dati raw e di archiviazione. Includi la capacità di lavoro temporanea e il margine di crescita quando pianifichi la concorrenza di picco della pipeline.
+
+[cols="50%,50%"]
+|===
+| Livello | Base di dimensionamento 
+
+
+| Bucket raw di StorageGRID | Volume di ingestione × periodo di conservazione 
+
+
+| bucket di dati preparati ONTAP NAS | Dimensione del dataset preparato × numero di esecuzioni mantenute 
+
+
+| Destinazione XCP (S3 o Lustre) | Dimensione massima del set di dati di addestramento simultaneo {plus} overhead dell'artefatto del modello 
+
+
+| Bucket di archiviazione | Politica di conservazione × selezione della fase di archiviazione (model++_++training = più piccolo; inferencing = più grande) 
+|===
+
+
+[[5-4-3-storage-performance-considerations]]
+=== 5.4.3 Considerazioni sulle performance dello storage
+
+La destinazione XCP viene selezionata per ogni esecuzione con `xcp++_++copy++_++destination`, consentendo alle performance dello storage di adattarsi al carico di lavoro anziché forzare ogni carico di lavoro su un singolo livello. Seleziona LustreFS per set di dati con un elevato numero di righe, molti lettori simultanei o training a uso intensivo di I/O. Seleziona ONTAP S3 per carichi di lavoro con accesso elastico e attenti ai costi, i cui requisiti di performance non richiedono un file system parallelo. In entrambi i casi, XCP mantiene i dati e gli artefatti del modello allineati con il livello di training selezionato.

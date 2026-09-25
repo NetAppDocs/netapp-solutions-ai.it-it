@@ -1,0 +1,182 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-security-considerations-validation-testing.html 
+keywords:  
+summary:  
+---
+= 10. Considerazioni sulla sicurezza, convalida e test
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam, NetApp
+
+Questa sezione combinata affronta i controlli necessari per gestire in modo sicuro la pipeline di intelligenza artificiale e le attività di validazione utilizzate per dimostrare che il progetto si comporta come previsto in ambienti rappresentativi. La stessa separazione dei tier di storage, il modello di accesso con privilegi minimi, la logica dei checkpoint e la tracciabilità a livello di esecuzione utilizzati nella pipeline sono alla base anche del piano di validazione e delle linee guida operative.
+
+
+
+[[10-1-security-considerations]]
+== 10.1 Considerazioni sulla sicurezza
+
+I controlli di sicurezza devono isolare ogni tier di storage e funzione della pipeline, preservando al contempo la tracciabilità necessaria per l'audit. Usa credenziali separate con privilegi minimi per i dati raw di StorageGRID, i dati preparati di ONTAP NAS, la destinazione XCP selezionata e l'archiviazione di StorageGRID. Crittografa il traffico di rete e archivia tutti i segreti al di fuori della definizione del DAG, degli esempi e della cronologia della shell.
+
+[cols="50%,50%"]
+|===
+| Zona | Raccomandazione 
+
+
+| Gestione delle credenziali | Usa Airflow Connections/Variables o un gestore di segreti; evita il testo in chiaro inline in `dag++_++run.conf` 
+
+
+| Dati in transito | Usa endpoint S3 abilitati per TLS; trasporto NFS/Lustre crittografato ove supportato 
+
+
+| Controllo degli accessi | Definisci le credenziali S3 per ruolo (StorageGRID raw, dati preparati ONTAP NAS, destinazione XCP, archiviazione StorageGRID) con le autorizzazioni minime richieste 
+
+
+| Segreti nelle configurazioni | Ruota tutte le credenziali esposte durante i test; tratta gli script di attivazione/la cronologia della shell come dati sensibili 
+
+
+| Traccia di audit | Per comprovare la conformità, affidati ai manifesti di preparazione dei dati, ai record dei checkpoint e ai manifesti di archiviazione 
+|===
+
+
+[[10-2-validation-and-testing]]
+== 10.2 Validazione e test
+
+La validazione conferma che il comportamento configurabile della pipeline funziona in modo affidabile nei percorsi di routing, gestione degli errori, mobilità dei dati e rilevamento di file multipli. Ogni area di test di validazione è stata eseguita in un ambiente rappresentativo utilizzando trigger DAG di Airflow reali, con output di log e manifest di storage verificati per garantirne la correttezza.
+
+
+
+[[10-2-1-functional-routing-validation]]
+=== 10.2.1 Validazione del routing funzionale
+
+Quest'area di test convalida il routing end-to-end dei dati e degli artefatti quando `enable++_++xcp=true`.
+
+* *Obiettivo:* Verifica che la preparazione dei dati, la mobilità XCP, l'addestramento del modello, il fine-tuning e l'inferenza utilizzino in modo coerente la destinazione XCP selezionata (`s3` o `lustrefs`).
+* *Procedura di test:* eseguito DAG attivati con `xcp++_++copy++_++destination="s3"` e `xcp++_++copy++_++destination="lustrefs"`. Hai ispezionato gli output di XCom, i log di configurazione effettiva e le posizioni di archiviazione.
+* *Esito della validazione:*
++
+** In `data++_++prep`, le suddivisioni tabellari formattate e i file di testo sono stati inseriti nel tier di dati preparati ONTAP NAS in  `++<++xcp++_++prefix++>++/formatted/++<++run++_++stamp++>++/data/`.
+** In `xcp++_++copy` questo caso, il set di dati preparato è stato trasferito alla destinazione XCP scelta per le fasi successive del modello.
+** In `model++_++training`, gli input del modello sono stati caricati dalla destinazione XCP e gli artefatti di base (`regression++_++model.bin`, `text++_++vectorizer.bin`, `text++_++classifier.bin`, `train++_++metrics.json`) sono stati pubblicati nuovamente in `++<++xcp++_++prefix++>++/formatted/++<++run++_++stamp++>++/artifacts/`.
+** In `fine++_++tuning`, gli artefatti di base del vectorizer/classifier sono stati materializzati dalla destinazione XCP, ottimizzati in modo incrementale e ripubblicati come `text++_++classifier++_++tuned.bin` e `fine++_++tune++_++metrics.json`.
+** In `inferencing`, il classificatore di testo ottimizzato, il modello di regressione di base e il vettorizzatore sono stati materializzati dalla destinazione XCP per generare previsioni.
+
+
+
+
+
+
+[[10-2-2-local-fallback-and-non-xcp-execution-validation]]
+=== 10.2.2 Fallback locale e convalida dell'esecuzione non XCP
+
+Quest'area di test convalida il comportamento della pipeline quando la mobilità dei dati XCP è disabilitata (`enable++_++xcp=false`).
+
+* *Obiettivo:* Assicurati che la pipeline funzioni senza interruzioni utilizzando percorsi locali diretti dei dati preparati, senza richiedere connettività SSH, host XCP remoti o profili di credenziali XCP.
+* *Procedura di test:* esecuzioni della pipeline attivate con  `enable++_++xcp=false` e percorsi S3/locali predefiniti.
+* *Esito della validazione:*
++
+** Le attività di preflight e copia di XCP sono state saltate in modo sicuro.
+** `model++_++training`,  `fine++_++tuning`, e  `inferencing` leggono direttamente dalle directory locali dei dati preparati e dagli artefatti pubblicati localmente.
+** Hai verificato che non si sono verificati errori di risoluzione delle credenziali XCP S3 o errori di preflight SSH quando XCP era disabilitato.
+
+
+
+
+
+
+[[10-2-3-performance-and-tier-comparison-ontap-s3-vs-lustrefs]]
+=== 10.2.3 Confronto tra prestazioni e tier (ONTAP S3 vs. LustreFS)
+
+Quest'area di test valuta la latenza I/O, l'overhead di rilevamento e il throughput di training tra ONTAP S3 storage a oggetti e i tier del filesystem parallelo LustreFS.
+
+* *Obiettivo:* Quantificare le caratteristiche prestazionali di E-Series con LustreFS rispetto a ONTAP AFF/AFX con tier di training attivi ONTAP S3.
+* *Procedura di test:* Abbiamo misurato il tempo di individuazione dei file, la latenza di caricamento del set di dati di training e la durata di pubblicazione/materializzazione degli artefatti su set di dati di dimensioni identiche (14,400&#43; righe, input di testo/tabellari multifile).
+* *Esito della validazione:*
++
+** *Tier LustreFS:* Ha dimostrato un overhead inferiore per il rilevamento dei file e una latenza di lettura ad accesso casuale più rapida durante l'addestramento del modello, risultando ideale per carichi di lavoro di addestramento parallelo con un numero elevato di file e un uso intensivo della GPU.
+** *ONTAP S3 Tier:* Offre throughput elevato con una gestione multiprotocollo semplificata, risultando ottimale per lo storage attivo ad accesso elastico e attento ai costi, senza richiedere il montaggio di filesystem lato client.
+
+
+
+
+
+
+[[10-2-4-failure-recovery-and-training-checkpoint-validation]]
+=== 10.2.4 Validazione del checkpoint di ripristino da errore e della formazione
+
+Quest'area di test convalida il sistema di ripresa del checkpoint con ambito  `model++_++training`.
+
+* *Obiettivo:* Verifica che il ripristino della pipeline rilevi con precisione le precedenti esecuzioni di addestramento riuscite e salti i calcoli ridondanti, preservando al contempo l'integrità degli artefatti.
+* *Procedura di prova:*
++
+.. Hai eseguito la pipeline con  `checkpoint++_++enabled=true` e  `checkpoint++_++store="formatted++_++s3"`.
+.. Simulazione dell'errore o riesecuzione dell'attività con `training++_++checkpoint++_++reuse++_++mode="resume++_++if++_++exists"`.
+.. Modalità `verify++_++only` testate e `off` riutilizzabili.
+
+
+* *Esito della validazione:*
++
+** Quando  `resume++_++if++_++exists`era impostato e un checkpoint JSON valido &#43; tutti gli artefatti core esistevano in S3/LustreFS,  `model++_++training`è uscito immediatamente con la decisione  `RESUMED++_++FROM++_++CHECKPOINT`, registrando  `++[++checkpoint++]++ resume++_++summary: decision=RESUMED++_++FROM++_++CHECKPOINT`.
+** Downstream `fine++_++tuning` e `inferencing` ha materializzato correttamente gli artefatti del checkpoint verificato.
+** Quando  `verify++_++only`è stato impostato, il controllo ha convalidato l'esistenza dell'artefatto senza saltare l'addestramento.
+
+
+
+
+
+
+[[10-2-5-scalability-and-multi-file-dataset-validation]]
+=== 10.2.5 Scalabilità e convalida di set di dati multifile
+
+Quest'area di test convalida la scalabilità della pipeline in set di dati tabellari e di testo di grandi dimensioni composti da più file.
+
+* *Obiettivo:* Conferma il rilevamento automatico dei dataset, l'esecuzione del motore di trasformazione Spark e il supporto del formato tabella Lakehouse (`delta` and `iceberg`).
+* *Procedura di prova:*
++
+.. Ho eseguito l'acquisizione e la preparazione su decine di file CSV/Parquet nel prefisso raw di StorageGRID (`s3++_++raw++_++prefix`).
+.. Abbiamo testato la selezione esplicita dei file utilizzando  `s3++_++tabular++_++object++_++keys` rispetto al rilevamento automatico di tutti i file (`sample++_++count=0`).
+.. Preparazione eseguita utilizzando PySpark con  `table++_++format="delta"` e  `table++_++format="iceberg"`.
+
+
+* *Esito della validazione:*
++
+** Spark Distributed Preparation ha acquisito, filtrato, suddiviso e formattato con successo grandi set di dati tabellari in più parti.
+** Il rilevamento automatico ha identificato con precisione tutti gli oggetti CSV/Parquet tabellari validi, ignorando gli artefatti non tabellari.
+** Entrambi i formati di tabella Delta Lake e Iceberg sono stati creati e registrati correttamente in  `tables/`, con l'addestramento del modello a valle che ha individuato e letto le suddivisioni formattate.
+
+
+
+
+
+
+[[10-2-6-example-customer-evaluation-workflow-sizing-assumptions-and-validation-metrics]]
+=== 10.2.6 Esempio di workflow di valutazione del cliente, ipotesi di dimensionamento e metriche di convalida
+
+Questo flusso di lavoro ti aiuta a valutare se il design si adatta al livello di maturità della tua pipeline di IA, ai requisiti di sovranità dei dati e agli obiettivi di performance. Inizia con un set di dati rappresentativo e una singola esecuzione della pipeline, quindi aumenta il volume dei dati, il numero di file, la complessità del modello e le esecuzioni simultanee solo dopo che ogni criterio di accettazione è stato soddisfatto. Registra i risultati  `run_stamp`in modo che i confronti tra ONTAP S3 e LustreFS utilizzino gli stessi dati di input e la stessa configurazione.
+
+[cols="25%,25%,25%,25%"]
+|===
+| Fase di valutazione | Esempio di flusso di lavoro | Ipotesi di dimensionamento / decisione | Metriche di validazione e prove di accettazione 
+
+
+| 1. Stabilisci una baseline | Esegui il percorso di preparazione Python con `enable_xcp=false` su un campione limitato. | Usa l'ambiente di convalida di riferimento descritto nella Sezione 7.1.1 come base funzionale iniziale. | Completamento riuscito del DAG; conteggio delle righe di input e delle suddivisioni di output; metriche del modello; durata dell'attività; utilizzo di CPU, memoria e disco locale. 
+
+
+| 2. Convalida la sovranità dei dati | Conserva dati raw, dati preparati, dati di training attivi e archivi in endpoint e regioni di storage approvati. Esamina le credenziali e le politiche di conservazione per ogni livello. | Prima di spostare i dati, definisci le posizioni consentite, i ruoli di accesso, i requisiti di crittografia e il criterio di conservazione. | Endpoint, bucket, prefisso e regione registrati nella configurazione effettiva e nei manifest; verifica dell'accesso con privilegi minimi; prove relative alle policy di archiviazione ed eliminazione. 
+
+
+| 3. Convalida la mobilità dei dati | Abilita XCP e copia la stessa esecuzione preparata in ONTAP S3, quindi ripeti l'operazione in LustreFS. | Assicurati di avere connettività 10 GbE e capacità di destinazione sufficiente per l'esecuzione preparata, gli artefatti, lo spazio di lavoro e le esecuzioni simultanee. | Stato di completamento di XCP; byte e file copiati; durata della copia e throughput; conteggio dei file di origine/destinazione e confronto di checksum o manifest; preflight riuscito. 
+
+
+| 4. Convalida l'adeguatezza del livello di formazione | Addestra, perfeziona ed esegui inferenze su ciascuna destinazione selezionata utilizzando gli stessi set di dati e le stesse impostazioni del modello. | Usa ONTAP S3 per i flussi di lavoro basati su oggetti; usa E-Series con LustreFS quando l'I/O di training parallelo o un numero elevato di file lo giustificano. | Tempo di individuazione e caricamento del dataset; durata dell'addestramento, della messa a punto e dell'inferenza; durata della pubblicazione/materializzazione degli artefatti; utilizzo di CPU/GPU ove applicabile; coerenza della qualità del modello. 
+
+
+| 5. Convalida la scalabilità e il ripristino | Aumenta `sample_count` per tutte le righe, il numero di file e le esecuzioni simultanee, quindi testa il riutilizzo dei checkpoint e l'archiviazione. | Dimensiona la capacità per i dataset e gli artefatti conservati con ambito di esecuzione, più il margine di crescita; dimensiona CPU e memoria per Spark e le attività Airflow simultanee. | Tempo trascorso end-to-end; percentuale di successo dell'esecuzione; tempo di coda; decisione di ripresa del checkpoint e tempo trascorso; completezza dell'archivio; crescita dello storage per esecuzione; raggiungimento dell'obiettivo del tempo di ripristino (RTO). 
+|===
+Prima di iniziare la valutazione, i clienti devono definire obiettivi quantitativi per il tempo di esecuzione end-to-end, il throughput di XCP, il tempo di caricamento dei dati di addestramento, il numero massimo di esecuzioni simultanee, il tempo di ripristino e la conservazione dello storage. La baseline misurata e ogni test scalato devono essere confrontati con tali obiettivi per determinare se l'architettura soddisfa i requisiti previsti per il carico di lavoro e le operazioni.

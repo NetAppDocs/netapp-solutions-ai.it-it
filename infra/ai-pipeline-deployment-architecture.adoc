@@ -1,0 +1,277 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-deployment-architecture.html 
+keywords:  
+summary:  
+---
+= 7. Architettura di implementazione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam, NetApp
+
+Questa sezione definisce il posizionamento dell'infrastruttura, le dipendenze software e la connettività di rete necessarie per il funzionamento della pipeline. La distribuzione separa l'orchestrazione di Airflow dall'host di spostamento dei dati XCP, collegando entrambi i componenti a StorageGRID, ONTAP NAS e alla destinazione di training ONTAP S3 o LustreFS selezionata.
+
+
+
+[[7-1-reference-infrastructure-requirements]]
+== 7.1 Requisiti dell'infrastruttura di riferimento
+
+I seguenti componenti definiscono l'ingombro minimo di implementazione funzionale. Dimensiona l'host Airflow in base al motore di preparazione selezionato e al carico di attività simultanee; posiziona l'host XCP in un punto da cui possa accedere all'esportazione NFS di ONTAP NAS e alla destinazione selezionata senza passaggi di rete non necessari. La modalità LustreFS richiede mount compatibili sia sull'host XCP che sul worker di Airflow.
+
+[cols="50%,50%"]
+|===
+| Componente | Requisito 
+
+
+| Host Airflow | CPU/memoria dimensionate in base al carico di trasformazione di Spark o Python 
+
+
+| Host XCP | Accesso di rete agli endpoint NFS/Lustre e ONTAP S3 di NetApp 
+
+
+| Client LustreFS | Montato sull'host XCP e sull'host Airflow quando selezionato come destinazione 
+|===
+
+
+[[7-1-1-reference-validation-environment]]
+=== 7.1.1 Ambiente di convalida di riferimento
+
+Il seguente ambiente è stato utilizzato come profilo di validazione rappresentativo a nodo singolo. Costituisce un punto di partenza per la valutazione funzionale e delle prestazioni, non una raccomandazione per il dimensionamento in ambiente di produzione; i clienti devono dimensionare la capacità di calcolo, di rete, di storage e di protezione in base al volume del set di dati, alla concorrenza, alla conservazione, al ripristino e ai requisiti del livello di servizio.
+
+[cols="50%,50%"]
+|===
+| Strato | Hardware / Software di riferimento 
+
+
+| Calcolo e rete | Un server con 256 GB di RAM, 64 core CPU e connettività 10 GbE 
+
+
+| storage attivo ONTAP | Un sistema NetApp A800 con 48 SSD da 1,8 TB 
+
+
+| Storage a oggetti | Un'appliance NetApp StorageGRID SG5864 
+
+
+| Storage per il training ad alta velocità | Un sistema NetApp E2812 con LustreFS 
+
+
+| Software di piattaforma | Kubernetes, Apache Airflow, Apache Airbyte, Apache Spark a nodo singolo, NetApp XCP e LustreFS 
+|===
+
+
+[[7-2-software-version-matrix]]
+== 7.2 Matrice delle versioni del software
+
+Questa matrice identifica il software runtime utilizzato dalla pipeline convalidata. Mantieni gli ambienti Airflow e Python compatibili con i provider e i pacchetti distribuiti. Spark, Delta Lake e Iceberg sono opzionali e sono richiesti solo quando  `data++_++prep` utilizzi il percorso di trasformazione Spark o un formato di tabella corrispondente.
+
+[cols="50%,50%"]
+|===
+| Software | Versione/Note 
+
+
+| Apache Airflow | 2.x 
+
+
+| Pitone | 3,11 
+
+
+| boto3 | Ultima versione stabile 
+
+
+| scikit-learn | Ultima versione stabile 
+
+
+| PySpark (opzionale) | Compatibile con i pacchetti runtime Delta 3.2.0 / Iceberg 1.5.2 
+
+
+| NetApp XCP | Installato sull'host remoto, ad esempio `/usr/src/xcp/linux/xcp` 
+|===
+
+
+[[7-3-network-requirements]]
+== 7.3 Requisiti di rete
+
+Questi flussi di rete devono essere consentiti dalle policy di routing, firewall e risoluzione dei nomi. Ti consigliamo di utilizzare HTTPS per ogni endpoint compatibile con S3 in produzione; usa la porta personalizzata configurata se un endpoint non utilizza la porta HTTPS predefinita. Conferma la connettività del client Lustre in base all'implementazione di LustreFS distribuita.
+
+[cols=","]
+|===
+| Flusso | Protocollo/Porta 
+
+
+| Airflow → ONTAP S3 | HTTPS/HTTP (443/80 o personalizzato) 
+
+
+| Airflow → host XCP | SSH (22) 
+
+
+| Host XCP → origine NFS | NFS (2049) 
+
+
+| Host XCP → LustreFS | Porte client Lustre 
+
+
+| Host XCP → ONTAP S3 (modalità S3) | HTTPS/HTTP 
+|===
+
+
+[[7-4-deployment-notes]]
+== 7.4 Note sull'implementazione
+
+[cols="50%,50%"]
+|===
+| Sezione / Argomento | Linee guida / Prassi operativa 
+
+
+| Configurazione della connessione SSH | Configura la connessione Airflow `ssh++_++default` per puntare all'host XCP sulla porta 22 con autorizzazioni limitate per la chiave SSH (`600`). 
+
+
+| Gestione del ciclo di vita del servizio | Usa  `tools/airflow++_++ctl.sh` per gestire il ciclo di vita dello scheduler e del webserver Airflow locali durante la distribuzione e la manutenzione. 
+
+
+| Archiviazione di credenziali e segreti | Archivia credenziali, token API e chiavi di accesso in Airflow Connections, Variables o in un backend dei segreti anziché direttamente in  `dag++_++run.conf`. 
+
+
+| Osservabilità dell'infrastruttura e delle attività | Monitora separatamente l'heartbeat dello scheduler e l'esecuzione delle attività, in modo da distinguere i problemi di disponibilità dell'orchestrazione dai guasti del DAG. 
+|===
+
+
+[[7-5-installation-and-prerequisites]]
+== 7.5 Installazione e prerequisiti
+
+Questa sottosezione definisce i passaggi di installazione di base necessari per creare, configurare ed eseguire la pipeline convalidata per l'AI di NetApp in un ambiente pulito. È destinata a operatori, architetti e ingegneri che configurano l'area di lavoro di Airflow prima di eseguire qualsiasi DAG.
+
+
+
+[[7-5-1-prerequisites]]
+=== 7.5.1 Prerequisiti
+
+Prima di installare la soluzione, verifica che l'host di destinazione soddisfi i seguenti requisiti minimi:
+
+* Sistema operativo Linux, preferibilmente Ubuntu 22.04/24.04 o RHEL 8&#43;.
+* Python 3.11 con `pip`, `venv` e strumenti di compilazione disponibili.
+* Git installato sull'host per il recupero del codice sorgente e la gestione delle versioni.
+* Apache Airflow 2.x distribuito in un ambiente virtuale Python dedicato.
+* Accesso SSH dall'host Airflow all'host XCP NetApp.
+* Connettività di rete dall'host Airflow a StorageGRID, ONTAP NAS e alla destinazione ONTAP S3 o LustreFS selezionata.
+* Accesso tramite endpoint compatibile con S3 per dati raw, staging di dati preparati e storage di archiviazione.
+* Opzionale: Java runtime e Spark 3.x se si utilizza il percorso di preparazione `spark`.
+* Opzionale: pacchetti runtime Delta Lake e Iceberg quando  `table++_++format=delta` o  `table++_++format=iceberg` è selezionato.
+* Opzionale: montaggio del client Lustre quando `xcp++_++copy++_++destination=lustrefs` viene utilizzato.
+
+
+
+
+[[7-5-2-software-package-acquisition-and-repository-access]]
+=== 7.5.2 Acquisizione di pacchetti software e accesso al repository
+
+Per ottenere il pacchetto software, i DAG di automazione, gli script di distribuzione e gli artefatti di convalida per questa soluzione, contatta il team di ingegneria AI & Data Mobility di NetApp all'indirizzo ng-data-mobility-in-ai-pipeline@netapp.com.
+
+Una volta ottenuto l'accesso, scarica o clona il codice sorgente del progetto da GitHub nella directory di lavoro di destinazione:
+
+[source, bash]
+----
+# Example GitHub clone
+mkdir -p /opt/netapp-ai
+cd /opt/netapp-ai
+
+git clone https://github.com/<your-org>/<your-repo>.git
+cd <your-repo>
+
+git checkout main
+ls -la
+----
+Se hai già clonato il repository in  `/opt/netapp-ai/<your-repo>`, continua da quella directory di lavoro invece di scaricare un'altra copia.
+
+
+
+[[7-5-3-create-the-python-environment]]
+=== 7.5.3 Crea l'ambiente Python
+
+Crea un ambiente virtuale dedicato e installa le dipendenze di base per Airflow e la pipeline.
+
+[source, bash]
+----
+export REPO_ROOT=/opt/netapp-ai/<your-repo>
+cd "$REPO_ROOT"
+python3 -m venv "$REPO_ROOT/.venv"
+source "$REPO_ROOT/.venv/bin/activate"
+
+python -m pip install --upgrade pip setuptools wheel
+pip install "apache-airflow>=2.8,<3.0" boto3 scikit-learn
+----
+Per la preparazione basata su Spark e i formati di tabella Lakehouse, installa i pacchetti opzionali secondo necessità:
+
+[source, bash]
+----
+pip install pyspark==3.5.*
+pip install delta-spark==3.2.0
+pip install apache-iceberg==1.5.2
+----
+Utilizza le versioni esatte dei pacchetti supportate dal tuo runtime Spark e dalla topologia del cluster. Non combinare versioni incompatibili di Spark, Delta e Iceberg.
+
+
+
+[[7-5-4-configure-airflow-and-the-repository]]
+=== 7.5.4 Configura Airflow e il Repository
+
+Dalla directory principale del repository clonato, inizializza il database dei metadati di Airflow e verifica che i file DAG siano visibili ad Airflow.
+
+[source, bash]
+----
+export AIRFLOW_HOME="$REPO_ROOT/.airflow"
+export AIRFLOW__CORE__DAGS_FOLDER="$REPO_ROOT"
+export AIRFLOW__CORE__LOAD_EXAMPLES=False
+
+airflow db init
+airflow dags list | grep -E "example_ai_pipeline|example_ai_pipeline_sklearn"
+----
+L'area di lavoro include il file di configurazione di Airflow e i DAG necessari per la pipeline convalidata. Se il repository contiene uno script di supporto per la gestione locale del ciclo di vita, usalo per avviare lo scheduler e il webserver anziché richiamare Airflow manualmente.
+
+[source, bash]
+----
+# Start the Airflow scheduler and webserver with the deployment's service manager.
+# or, if using the standard commands:
+# airflow scheduler
+# airflow webserver
+----
+
+
+[[7-5-5-required-connectivity-and-secret-configuration]]
+=== 7.5.5 Connettività richiesta e configurazione del segreto
+
+Prima di avviare la pipeline, conferma che le seguenti risorse siano raggiungibili dall'host Airflow:
+
+* Endpoint S3 StorageGRID per i dati raw.
+* Endpoint del bucket di dati preparati ONTAP NAS.
+* endpoint di destinazione ONTAP S3 quando `xcp++_++copy++_++destination=s3`.
+* Monta LustreFS quando `xcp++_++copy++_++destination=lustrefs`.
+* Host XCP tramite SSH utilizzando `ssh++_++default` o la connessione SSH configurata.
+
+
+Archivia le credenziali in Connessioni Airflow, Variabili o in un backend di segreti anziché incorporarle nella cronologia della shell o nel codice DAG. Imposta le chiavi di accesso, gli endpoint e le mappature del profilo necessari prima di avviare l'esecuzione della pipeline.
+
+
+
+[[7-5-6-verify-the-installation]]
+=== 7.5.6 Verifica l'installazione
+
+L'installazione è completata con successo quando lo scheduler Airflow e i DAG sono in esecuzione e la pipeline di esempio può essere visualizzata e attivata senza errori di configurazione.
+
+[source, bash]
+----
+airflow dags list
+airflow tasks list example_ai_pipeline_sklearn
+----
+Se l'installazione è corretta, il DAG dovrebbe essere presente in Airflow e pronto per un'esecuzione guidata da  `CONF++_++JSON` tramite lo script di attivazione nella directory principale del repository.
+
+[source, bash]
+----
+./trigger_and_wait_ai_pipeline_sklearn.sh
+----
+A questo punto, l'ambiente è pronto per gli esempi di configurazione nella Sezione 8 e per gli scenari di implementazione descritti nella guida operativa.
