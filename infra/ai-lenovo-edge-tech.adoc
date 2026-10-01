@@ -108,7 +108,7 @@ image:ai-edge-007.png["Figura che mostra il dialogo di input/output o che rappre
 
 
 
-NOTE: Per maggiori informazioni, vedere il https://www.netapp.com/pdf.html?item=/media/19339-DS-4082.pdf["Scheda tecnica NetApp array all-flash NetApp EF-Series EF600, F300, EF570 ed EF280"^] .
+NOTE: Per ulteriori informazioni, consultare il https://www.netapp.com/pdf.html?item=/media/19339-ds-4082.pdf["Scheda tecnica NetApp array all-flash NetApp EF-Series EF600, F300, EF570 ed EF280"^].
 
 
 

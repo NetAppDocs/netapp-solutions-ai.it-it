@@ -149,7 +149,7 @@ La piattaforma EF80 supporta fino a dodici porte host per array quando in ogni c
 
 Ogni array EF80 utilizza anche il modulo I/O dedicato dello slot 4 per il mirroring tra controller. Collega la porta 4a del controller A alla porta 4a del controller B e la porta 4b del controller A alla porta 4b del controller B. Queste connessioni forniscono il mirroring della cache e il trasferimento I/O e non vengono utilizzate per il traffico NVMe-oF dell'host. Vedi link:https://docs.netapp.com/us-en/e-series/install-hw-ef50-ef80/install-cable.html#step-1-cable-the-inter-controller-mirroring-connections["Collega i cavi di mirroring tra i controller EF50 ed EF80"^].
 
-Per le specifiche complete di EF-Series per tutti i modelli, consulta il link:https://www.netapp.com/pdf.html?item=/media/14036-ds-4082.pdf["NetApp EF-Series array all-flash datasheet"^].
+Per le specifiche complete di EF-Series per tutti i modelli, consulta il link:https://www.netapp.com/pdf.html?item=/media/19339-ds-4082.pdf["NetApp EF-Series array all-flash datasheet"^].
 
 
 
