@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam, NetApp
 
+[role="lead"]
 Questa sezione combinata affronta i controlli necessari per gestire in modo sicuro la pipeline di intelligenza artificiale e le attività di validazione utilizzate per dimostrare che il progetto si comporta come previsto in ambienti rappresentativi. La stessa separazione dei tier di storage, il modello di accesso con privilegi minimi, la logica dei checkpoint e la tracciabilità a livello di esecuzione utilizzati nella pipeline sono alla base anche del piano di validazione e delle linee guida operative.
 
 

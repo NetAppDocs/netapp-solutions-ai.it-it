@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam, NetApp
 
+[role="lead"]
 NetApp XCP fornisce il percorso di trasferimento controllato tra il livello di dati preparati NAS ONTAP e il livello di training attivo. Airflow esegue il preflight e avvia l'operazione di copia tramite l'host XCP; `xcp++_++copy++_++destination` seleziona ONTAP S3 o LustreFS per ogni esecuzione. La stessa destinazione selezionata viene usata dal training del modello, dal fine-tuning e dall'inferenza per mantenere dati e artefatti su un livello coerente.
 
 

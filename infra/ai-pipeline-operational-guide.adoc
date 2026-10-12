@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam, NetApp
 
+[role="lead"]
 Questa guida illustra l'esecuzione di routine, il monitoraggio, la gestione degli incidenti, il ripristino dell'addestramento, la verifica degli archivi, l'ottimizzazione della capacità e la protezione dei dati. Usala con gli scenari di configurazione della Sezione 8 per utilizzare la stessa pipeline in modo coerente nelle modalità di addestramento locale, ONTAP S3 e LustreFS.
 
 

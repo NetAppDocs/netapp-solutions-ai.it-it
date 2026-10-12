@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam, NetApp
 
+[role="lead"]
 Questa architettura convalidata presenta una pipeline di dati AI governata, consapevole del tier di storage e orchestrata da Apache Airflow. La soluzione acquisisce dati raw tabellari e testuali da NetApp StorageGRID, prepara dataset deterministici e manifest su un bucket NAS ONTAP e utilizza NetApp XCP per spostare i dati preparati verso NetApp ONTAP S3 o LustreFS in base alla configurazione di runtime. Successivamente, addestra e ottimizza in modo incrementale i modelli scikit-learn, genera previsioni, salva checkpoint degli output di addestramento riusciti e archivia modelli, metriche, manifest e prove delle previsioni in StorageGRID. L'architettura offre esecuzione riproducibile, posizionamento dello storage configurabile, protezioni dagli errori, ripristino basato su checkpoint e tracciabilità verificabile nell'intero ciclo di vita dell'AI. È pensata per architetti, data engineer, ML engineer e team infrastrutturali che hanno bisogno di un modello ripetibile di implementazione e convalida per pipeline AI nei tier di storage di NetApp.
 
 '''

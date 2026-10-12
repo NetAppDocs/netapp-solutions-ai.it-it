@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam, NetApp
 
+[role="lead"]
 Questa sezione definisce il posizionamento dell'infrastruttura, le dipendenze software e la connettività di rete necessarie per il funzionamento della pipeline. La distribuzione separa l'orchestrazione di Airflow dall'host di spostamento dei dati XCP, collegando entrambi i componenti a StorageGRID, ONTAP NAS e alla destinazione di training ONTAP S3 o LustreFS selezionata.
 
 
